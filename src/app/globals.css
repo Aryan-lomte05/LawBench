@@ -1,26 +1,146 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-heading);
+  
+  /* LawBench Custom Tokens */
+  --color-ink: #14171F;
+  --color-parchment: #F6F3EC;
+  --color-brass: #B8975A;
+  --color-forest: #1F3A33;
+  --color-slate: #5B6470;
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  /* Light Mode - Parchment background */
+  --background: #F6F3EC;
+  --foreground: #14171F;
+  --card: #ffffff;
+  --card-foreground: #14171F;
+  --popover: #ffffff;
+  --popover-foreground: #14171F;
+  
+  /* Primary CTA - Brass */
+  --primary: #B8975A;
+  --primary-foreground: #F6F3EC;
+  
+  /* Secondary - Deep Forest */
+  --secondary: #1F3A33;
+  --secondary-foreground: #F6F3EC;
+  
+  /* Muted - Slate */
+  --muted: #E2DFD8;
+  --muted-foreground: #5B6470;
+  
+  /* Accent */
+  --accent: #E2DFD8;
+  --accent-foreground: #14171F;
+  
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #E2DFD8;
+  --input: #E2DFD8;
+  --ring: #B8975A;
+  
+  --radius: 0.5rem;
+  
+  --sidebar: #F6F3EC;
+  --sidebar-foreground: #14171F;
+  --sidebar-primary: #1F3A33;
+  --sidebar-primary-foreground: #F6F3EC;
+  --sidebar-accent: #E2DFD8;
+  --sidebar-accent-foreground: #14171F;
+  --sidebar-border: #E2DFD8;
+  --sidebar-ring: #B8975A;
+}
+
+.dark {
+  /* Dark Mode - Ink background */
+  --background: #14171F;
+  --foreground: #F6F3EC;
+  --card: #1A1E29;
+  --card-foreground: #F6F3EC;
+  --popover: #1A1E29;
+  --popover-foreground: #F6F3EC;
+  
+  /* Primary CTA - Brass */
+  --primary: #B8975A;
+  --primary-foreground: #14171F;
+  
+  /* Secondary - Deep Forest */
+  --secondary: #1F3A33;
+  --secondary-foreground: #F6F3EC;
+  
+  /* Muted - Slate */
+  --muted: #2A2F3D;
+  --muted-foreground: #A1A8B4;
+  
+  /* Accent */
+  --accent: #2A2F3D;
+  --accent-foreground: #F6F3EC;
+  
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: #2A2F3D;
+  --input: #2A2F3D;
+  --ring: #B8975A;
+  
+  --sidebar: #14171F;
+  --sidebar-foreground: #F6F3EC;
+  --sidebar-primary: #B8975A;
+  --sidebar-primary-foreground: #14171F;
+  --sidebar-accent: #2A2F3D;
+  --sidebar-accent-foreground: #F6F3EC;
+  --sidebar-border: #2A2F3D;
+  --sidebar-ring: #B8975A;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
 }
