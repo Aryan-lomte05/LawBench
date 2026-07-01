@@ -98,60 +98,64 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       )}
 
       {/* Content */}
-      <div className="container mx-auto px-4 -mt-24 relative z-10 max-w-[75ch]">
-        <div className="mb-8">
-          <Link href="/blog" className="inline-flex items-center text-sm font-mono text-muted-foreground hover:text-foreground mb-6 transition-colors">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            BACK TO BLOG
-          </Link>
-          
-          <div className="flex flex-wrap items-center gap-2 text-xs font-mono uppercase tracking-wider text-primary mb-4">
-            {post.blog_post_tags?.map((pt: any) => (
-              <span key={pt.blog_tags.name} className="bg-primary/10 px-2 py-1 rounded">
-                {pt.blog_tags.name}
-              </span>
-            ))}
-            <span>•</span>
-            <span>{new Date(post.published_at || post.created_at).toLocaleDateString()}</span>
-            <span>•</span>
-            <span>{calculateReadingTime(post.body || '')} min read</span>
-          </div>
-
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-foreground leading-tight mb-8">
-            {post.title}
-          </h1>
-
-          <div className="flex items-center justify-between border-y border-border py-4 mb-12">
-            <div className="flex items-center gap-3">
-              {post.profiles?.avatar_url ? (
-                <img src={post.profiles.avatar_url} alt="" className="w-10 h-10 rounded-full" />
-              ) : (
-                <div className="w-10 h-10 rounded-full bg-secondary/20" />
-              )}
-              <div>
-                <p className="text-sm font-medium text-foreground">{post.profiles?.full_name || 'LawBench Author'}</p>
-                <p className="text-xs text-muted-foreground">Editor</p>
-              </div>
-            </div>
+      <div className="container mx-auto px-4 -mt-24 relative z-10 max-w-[80ch]">
+        <div className="bg-[#F6F3EC] text-[#14171F] p-8 md:p-12 rounded-2xl border border-zinc-200/80 shadow-2xl">
+          <div className="mb-8">
+            <Link href="/blog" className="inline-flex items-center text-xs font-mono text-zinc-500 hover:text-[#B8975A] mb-6 transition-colors tracking-widest">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              BACK TO BLOG
+            </Link>
             
-            <Button variant="outline" size="sm" className="gap-2">
-              <Share2 className="w-4 h-4" />
-              Share
-            </Button>
-          </div>
-        </div>
+            <div className="flex flex-wrap items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#B8975A] mb-4">
+              {post.blog_post_tags?.map((pt: any) => (
+                <span key={pt.blog_tags.name} className="bg-[#1F3A33] text-[#F6F3EC] px-2.5 py-1 rounded text-[10px] tracking-wider font-semibold">
+                  {pt.blog_tags.name}
+                </span>
+              ))}
+              <span className="text-zinc-400">·</span>
+              <span className="text-zinc-600">{new Date(post.published_at || post.created_at).toLocaleDateString()}</span>
+              <span className="text-zinc-400">·</span>
+              <span className="text-zinc-600">{calculateReadingTime(post.body || '')} MIN READ</span>
+            </div>
 
-        <div className="prose prose-lg dark:prose-invert prose-headings:font-heading prose-a:text-primary prose-img:rounded-xl w-full max-w-none">
-          <ReactMarkdown>
-            {post.body || '*No content.*'}
-          </ReactMarkdown>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-[#14171F] leading-tight mb-8">
+              {post.title}
+            </h1>
+
+            <div className="flex items-center justify-between border-y border-zinc-200 py-4 mb-12">
+              <div className="flex items-center gap-3">
+                {post.profiles?.avatar_url ? (
+                  <img src={post.profiles.avatar_url} alt="" className="w-10 h-10 rounded-full border border-zinc-300" />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-[#1F3A33]/15 flex items-center justify-center text-xs font-mono text-[#1F3A33] font-bold">
+                    LB
+                  </div>
+                )}
+                <div>
+                  <p className="text-sm font-bold text-[#14171F]">{post.profiles?.full_name || 'LawBench Author'}</p>
+                  <p className="text-xs text-zinc-500 font-mono uppercase tracking-wider">Editor</p>
+                </div>
+              </div>
+              
+              <Button variant="outline" size="sm" className="gap-2 border-zinc-300 text-zinc-700 hover:bg-zinc-100 bg-transparent">
+                <Share2 className="w-4 h-4" />
+                Share
+              </Button>
+            </div>
+          </div>
+
+          <div className="prose prose-stone max-w-none text-zinc-800 prose-headings:text-[#14171F] prose-headings:font-heading prose-a:text-[#B8975A] prose-strong:text-[#14171F] prose-blockquote:border-l-4 prose-blockquote:border-[#B8975A] prose-blockquote:text-zinc-600 prose-blockquote:italic">
+            <ReactMarkdown>
+              {post.body || '*No content.*'}
+            </ReactMarkdown>
+          </div>
         </div>
         
-        {/* Comments Section Placeholder (since we didn't add blog_comments to schema yet) */}
+        {/* Comments Section (renders on dark backdrop) */}
         {post.comments_enabled && (
-          <div className="mt-16 pt-8 border-t border-border">
-            <h3 className="text-2xl font-heading font-bold text-foreground mb-4">Discussion</h3>
-            <p className="text-muted-foreground">Comments are coming soon for the blog.</p>
+          <div className="mt-16 pt-8 border-t border-border/20 text-[#F6F3EC]">
+            <h3 className="text-2xl font-heading font-bold mb-4">Discussion</h3>
+            <p className="text-muted-foreground text-sm font-mono">COMMENTS ARE COMING SOON FOR THE BLOG.</p>
           </div>
         )}
 

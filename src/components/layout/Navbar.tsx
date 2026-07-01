@@ -12,15 +12,19 @@ export async function Navbar() {
     <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link href="/" className="font-heading text-xl font-bold tracking-tight text-foreground">
-            LawBench.
+          <Link href="/" className="font-heading text-sm font-extrabold tracking-[0.3em] text-[#F6F3EC] uppercase flex items-center gap-1.5 transition-colors hover:text-[#B8975A]">
+            <span>LAWBENCH</span>
+            <span className="text-[#B8975A] font-light">·</span>
           </Link>
           
-          <div className="hidden md:flex gap-6 text-sm font-medium text-muted-foreground">
-            <Link href="/subjects" className="hover:text-foreground transition-colors">Subjects</Link>
-            <Link href="/resources" className="hover:text-foreground transition-colors">Resources</Link>
-            <Link href="/latest" className="hover:text-foreground transition-colors">Latest</Link>
-            <Link href="/blog" className="hover:text-foreground transition-colors">Blog</Link>
+          <div className="hidden md:flex gap-6 text-[10px] font-mono uppercase tracking-widest text-[#A1A8B4] items-center">
+            <Link href="/subjects" className="hover:text-[#B8975A] transition-colors">Subjects</Link>
+            <span className="text-[#B8975A]/40">·</span>
+            <Link href="/resources" className="hover:text-[#B8975A] transition-colors">Resources</Link>
+            <span className="text-[#B8975A]/40">·</span>
+            <Link href="/latest" className="hover:text-[#B8975A] transition-colors">Latest</Link>
+            <span className="text-[#B8975A]/40">·</span>
+            <Link href="/blog" className="hover:text-[#B8975A] transition-colors">Blog</Link>
           </div>
         </div>
 

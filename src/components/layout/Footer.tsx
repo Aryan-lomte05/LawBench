@@ -5,10 +5,11 @@ export function Footer() {
     <footer className="border-t border-border bg-background py-12 mt-auto">
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
         <div className="col-span-1 md:col-span-2">
-          <Link href="/" className="font-heading text-xl font-bold tracking-tight text-foreground">
-            LawBench.
+          <Link href="/" className="font-heading text-sm font-extrabold tracking-[0.3em] text-[#F6F3EC] uppercase flex items-center gap-1.5 transition-colors hover:text-[#B8975A]">
+            <span>LAWBENCH</span>
+            <span className="text-[#B8975A] font-light">·</span>
           </Link>
-          <p className="mt-4 text-sm text-muted-foreground max-w-sm">
+          <p className="mt-4 text-xs font-mono uppercase tracking-wider text-[#A1A8B4]/85 leading-relaxed max-w-sm">
             Premium learning platform for law students. Structured, comprehensive, and focused on clarity.
           </p>
         </div>

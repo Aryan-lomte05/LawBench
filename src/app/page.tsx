@@ -70,8 +70,8 @@ export default async function Home() {
             <Zap className="w-4 h-4" /> 
             <span>Welcome to the new era of legal education</span>
           </div>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-heading font-extrabold tracking-tight text-[#F6F3EC] mb-8 leading-[1.1]">
-            Master the Law with <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B8975A] via-[#F6F3EC] to-[#B8975A]">LawBench.</span>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-medium tracking-tight text-[#F6F3EC] mb-8 leading-[1.15]">
+            Master the Law with <span className="italic font-serif text-[#B8975A]">LawBench</span>
           </h1>
           <p className="text-xl md:text-2xl text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed">
             The premium study platform designed exclusively for law students. Structured notes, landmark cases, and expert video lectures.
