@@ -39,7 +39,7 @@ export default function LoginPage() {
             <label htmlFor="password" className="text-[13px] font-medium text-[#14171F] font-sans">
               Password
             </label>
-            <LinkNext href="/auth/reset" className="text-[13px] font-medium text-[#B8975A] hover:text-[#B8975A]/85 transition-colors">
+            <LinkNext href="/auth/reset" className="text-[13px] font-medium text-[#5B6470] hover:text-[#14171F] transition-colors">
               Forgot password?
             </LinkNext>
           </div>
@@ -68,7 +68,7 @@ export default function LoginPage() {
 
       <div className="text-center text-[13px] text-[#5B6470] font-sans">
         Don&apos;t have an account?{' '}
-        <LinkNext href="/auth/signup" className="font-semibold text-[#B8975A] hover:text-[#B8975A]/85 transition-colors">
+        <LinkNext href="/auth/signup" className="font-semibold text-[#5B6470] hover:text-[#14171F] transition-colors">
           Sign up
         </LinkNext>
       </div>

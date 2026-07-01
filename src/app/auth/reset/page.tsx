@@ -53,7 +53,7 @@ export default function ResetPasswordPage() {
 
       <div className="text-center text-[13px] text-[#5B6470] font-sans">
         Remember your password?{' '}
-        <LinkNext href="/auth/login" className="font-semibold text-[#B8975A] hover:text-[#B8975A]/85 transition-colors">
+        <LinkNext href="/auth/login" className="font-semibold text-[#5B6470] hover:text-[#14171F] transition-colors">
           Sign in
         </LinkNext>
       </div>

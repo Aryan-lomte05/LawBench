@@ -78,18 +78,18 @@ export default function SignupPage() {
 
       <div className="text-center text-[13px] text-[#5B6470] font-sans">
         Already have an account?{' '}
-        <LinkNext href="/auth/login" className="font-semibold text-[#B8975A] hover:text-[#B8975A]/85 transition-colors">
+        <LinkNext href="/auth/login" className="font-semibold text-[#5B6470] hover:text-[#14171F] transition-colors">
           Sign in
         </LinkNext>
       </div>
       
       <p className="text-center text-[12px] text-[#8A949E] font-sans leading-relaxed">
         By clicking continue, you agree to our{' '}
-        <LinkNext href="/terms" className="underline hover:text-[#B8975A] transition-colors">
+        <LinkNext href="/terms" className="underline hover:text-[#14171F] transition-colors">
           Terms of Service
         </LinkNext>{' '}
         and{' '}
-        <LinkNext href="/privacy" className="underline hover:text-[#B8975A] transition-colors">
+        <LinkNext href="/privacy" className="underline hover:text-[#14171F] transition-colors">
           Privacy Policy
         </LinkNext>.
       </p>

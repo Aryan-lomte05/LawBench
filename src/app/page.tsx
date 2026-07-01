@@ -65,7 +65,7 @@ export default async function Home() {
         {/* Hero Content Area */}
         <div className="relative z-10 max-w-[820px] text-center pt-24 pb-16 mx-auto">
           {/* Eyebrow */}
-          <div className="inline-block text-[11px] font-mono uppercase tracking-[0.12em] text-[#B8975A] mb-6 animate-fade-up" style={{ animationDelay: '300ms' }}>
+          <div className="inline-block text-[11px] font-mono uppercase tracking-[0.12em] text-[#8A949E] mb-6 animate-fade-up" style={{ animationDelay: '300ms' }}>
             INDIA'S PREMIER LEGAL KNOWLEDGE PLATFORM
           </div>
           
@@ -159,7 +159,7 @@ export default async function Home() {
             </div>
             <Link 
               href="/subjects" 
-              className="text-xs font-mono uppercase tracking-widest text-[#B8975A] hover:text-[#B8975A]/85 transition-colors flex items-center gap-1.5"
+              className="text-xs font-mono uppercase tracking-widest text-[#8A949E] hover:text-[#F9F8F5] transition-colors flex items-center gap-1.5"
             >
               <span>View All Subjects</span> <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -168,14 +168,14 @@ export default async function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {featuredSubjects?.map(subject => (
               <Link key={subject.slug} href={`/subjects/${subject.slug}`} className="group block">
-                <div className="p-6 rounded-[4px] border border-[#2A2E3A] bg-[#1C2029] flex flex-col hover:border-[#B8975A] transition-colors h-full">
-                  <h3 className="text-[19px] font-semibold font-heading text-[#F9F8F5] mb-3 group-hover:text-[#B8975A] transition-colors">
+                <div className="p-6 rounded-[4px] border border-[#2A2E3A] bg-[#1C2029] flex flex-col hover:border-[#B8975A] transition-colors duration-150 h-full">
+                  <h3 className="text-[19px] font-semibold font-heading text-[#F9F8F5] mb-3 group-hover:text-[#F9F8F5] transition-colors">
                     {subject.name}
                   </h3>
                   <p className="text-[#8A949E] text-[14px] line-clamp-3 mb-6 leading-relaxed">
                     {subject.description}
                   </p>
-                  <div className="mt-auto flex items-center text-xs font-mono uppercase tracking-widest text-[#B8975A]">
+                  <div className="mt-auto flex items-center text-xs font-mono uppercase tracking-widest text-[#8A949E] group-hover:text-[#F9F8F5] transition-colors">
                     <span>Enter Subject</span> <ArrowRight className="w-3.5 h-3.5 ml-1.5 transition-transform group-hover:translate-x-1" />
                   </div>
                 </div>
@@ -197,7 +197,7 @@ export default async function Home() {
             </div>
             <Link 
               href="/blog" 
-              className="text-xs font-mono uppercase tracking-widest text-[#B8975A] hover:text-[#B8975A]/85 transition-colors flex items-center gap-1.5"
+              className="text-xs font-mono uppercase tracking-widest text-[#8A949E] hover:text-[#F9F8F5] transition-colors flex items-center gap-1.5"
             >
               <span>Read The Blog</span> <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -206,11 +206,11 @@ export default async function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {latestPosts?.map(post => (
               <Link key={post.slug} href={`/blog/${post.slug}`} className="group block">
-                <div className="p-8 rounded-[4px] bg-[#14171F] border border-[#2A2E3A] hover:border-[#B8975A] transition-colors h-full flex flex-col">
+                <div className="p-8 rounded-[4px] bg-[#14171F] border border-[#2A2E3A] hover:border-[#B8975A] transition-colors duration-150 h-full flex flex-col">
                   <span className="text-[11px] font-mono uppercase tracking-[0.06em] text-[#8A949E] mb-3">
                     {formatDistanceToNow(new Date(post.published_at || ''), { addSuffix: true })}
                   </span>
-                  <h3 className="text-[22px] font-semibold font-heading text-[#F9F8F5] mb-4 group-hover:text-[#B8975A] transition-colors line-clamp-2 leading-tight">
+                  <h3 className="text-[22px] font-semibold font-heading text-[#F9F8F5] mb-4 group-hover:text-[#F9F8F5] transition-colors line-clamp-2 leading-tight">
                     {post.title}
                   </h3>
                   <p className="text-[#8A949E] text-[14px] line-clamp-3 leading-relaxed">

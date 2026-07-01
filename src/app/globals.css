@@ -26,6 +26,8 @@
   --color-slate: #5B6470;
   --color-slate-light: #8A949E;
   --color-chalk: #F9F8F5;
+  --color-white: #F9F8F5;
+  --color-black: #14171F;
 
   --text-display-xl: clamp(52px, 7vw, 96px);
   --text-display-lg: clamp(38px, 5vw, 64px);
