@@ -166,21 +166,34 @@ export default async function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {featuredSubjects?.map(subject => (
-              <Link key={subject.slug} href={`/subjects/${subject.slug}`} className="group block">
-                <div className="p-6 rounded-[4px] border border-[#2A2E3A] bg-[#1C2029] flex flex-col hover:border-[#B8975A] transition-colors duration-150 h-full">
-                  <h3 className="text-[19px] font-semibold font-heading text-[#F9F8F5] mb-3 group-hover:text-[#F9F8F5] transition-colors">
-                    {subject.name}
-                  </h3>
-                  <p className="text-[#8A949E] text-[14px] line-clamp-3 mb-6 leading-relaxed">
-                    {subject.description}
-                  </p>
-                  <div className="mt-auto flex items-center text-xs font-mono uppercase tracking-widest text-[#8A949E] group-hover:text-[#F9F8F5] transition-colors">
-                    <span>Enter Subject</span> <ArrowRight className="w-3.5 h-3.5 ml-1.5 transition-transform group-hover:translate-x-1" />
+            {featuredSubjects?.map((subject, idx) => {
+              const isFirst = idx === 0
+              return (
+                <Link key={subject.slug} href={`/subjects/${subject.slug}`} className="group block">
+                  <div className={`p-6 rounded-[4px] border flex flex-col transition-all duration-150 h-full ${
+                    isFirst
+                      ? 'bg-[#B8975A] border-[#B8975A] hover:bg-[#B8975A]/95 text-[#14171F]'
+                      : 'border-[#2A2E3A] bg-[#1C2029] hover:border-[#B8975A] text-[#F9F8F5]'
+                  }`}>
+                    <h3 className={`text-[19px] font-semibold font-heading mb-3 transition-colors ${
+                      isFirst ? 'text-[#14171F]' : 'text-[#F9F8F5]'
+                    }`}>
+                      {subject.name}
+                    </h3>
+                    <p className={`text-[14px] line-clamp-3 mb-6 leading-relaxed ${
+                      isFirst ? 'text-[#14171F]/80' : 'text-[#8A949E]'
+                    }`}>
+                      {subject.description}
+                    </p>
+                    <div className={`mt-auto flex items-center text-xs font-mono uppercase tracking-widest transition-colors ${
+                      isFirst ? 'text-[#14171F] font-bold' : 'text-[#8A949E] group-hover:text-[#F9F8F5]'
+                    }`}>
+                      <span>Enter Subject</span> <ArrowRight className="w-3.5 h-3.5 ml-1.5 transition-transform group-hover:translate-x-1" />
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              )
+            })}
           </div>
         </div>
       </section>
