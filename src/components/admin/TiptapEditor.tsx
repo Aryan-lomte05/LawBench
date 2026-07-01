@@ -5,11 +5,9 @@ import StarterKit from '@tiptap/starter-kit'
 import TiptapImage from '@tiptap/extension-image'
 import TiptapLink from '@tiptap/extension-link'
 import Underline from '@tiptap/extension-underline'
-import { Button } from '@/components/ui/button'
 import { 
-  Bold, Italic, Underline as UnderlineIcon, List, ListOrdered, Heading1, Heading2, Heading3, 
-  Quote, Code, Undo, Redo, Link as LinkIcon, Image as ImageIcon,
-  Strikethrough, Code2
+  Bold, Italic, Underline as UnderlineIcon, Heading2, Heading3, 
+  Quote, Undo, Redo, Link as LinkIcon, Image as ImageIcon, Code
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { uploadFileAction } from '@/app/admin/resources/actions'
@@ -26,18 +24,15 @@ const MenuBar = ({ editor }: { editor: any }) => {
     const previousUrl = editor.getAttributes('link').href
     const url = window.prompt('Enter link URL:', previousUrl)
 
-    // cancelled
     if (url === null) {
       return
     }
 
-    // empty
     if (url === '') {
       editor.chain().focus().extendMarkRange('link').unsetLink().run()
       return
     }
 
-    // update link
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
   }
 
@@ -71,143 +66,123 @@ const MenuBar = ({ editor }: { editor: any }) => {
     }
   }
 
+  const btnClass = "p-2 text-[#5B6470] hover:text-[#14171F] hover:bg-[#DDD7C9]/40 rounded-[2px] transition-colors"
+  const activeBtnClass = "p-2 bg-[#B8975A]/20 text-[#B8975A] rounded-[2px] transition-colors"
+
   return (
-    <div className="flex flex-wrap gap-1 p-2 border-b border-border bg-[#14171F] rounded-t-md">
-      <Button
-        variant="ghost" size="sm" type="button"
+    <div className="flex flex-wrap items-center gap-1.5 p-3 border-b border-[#DDD7C9] bg-[#EDE8DD] text-[12px] font-mono uppercase tracking-wider">
+      <button
+        type="button"
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().chain().focus().undo().run()}
-        className="text-[#F6F3EC] hover:bg-[#B8975A]/20"
+        className={btnClass}
+        title="Undo"
       >
         <Undo className="w-4 h-4" />
-      </Button>
-      <Button
-        variant="ghost" size="sm" type="button"
+      </button>
+      <button
+        type="button"
         onClick={() => editor.chain().focus().redo().run()}
         disabled={!editor.can().chain().focus().redo().run()}
-        className="text-[#F6F3EC] hover:bg-[#B8975A]/20"
+        className={btnClass}
+        title="Redo"
       >
         <Redo className="w-4 h-4" />
-      </Button>
+      </button>
 
-      <div className="w-px h-6 bg-border mx-1 self-center" />
+      <div className="w-px h-5 bg-[#DDD7C9] mx-1 self-center" />
 
-      <Button
-        variant="ghost" size="sm" type="button"
+      <button
+        type="button"
         onClick={() => editor.chain().focus().toggleBold().run()}
-        className={editor.isActive('bold') ? 'bg-[#B8975A]/20 text-[#B8975A]' : 'text-[#F6F3EC]'}
+        className={editor.isActive('bold') ? activeBtnClass : btnClass}
+        title="Bold"
       >
         <Bold className="w-4 h-4" />
-      </Button>
-      <Button
-        variant="ghost" size="sm" type="button"
+      </button>
+      <button
+        type="button"
         onClick={() => editor.chain().focus().toggleItalic().run()}
-        className={editor.isActive('italic') ? 'bg-[#B8975A]/20 text-[#B8975A]' : 'text-[#F6F3EC]'}
+        className={editor.isActive('italic') ? activeBtnClass : btnClass}
+        title="Italic"
       >
         <Italic className="w-4 h-4" />
-      </Button>
-      <Button
-        variant="ghost" size="sm" type="button"
+      </button>
+      <button
+        type="button"
         onClick={() => editor.chain().focus().toggleUnderline().run()}
-        className={editor.isActive('underline') ? 'bg-[#B8975A]/20 text-[#B8975A]' : 'text-[#F6F3EC]'}
+        className={editor.isActive('underline') ? activeBtnClass : btnClass}
+        title="Underline"
       >
         <UnderlineIcon className="w-4 h-4" />
-      </Button>
-      <Button
-        variant="ghost" size="sm" type="button"
-        onClick={() => editor.chain().focus().toggleStrike().run()}
-        className={editor.isActive('strike') ? 'bg-[#B8975A]/20 text-[#B8975A]' : 'text-[#F6F3EC]'}
-      >
-        <Strikethrough className="w-4 h-4" />
-      </Button>
+      </button>
 
-      <div className="w-px h-6 bg-border mx-1 self-center" />
+      <div className="w-px h-5 bg-[#DDD7C9] mx-1 self-center" />
 
-      <Button
-        variant="ghost" size="sm" type="button"
-        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        className={editor.isActive('heading', { level: 1 }) ? 'bg-[#B8975A]/20 text-[#B8975A]' : 'text-[#F6F3EC]'}
-      >
-        <Heading1 className="w-4 h-4" />
-      </Button>
-      <Button
-        variant="ghost" size="sm" type="button"
+      <button
+        type="button"
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={editor.isActive('heading', { level: 2 }) ? 'bg-[#B8975A]/20 text-[#B8975A]' : 'text-[#F6F3EC]'}
+        className={editor.isActive('heading', { level: 2 }) ? activeBtnClass : btnClass}
+        title="Heading 2"
       >
         <Heading2 className="w-4 h-4" />
-      </Button>
-      <Button
-        variant="ghost" size="sm" type="button"
+      </button>
+      <button
+        type="button"
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-        className={editor.isActive('heading', { level: 3 }) ? 'bg-[#B8975A]/20 text-[#B8975A]' : 'text-[#F6F3EC]'}
+        className={editor.isActive('heading', { level: 3 }) ? activeBtnClass : btnClass}
+        title="Heading 3"
       >
         <Heading3 className="w-4 h-4" />
-      </Button>
+      </button>
 
-      <div className="w-px h-6 bg-border mx-1 self-center" />
+      <div className="w-px h-5 bg-[#DDD7C9] mx-1 self-center" />
 
-      <Button
-        variant="ghost" size="sm" type="button"
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={editor.isActive('bulletList') ? 'bg-[#B8975A]/20 text-[#B8975A]' : 'text-[#F6F3EC]'}
-      >
-        <List className="w-4 h-4" />
-      </Button>
-      <Button
-        variant="ghost" size="sm" type="button"
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={editor.isActive('orderedList') ? 'bg-[#B8975A]/20 text-[#B8975A]' : 'text-[#F6F3EC]'}
-      >
-        <ListOrdered className="w-4 h-4" />
-      </Button>
-
-      <div className="w-px h-6 bg-border mx-1 self-center" />
-
-      <Button
-        variant="ghost" size="sm" type="button"
+      <button
+        type="button"
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        className={editor.isActive('blockquote') ? 'bg-[#B8975A]/20 text-[#B8975A]' : 'text-[#F6F3EC]'}
+        className={editor.isActive('blockquote') ? activeBtnClass : btnClass}
+        title="Blockquote"
       >
         <Quote className="w-4 h-4" />
-      </Button>
-      <Button
-        variant="ghost" size="sm" type="button"
-        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        className={editor.isActive('codeBlock') ? 'bg-[#B8975A]/20 text-[#B8975A]' : 'text-[#F6F3EC]'}
+      </button>
+      <button
+        type="button"
+        onClick={() => editor.chain().focus().toggleCode().run()}
+        className={editor.isActive('code') ? activeBtnClass : btnClass}
+        title="Inline Code / Case Citation"
       >
-        <Code2 className="w-4 h-4" />
-      </Button>
+        <Code className="w-4 h-4" />
+      </button>
 
-      <div className="w-px h-6 bg-border mx-1 self-center" />
+      <div className="w-px h-5 bg-[#DDD7C9] mx-1 self-center" />
 
-      <Button
-        variant="ghost" size="sm" type="button"
+      <button
+        type="button"
         onClick={addLink}
-        className={editor.isActive('link') ? 'bg-[#B8975A]/20 text-[#B8975A]' : 'text-[#F6F3EC]'}
+        className={editor.isActive('link') ? activeBtnClass : btnClass}
+        title="Add Link"
       >
         <LinkIcon className="w-4 h-4" />
-      </Button>
+      </button>
 
-      <Button
-        variant="ghost" size="sm" type="button"
+      <button
+        type="button"
         onClick={addImageFromUrl}
-        className="text-[#F6F3EC] hover:bg-[#B8975A]/20"
-        title="Add Image from URL"
+        className={btnClass}
+        title="Add Image URL"
       >
         <ImageIcon className="w-4 h-4" />
-      </Button>
+      </button>
 
-      <label className="flex items-center justify-center p-2 rounded-md cursor-pointer text-[#F6F3EC] hover:bg-[#B8975A]/20 hover:text-[#B8975A] transition-colors">
+      <label className="flex items-center justify-center p-2 rounded-[2px] cursor-pointer text-[#5B6470] hover:text-[#14171F] hover:bg-[#DDD7C9]/40 transition-colors" title="Upload Image">
         <input 
           type="file" 
           accept="image/*" 
           onChange={handleImageUpload} 
           className="hidden" 
         />
-        <span className="text-xs font-mono uppercase tracking-wider flex items-center gap-1.5">
-          <ImageIcon className="w-4 h-4" /> Upload
-        </span>
+        <ImageIcon className="w-4 h-4" />
       </label>
     </div>
   )
@@ -221,20 +196,20 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
       TiptapImage.configure({
         allowBase64: true,
         HTMLAttributes: {
-          class: 'rounded-xl max-w-full h-auto mx-auto border border-border shadow-md my-6'
+          class: 'rounded-[2px] max-w-full h-auto mx-auto border border-[#DDD7C9] my-6'
         }
       }),
       TiptapLink.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: 'text-[#B8975A] underline hover:text-[#B8975A]/80 transition-colors'
+          class: 'text-[#B8975A] underline hover:underline transition-all'
         }
       })
     ],
     content,
     editorProps: {
       attributes: {
-        class: 'prose dark:prose-invert prose-zinc focus:outline-none min-h-[350px] max-w-none p-5 bg-[#14171F] text-[#F6F3EC]',
+        class: 'prose prose-stone focus:outline-none min-h-[350px] max-w-none p-6 bg-[#F6F3EC] text-[#14171F] font-sans leading-[1.75] text-[17px] prose-headings:font-heading prose-headings:text-[#14171F] prose-a:text-[#B8975A] prose-blockquote:border-l-3 prose-blockquote:border-[#B8975A] prose-blockquote:pl-5 prose-blockquote:italic',
       },
     },
     onUpdate: ({ editor }) => {
@@ -243,7 +218,7 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
   })
 
   return (
-    <div className="border border-border rounded-md overflow-hidden bg-[#1A1E29]">
+    <div className="border border-[#DDD7C9] rounded-[4px] overflow-hidden bg-[#F6F3EC] max-w-[740px] mx-auto">
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
     </div>
