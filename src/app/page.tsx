@@ -148,52 +148,39 @@ export default async function Home() {
       </section>
 
       {/* Featured Subjects */}
-      <section className="py-24 bg-[#14171F] border-b border-[#2A2E3A]">
+      <section className="py-24 bg-[#B8975A] border-y border-[#A08149]">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
-              <h2 className="text-[28px] md:text-[36px] font-heading font-semibold text-[#F9F8F5]">
+              <h2 className="text-[28px] md:text-[36px] font-heading font-semibold text-[#14171F]">
                 Curated Subjects
               </h2>
-              <p className="text-[#8A949E] mt-2 text-[15px]">Select a branch to begin learning.</p>
+              <p className="text-[#14171F]/80 mt-2 text-[15px]">Select a branch to begin learning.</p>
             </div>
             <Link 
               href="/subjects" 
-              className="text-xs font-mono uppercase tracking-widest text-[#8A949E] hover:text-[#F9F8F5] transition-colors flex items-center gap-1.5"
+              className="text-xs font-mono uppercase tracking-widest text-[#14171F] hover:text-[#14171F]/70 transition-colors flex items-center gap-1.5 font-bold"
             >
               <span>View All Subjects</span> <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {featuredSubjects?.map((subject, idx) => {
-              const isFirst = idx === 0
-              return (
-                <Link key={subject.slug} href={`/subjects/${subject.slug}`} className="group block">
-                  <div className={`p-6 rounded-[4px] border flex flex-col transition-all duration-150 h-full ${
-                    isFirst
-                      ? 'bg-[#B8975A] border-[#B8975A] hover:bg-[#B8975A]/95 text-[#14171F]'
-                      : 'border-[#2A2E3A] bg-[#1C2029] hover:border-[#B8975A] text-[#F9F8F5]'
-                  }`}>
-                    <h3 className={`text-[19px] font-semibold font-heading mb-3 transition-colors ${
-                      isFirst ? 'text-[#14171F]' : 'text-[#F9F8F5]'
-                    }`}>
-                      {subject.name}
-                    </h3>
-                    <p className={`text-[14px] line-clamp-3 mb-6 leading-relaxed ${
-                      isFirst ? 'text-[#14171F]/80' : 'text-[#8A949E]'
-                    }`}>
-                      {subject.description}
-                    </p>
-                    <div className={`mt-auto flex items-center text-xs font-mono uppercase tracking-widest transition-colors ${
-                      isFirst ? 'text-[#14171F] font-bold' : 'text-[#8A949E] group-hover:text-[#F9F8F5]'
-                    }`}>
-                      <span>Enter Subject</span> <ArrowRight className="w-3.5 h-3.5 ml-1.5 transition-transform group-hover:translate-x-1" />
-                    </div>
+            {featuredSubjects?.map(subject => (
+              <Link key={subject.slug} href={`/subjects/${subject.slug}`} className="group block">
+                <div className="p-6 rounded-[4px] border border-[#2A2E3A]/10 bg-[#14171F] flex flex-col hover:bg-[#1C2029] transition-all duration-150 h-full hover:shadow-xl">
+                  <h3 className="text-[19px] font-semibold font-heading text-[#F9F8F5] mb-3 group-hover:text-[#B8975A] transition-colors">
+                    {subject.name}
+                  </h3>
+                  <p className="text-[#8A949E] text-[14px] line-clamp-3 mb-6 leading-relaxed">
+                    {subject.description}
+                  </p>
+                  <div className="mt-auto flex items-center text-xs font-mono uppercase tracking-widest text-[#B8975A] group-hover:text-[#F9F8F5] transition-colors">
+                    <span>Enter Subject</span> <ArrowRight className="w-3.5 h-3.5 ml-1.5 transition-transform group-hover:translate-x-1" />
                   </div>
-                </Link>
-              )
-            })}
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
