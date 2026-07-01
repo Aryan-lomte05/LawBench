@@ -10,20 +10,44 @@ export async function GET() {
     return NextResponse.json({ error: 'Not logged in. Please log in first.' }, { status: 401 })
   }
 
-  // Update role to 'admin'
-  const { data, error } = await supabase
+  // Check if profile exists
+  const { data: profile } = await supabase
     .from('profiles')
-    .update({ role: 'admin' })
+    .select('role')
     .eq('id', user.id)
-    .select()
+    .single()
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  let res;
+  if (!profile) {
+    // Insert new profile row
+    res = await supabase
+      .from('profiles')
+      .insert({
+        id: user.id,
+        email: user.email!,
+        full_name: 'Administrator',
+        role: 'admin'
+      })
+      .select()
+  } else {
+    // Update existing profile
+    res = await supabase
+      .from('profiles')
+      .update({ 
+        role: 'admin',
+        full_name: 'Administrator'
+      })
+      .eq('id', user.id)
+      .select()
+  }
+
+  if (res.error) {
+    return NextResponse.json({ error: res.error.message }, { status: 500 })
   }
 
   return NextResponse.json({
     success: true,
     message: `User ${user.email} has been successfully granted the 'admin' role!`,
-    profile: data
+    profile: res.data
   })
 }
