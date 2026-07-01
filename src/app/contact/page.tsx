@@ -1,7 +1,4 @@
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
+import { ContactForm } from '@/components/contact/ContactForm'
 
 export const metadata = {
   title: 'Contact | LawBench',
@@ -19,31 +16,7 @@ export default function ContactPage() {
       </div>
 
       <div className="bg-card border border-border p-8 rounded-2xl shadow-sm">
-        <form className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
-            <Input id="name" placeholder="Jane Doe" required />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="jane@example.com" required />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="message">Message</Label>
-            <Textarea 
-              id="message" 
-              placeholder="How can we help you?" 
-              className="min-h-[150px] resize-y"
-              required 
-            />
-          </div>
-          
-          <Button type="submit" className="w-full h-12 text-lg font-medium shadow-md">
-            Send Message
-          </Button>
-        </form>
+        <ContactForm />
       </div>
     </div>
   )
