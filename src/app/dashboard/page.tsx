@@ -67,39 +67,38 @@ export default async function DashboardPage() {
         </div>
 
         <Tabs defaultValue="bookmarks" className="w-full">
-          <TabsList className="flex border-b border-[#DDD7C9] bg-transparent p-0 gap-8 rounded-none w-full justify-start mb-8">
+          <TabsList variant="line" className="flex border-b border-[#DDD7C9] bg-transparent p-0 gap-8 rounded-none w-full justify-start mb-8">
             <TabsTrigger 
               value="bookmarks" 
-              className="rounded-none bg-transparent shadow-none border-b-2 border-transparent data-[state=active]:border-[#B8975A] data-[state=active]:bg-transparent data-[state=active]:text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
+              className="rounded-none bg-transparent shadow-none border-b-2 border-transparent data-active:border-[#B8975A] data-active:bg-transparent data-active:text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
             >
-              <Bookmark className="w-4 h-4" /> Bookmarks
+              Bookmarks
             </TabsTrigger>
             <TabsTrigger 
               value="progress" 
-              className="rounded-none bg-transparent shadow-none border-b-2 border-transparent data-[state=active]:border-[#B8975A] data-[state=active]:bg-transparent data-[state=active]:text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
+              className="rounded-none bg-transparent shadow-none border-b-2 border-transparent data-active:border-[#B8975A] data-active:bg-transparent data-active:text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
             >
-              <PlayCircle className="w-4 h-4" /> In Progress
+              In Progress
             </TabsTrigger>
             <TabsTrigger 
               value="comments" 
-              className="rounded-none bg-transparent shadow-none border-b-2 border-transparent data-[state=active]:border-[#B8975A] data-[state=active]:bg-transparent data-[state=active]:text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
+              className="rounded-none bg-transparent shadow-none border-b-2 border-transparent data-active:border-[#B8975A] data-active:bg-transparent data-active:text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
             >
-              <MessageSquare className="w-4 h-4" /> Comments
+              Comments
             </TabsTrigger>
             <TabsTrigger 
               value="settings" 
-              className="rounded-none bg-transparent shadow-none border-b-2 border-transparent data-[state=active]:border-[#B8975A] data-[state=active]:bg-transparent data-[state=active]:text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
+              className="rounded-none bg-transparent shadow-none border-b-2 border-transparent data-active:border-[#B8975A] data-active:bg-transparent data-active:text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
             >
-              <Settings className="w-4 h-4" /> Settings
+              Settings
             </TabsTrigger>
           </TabsList>
-
+ 
           <TabsContent value="bookmarks" className="space-y-6 focus:outline-none">
             {!bookmarks || bookmarks.length === 0 ? (
-              <div className="text-center py-20 bg-[#EDE8DD] rounded-[4px] border border-[#DDD7C9] p-8 max-w-xl mx-auto">
-                <Bookmark className="w-12 h-12 mx-auto text-[#8A949E] mb-4 opacity-50" />
-                <h3 className="text-[22px] font-heading font-normal italic text-[#5B6470]">You haven't bookmarked any resources yet</h3>
-                <p className="text-[#8A949E] mt-2 text-[15px] mb-6">Explore the catalog to save notes, judgments, or lectures.</p>
+              <div className="text-center py-16 max-w-xl mx-auto flex flex-col items-center justify-center">
+                <h3 className="text-[22px] font-heading font-normal italic text-[#5B6470] mb-2">You haven't bookmarked any resources yet</h3>
+                <p className="text-[#8A949E] text-[15px] mb-6">Explore the catalog to save notes, judgments, or lectures.</p>
                 <Link href="/resources" className="btn-secondary h-10 px-5 text-xs font-semibold uppercase tracking-wider border-[#DDD7C9] text-[#14171F] hover:text-[#B8975A] bg-transparent">
                   Browse Resources
                 </Link>
@@ -126,13 +125,15 @@ export default async function DashboardPage() {
               </div>
             )}
           </TabsContent>
-
+ 
           <TabsContent value="progress" className="space-y-6 focus:outline-none">
             {!progressItems || progressItems.length === 0 ? (
-              <div className="text-center py-20 bg-[#EDE8DD] rounded-[4px] border border-[#DDD7C9] p-8 max-w-xl mx-auto">
-                <PlayCircle className="w-12 h-12 mx-auto text-[#8A949E] mb-4 opacity-50" />
-                <h3 className="text-[22px] font-heading font-normal italic text-[#5B6470]">No lectures in progress</h3>
-                <p className="text-[#8A949E] mt-2 text-[15px]">Resume video lectures here once you start studying.</p>
+              <div className="text-center py-16 max-w-xl mx-auto flex flex-col items-center justify-center">
+                <h3 className="text-[22px] font-heading font-normal italic text-[#5B6470] mb-2">No lectures in progress</h3>
+                <p className="text-[#8A949E] text-[15px] mb-6">Resume video lectures here once you start studying.</p>
+                <Link href="/resources" className="btn-secondary h-10 px-5 text-xs font-semibold uppercase tracking-wider border-[#DDD7C9] text-[#14171F] hover:text-[#B8975A] bg-transparent">
+                  Browse Resources
+                </Link>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -159,13 +160,15 @@ export default async function DashboardPage() {
               </div>
             )}
           </TabsContent>
-
+ 
           <TabsContent value="comments" className="space-y-6 focus:outline-none">
             {!comments || comments.length === 0 ? (
-              <div className="text-center py-20 bg-[#EDE8DD] rounded-[4px] border border-[#DDD7C9] p-8 max-w-xl mx-auto">
-                <MessageSquare className="w-12 h-12 mx-auto text-[#8A949E] mb-4 opacity-50" />
-                <h3 className="text-[22px] font-heading font-normal italic text-[#5B6470]">No comment contributions</h3>
-                <p className="text-[#8A949E] mt-2 text-[15px]">Comments you publish on study resources will appear here.</p>
+              <div className="text-center py-16 max-w-xl mx-auto flex flex-col items-center justify-center">
+                <h3 className="text-[22px] font-heading font-normal italic text-[#5B6470] mb-2">No comment contributions</h3>
+                <p className="text-[#8A949E] text-[15px] mb-6">Comments you publish on study resources will appear here.</p>
+                <Link href="/resources" className="btn-secondary h-10 px-5 text-xs font-semibold uppercase tracking-wider border-[#DDD7C9] text-[#14171F] hover:text-[#B8975A] bg-transparent">
+                  Browse Resources
+                </Link>
               </div>
             ) : (
               <div className="space-y-4">
@@ -185,7 +188,7 @@ export default async function DashboardPage() {
               </div>
             )}
           </TabsContent>
-
+ 
           <TabsContent value="settings" className="focus:outline-none">
             <div className="bg-[#EDE8DD] border border-[#DDD7C9] rounded-[4px] p-8 max-w-2xl">
               <SettingsForm profile={profile} userEmail={user.email} />
