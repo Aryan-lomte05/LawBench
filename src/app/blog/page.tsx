@@ -79,9 +79,9 @@ export default async function BlogIndexPage({
               <Link
                 key={cat}
                 href={href}
-                className={`px-4 py-1.5 rounded-[2px] text-[10px] font-mono uppercase tracking-wider border transition-colors ${
+                className={`px-4 py-1.5 rounded-[2px] text-[10px] font-mono uppercase tracking-wider border transition-all duration-150 ${
                   isActive
-                    ? 'bg-[#14171F] text-[#F9F8F5] border-[#14171F]'
+                    ? 'bg-[#B8975A] text-[#14171F] border-[#B8975A] font-bold'
                     : 'bg-transparent text-[#5B6470] border-transparent hover:border-[#DDD7C9] hover:text-[#14171F]'
                 }`}
               >
