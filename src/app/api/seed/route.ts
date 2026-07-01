@@ -139,9 +139,9 @@ export async function GET() {
           semester: 'Semester 1',
           unit: 'Unit I: Introduction',
           title: 'The Constitution of India (Bare Act)',
-          description: 'Full text access to the Preamble, Parts, Articles, and Schedules of the Indian Constitution, as published by the Parliament of India.',
+          description: 'Full text access to the Preamble, Parts, Articles, and Schedules of the Indian Constitution, served locally from the LawBench repository.',
           type: 'bare_act',
-          file_url: 'https://sansad.in/uploads/documents/constitutionofindia.pdf',
+          file_url: '/constitution.pdf',
           is_published: true,
           author_or_uploader: 'Legislative Department'
         },
@@ -150,9 +150,9 @@ export async function GET() {
           semester: 'Semester 1',
           unit: 'Unit II: Fundamental Rights',
           title: 'Kesavananda Bharati v. State of Kerala (Landmark Case Summary)',
-          description: 'Detailed analysis of the Basic Structure Doctrine and key judgments of the 13-judge bench, linking directly to the official Supreme Court Reports (5668.pdf).',
+          description: 'Detailed analysis of the Basic Structure Doctrine and key judgments of the 13-judge bench, served locally from the LawBench repository.',
           type: 'case_law',
-          file_url: 'https://main.sci.gov.in/jonew/judis/5668.pdf',
+          file_url: '/kesavananda_summary.pdf',
           is_published: true,
           author_or_uploader: 'Supreme Court Reports'
         },
@@ -177,9 +177,9 @@ export async function GET() {
           semester: 'Semester 2',
           unit: 'Unit I: General Principles',
           title: 'Mens Rea and Actus Reus Lecture Notes',
-          description: 'Core concepts of criminal liability, guilty mind, and criminal acts with relevant illustrations and exceptions.',
+          description: 'Core concepts of criminal liability, guilty mind, and criminal acts with relevant illustrations and exceptions, served locally from the LawBench repository.',
           type: 'note',
-          file_url: 'http://www.jiwaji.edu/pdf/ecourse/law/MENS%20REA.pdf',
+          file_url: '/mens_rea_notes.pdf',
           is_published: true,
           author_or_uploader: 'Dr. Verma'
         },
@@ -188,9 +188,9 @@ export async function GET() {
           semester: 'Semester 2',
           unit: 'Unit II: Offences against Body',
           title: 'K.M. Nanavati v. State of Maharashtra (Case Brief)',
-          description: 'The historic case that led to the abolition of jury trials in India. Examines grave and sudden provocation.',
+          description: 'The historic case that led to the abolition of jury trials in India. Examines grave and sudden provocation, served locally from the LawBench repository.',
           type: 'case_law',
-          file_url: 'https://main.sci.gov.in/jonew/judis/1676.pdf',
+          file_url: '/nanavati_brief.pdf',
           is_published: true,
           author_or_uploader: 'Lawbench Team'
         }
@@ -204,9 +204,9 @@ export async function GET() {
           semester: 'Semester 1',
           unit: 'Unit I: Offer and Acceptance',
           title: 'The Indian Contract Act, 1872 (Bare Act)',
-          description: 'Bare Act provisions of Sections 1 to 75 governing the general principles of contract law in India.',
+          description: 'Bare Act provisions of Sections 1 to 75 governing the general principles of contract law in India, served locally from the LawBench repository.',
           type: 'bare_act',
-          file_url: 'https://www.indiacode.nic.in/bitstream/123456789/2187/1/A1872-9.pdf',
+          file_url: '/contracts_act.pdf',
           is_published: true,
           author_or_uploader: 'Govt of India'
         }
