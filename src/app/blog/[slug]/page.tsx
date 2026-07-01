@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown'
 import { Button } from '@/components/ui/button'
 import { Share2, ArrowLeft } from 'lucide-react'
 import { CommentsWithVotes } from '@/components/resources/CommentsWithVotes'
+import { BlogPostVoteButton } from '@/components/blog/BlogPostVoteButton'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params
@@ -38,11 +39,23 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   
-  const { data: post } = await supabase
+  let { data: post, error } = await supabase
     .from('blog_posts')
-    .select('*, profiles(full_name, avatar_url)')
+    .select('*, profiles(full_name, avatar_url), blog_post_votes(vote_type, user_id)')
     .eq('slug', resolvedParams.slug)
     .single()
+
+  let votes = []
+  if (error) {
+    const fallback = await supabase
+      .from('blog_posts')
+      .select('*, profiles(full_name, avatar_url)')
+      .eq('slug', resolvedParams.slug)
+      .single()
+    post = fallback.data
+  } else {
+    votes = post?.blog_post_votes || []
+  }
 
   if (!post || (!post.is_published && (!user || !(await supabase.from('profiles').select('role').eq('id', user.id).single()).data?.role?.includes('admin')))) {
     notFound()
@@ -115,9 +128,18 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
         {/* Byline & Share */}
         <div className="flex items-center justify-between py-5 border-y border-[#DDD7C9] mb-10 text-[14px]">
-          <span className="text-[#5B6470]">
-            By {authorName}
-          </span>
+          <div className="flex items-center gap-4">
+            <span className="text-[#5B6470]">
+              By {authorName}
+            </span>
+            {post && (
+              <BlogPostVoteButton 
+                postId={post.id} 
+                initialVotes={votes} 
+                currentUserId={user?.id}
+              />
+            )}
+          </div>
           <button className="text-[13px] font-mono uppercase tracking-wider text-[#B8975A] hover:underline bg-transparent border-none">
             Share Post
           </button>

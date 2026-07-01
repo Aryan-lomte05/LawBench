@@ -1,21 +1,39 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
+import { Search } from 'lucide-react'
 
 export const metadata = {
   title: 'Blog | LawBench',
   description: 'Insights, study tips, and updates from the LawBench team.',
 }
 
-export default async function BlogIndexPage() {
+export default async function BlogIndexPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
   const supabase = await createClient()
 
-  // Fetch posts from db without joining non-existent blog tags tables
-  const { data: posts } = await supabase
+  const resolvedParams = await searchParams
+  const queryParam = (resolvedParams?.q as string) || ''
+  const categoryParam = (resolvedParams?.category as string) || ''
+
+  // Build query for posts
+  let query = supabase
     .from('blog_posts')
     .select('*, profiles(full_name, avatar_url)')
     .eq('is_published', true)
-    .order('published_at', { ascending: false })
+
+  if (categoryParam) {
+    query = query.eq('category', categoryParam)
+  }
+
+  if (queryParam) {
+    query = query.or(`title.ilike.%${queryParam}%,excerpt.ilike.%${queryParam}%`)
+  }
+
+  const { data: posts } = await query.order('published_at', { ascending: false })
 
   const featuredPost = posts && posts.length > 0 ? posts[0] : null
   const gridPosts = featuredPost && posts ? posts.slice(1) : []
@@ -23,19 +41,67 @@ export default async function BlogIndexPage() {
   return (
     <div className="min-h-screen bg-[#F6F3EC] text-[#14171F] py-16 font-sans">
       <div className="container mx-auto px-6 max-w-6xl">
-        <div className="mb-16 max-w-2xl text-left">
-          <h1 className="text-[38px] md:text-[50px] font-heading font-semibold text-[#14171F] leading-tight mb-4">
-            Blog & Insights
-          </h1>
-          <p className="text-[15px] text-[#5B6470] leading-relaxed">
-            Editorial updates, constitutional analyses, and study columns from the LawBench editors.
-          </p>
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div className="max-w-2xl text-left">
+            <h1 className="text-[38px] md:text-[50px] font-heading font-semibold text-[#14171F] leading-tight mb-4">
+              Blog & Insights
+            </h1>
+            <p className="text-[15px] text-[#5B6470] leading-relaxed">
+              Editorial updates, constitutional analyses, and study columns from the LawBench editors.
+            </p>
+          </div>
+
+          {/* Search Bar Input */}
+          <form action="/blog" method="GET" className="w-full md:w-80 shrink-0">
+            <div className="relative flex items-center">
+              <input
+                type="text"
+                name="q"
+                defaultValue={queryParam}
+                placeholder="Search articles..."
+                className="w-full bg-[#EDE8DD] border border-[#DDD7C9] text-[#14171F] text-xs px-4 py-2.5 pl-10 rounded-[2px] focus:outline-none focus:border-[#B8975A] placeholder-[#8A949E] transition-all"
+              />
+              <Search className="w-4 h-4 text-[#8A949E] absolute left-3 pointer-events-none" />
+              {categoryParam && <input type="hidden" name="category" value={categoryParam} />}
+            </div>
+          </form>
+        </div>
+
+        {/* Category Filters Bar */}
+        <div className="flex flex-wrap items-center gap-2 mb-10 border-b border-[#DDD7C9] pb-4">
+          {['All', 'Constitutional', 'Criminal', 'Academic'].map(cat => {
+            const isActive = (cat === 'All' && !categoryParam) || (categoryParam === cat)
+            const href = cat === 'All'
+              ? (queryParam ? `/blog?q=${encodeURIComponent(queryParam)}` : '/blog')
+              : `/blog?category=${cat}${queryParam ? `&q=${encodeURIComponent(queryParam)}` : ''}`
+
+            return (
+              <Link
+                key={cat}
+                href={href}
+                className={`px-4 py-1.5 rounded-[2px] text-[10px] font-mono uppercase tracking-wider border transition-colors ${
+                  isActive
+                    ? 'bg-[#14171F] text-[#F9F8F5] border-[#14171F]'
+                    : 'bg-transparent text-[#5B6470] border-transparent hover:border-[#DDD7C9] hover:text-[#14171F]'
+                }`}
+              >
+                {cat}
+              </Link>
+            )
+          })}
         </div>
 
         {!posts || posts.length === 0 ? (
           <div className="text-center py-20 bg-[#EDE8DD] rounded-[4px] border border-[#DDD7C9] p-8 max-w-xl mx-auto">
             <h3 className="text-[22px] font-heading font-normal italic text-[#5B6470]">No posts found</h3>
-            <p className="text-[#8A949E] mt-2 text-[15px]">Check back later for fresh legal analyses and insights.</p>
+            <p className="text-[#8A949E] mt-2 text-[15px]">
+              {queryParam ? "Try adjusting your search keywords or category filters." : "Check back later for fresh legal analyses and insights."}
+            </p>
+            {queryParam && (
+              <Link href="/blog" className="inline-block btn-secondary text-xs uppercase tracking-widest font-mono mt-4 border-[#DDD7C9] px-4 py-2 text-[#14171F]">
+                Clear Filters
+              </Link>
+            )}
           </div>
         ) : (
           <div className="space-y-16">
@@ -58,8 +124,14 @@ export default async function BlogIndexPage() {
                   </div>
                   <div className="lg:col-span-5 p-8 lg:pr-12 flex flex-col justify-between h-full">
                     <div>
-                      <div className="text-[11px] font-mono uppercase tracking-[0.06em] text-[#5B6470] mb-4">
-                        FEATURED COLUMN &middot; {formatDistanceToNow(new Date(featuredPost.published_at || featuredPost.created_at), { addSuffix: true })}
+                      <div className="text-[11px] font-mono uppercase tracking-[0.06em] text-[#5B6470] mb-4 flex items-center gap-2">
+                        {featuredPost.category && (
+                          <>
+                            <span className="text-[#B8975A] font-bold">{featuredPost.category}</span>
+                            <span>&middot;</span>
+                          </>
+                        )}
+                        <span>{formatDistanceToNow(new Date(featuredPost.published_at || featuredPost.created_at), { addSuffix: true })}</span>
                       </div>
                       <h2 className="text-[26px] md:text-[32px] font-heading font-semibold text-[#14171F] leading-tight mb-4 group-hover:text-[#B8975A] transition-colors duration-150">
                         {featuredPost.title}
@@ -86,7 +158,7 @@ export default async function BlogIndexPage() {
                         {/* Top row */}
                         <div className="flex items-center justify-between mb-4">
                           <span className="inline-block text-[11px] font-mono uppercase tracking-[0.06em] text-[#F9F8F5] bg-[#1F3A33] px-2.5 py-0.5 rounded-[2px]">
-                            ANALYSIS
+                            {post.category || 'ANALYSIS'}
                           </span>
                         </div>
 
