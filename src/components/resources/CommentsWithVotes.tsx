@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClient } from '@/utils/supabase/client'
 import { ArrowBigUp, ArrowBigDown, MessageSquare, CornerDownRight, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { formatDistanceToNow } from 'date-fns'
@@ -42,8 +41,6 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
   const [submitting, setSubmitting] = useState(false)
   const [dbError, setDbError] = useState<string | null>(null)
 
-  const supabase = createClient()
-
   useEffect(() => {
     fetchComments()
   }, [targetId])
@@ -52,33 +49,18 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
     setLoading(true)
     setDbError(null)
     try {
-      const selectFields = `
-        id, parent_id, content, created_at, user_id,
-        profiles (full_name, avatar_url),
-        comment_votes (vote_type, user_id)
-      `
-      
-      let query = supabase
-        .from('comments')
-        .select(selectFields)
-
-      if (targetType === 'resource') {
-        query = query.eq('resource_id', targetId)
-      } else {
-        query = query.eq('blog_post_id', targetId)
-      }
-
-      const { data, error } = await query.order('created_at', { ascending: true })
-
-      if (error) {
-        const msg = error.message || ''
-        if (msg.includes('relation') || msg.includes('does not exist') || msg.includes('column') || msg.includes('schema cache') || error.code === '42P01' || error.code === '42703') {
+      const res = await fetch(`/api/comments?targetId=${targetId}&targetType=${targetType}`)
+      if (!res.ok) {
+        const errData = await res.json()
+        const msg = errData.error || ''
+        if (msg.includes('relation') || msg.includes('does not exist') || msg.includes('column') || msg.includes('schema cache')) {
           setDbError('DATABASE_UPGRADE_PENDING')
         } else {
-          throw error
+          throw new Error(msg)
         }
       } else {
-        const formatted = (data || []).map((c: any) => ({
+        const data = await res.json()
+        const formatted = (data.comments || []).map((c: any) => ({
           id: c.id,
           content: c.content,
           created_at: c.created_at,
@@ -113,29 +95,29 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
 
     setSubmitting(true)
     try {
-      const insertObj: any = {
-        user_id: currentUserId,
-        content: text,
-        parent_id: parentId
+      const res = await fetch('/api/comments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          targetId,
+          targetType,
+          content: text,
+          parentId
+        })
+      })
+
+      if (!res.ok) {
+        const errData = await res.json()
+        const msg = errData.error || ''
+        if (msg.includes('relation') || msg.includes('does not exist') || msg.includes('column') || msg.includes('schema cache')) {
+          setDbError('DATABASE_UPGRADE_PENDING')
+          return
+        }
+        throw new Error(msg)
       }
 
-      if (targetType === 'resource') {
-        insertObj.resource_id = targetId
-      } else {
-        insertObj.blog_post_id = targetId
-      }
-
-      const { data, error } = await supabase
-        .from('comments')
-        .insert(insertObj)
-        .select(`
-          id, parent_id, content, created_at, user_id,
-          profiles (full_name, avatar_url),
-          comment_votes (vote_type, user_id)
-        `)
-        .single()
-
-      if (error) throw error
+      const resData = await res.json()
+      const data = resData.comment
 
       const formatted: Comment = {
         id: data.id,
@@ -161,7 +143,7 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
         setDbError('DATABASE_UPGRADE_PENDING')
       } else {
         console.error('Comment post error:', err?.message || err)
-        toast.error('Failed to post comment.')
+        toast.error(err.message || 'Failed to post comment.')
       }
     } finally {
       setSubmitting(false)
@@ -174,7 +156,6 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
       return
     }
 
-    // If clicking same vote, delete it (retract)
     const newVoteType = currentVote === targetVote ? 0 : targetVote
 
     try {
@@ -189,7 +170,6 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
         throw new Error(errData.error || 'Failed to submit vote.')
       }
 
-      // Update local state instantly (Optimistic UI)
       setComments(prevComments => 
         prevComments.map(c => {
           if (c.id !== commentId) return c
@@ -198,10 +178,8 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
           const existingVoteIndex = votes.findIndex(v => v.user_id === currentUserId)
 
           if (newVoteType === 0) {
-            // Remove
             if (existingVoteIndex >= 0) votes.splice(existingVoteIndex, 1)
           } else {
-            // Upsert
             if (existingVoteIndex >= 0) {
               votes[existingVoteIndex].vote_type = newVoteType
             } else {
@@ -223,22 +201,23 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
     if (!confirm('Are you sure you want to delete this comment?')) return
 
     try {
-      const { error } = await supabase
-        .from('comments')
-        .delete()
-        .eq('id', commentId)
+      const res = await fetch(`/api/comments?commentId=${commentId}`, {
+        method: 'DELETE'
+      })
 
-      if (error) throw error
+      if (!res.ok) {
+        const errData = await res.json()
+        throw new Error(errData.error || 'Failed to delete comment.')
+      }
 
       setComments(prev => prev.filter(c => c.id !== commentId))
       toast.success('Comment deleted.')
-    } catch (err) {
+    } catch (err: any) {
       console.error(err)
-      toast.error('Failed to delete comment.')
+      toast.error(err.message || 'Failed to delete comment.')
     }
   }
 
-  // Render pending SQL schema setup block
   if (dbError === 'DATABASE_UPGRADE_PENDING') {
     return (
       <div className="bg-[#EDE8DD] border border-[#DDD7C9] rounded-[4px] p-6 text-left my-8 font-sans">
@@ -266,7 +245,6 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
     )
   }
 
-  // Parse threads (Root comments vs Child replies)
   const rootComments = comments.filter(c => !c.parent_id)
   const getRepliesFor = (parentId: string) => comments.filter(c => c.parent_id === parentId)
 
@@ -281,7 +259,6 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
         </span>
       </div>
 
-      {/* Main Comment Input */}
       {currentUserId ? (
         <div className="space-y-3 bg-[#EDE8DD] p-4 rounded-[4px] border border-[#DDD7C9]">
           <textarea
@@ -310,7 +287,6 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
         </div>
       )}
 
-      {/* Comments List */}
       <div className="space-y-6">
         {rootComments.length === 0 ? (
           <p className="text-center py-10 text-[14px] italic text-[#8A949E]">
@@ -319,8 +295,6 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
         ) : (
           rootComments.map(comment => {
             const replies = getRepliesFor(comment.id)
-            
-            // Calculate votes
             const votes = comment.comment_votes || []
             const upvotes = votes.filter(v => v.vote_type === 1).length
             const downvotes = votes.filter(v => v.vote_type === -1).length
@@ -329,9 +303,7 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
 
             return (
               <div key={comment.id} className="space-y-4 border-b border-[#DDD7C9]/40 pb-6 last:border-b-0">
-                {/* Main Comment Node */}
                 <div className="flex gap-4">
-                  {/* Upvote/Downvote Column (Monospaced & Vertical) */}
                   <div className="flex flex-col items-center gap-1">
                     <button
                       onClick={() => handleVote(comment.id, userVote, 1)}
@@ -356,9 +328,7 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
                     </button>
                   </div>
 
-                  {/* Comment Body */}
                   <div className="flex-1 space-y-2">
-                    {/* Header line */}
                     <div className="flex items-center justify-between text-xs font-mono">
                       <div className="flex items-center gap-2">
                         <span className="font-sans font-semibold text-[#14171F] text-[14px]">
@@ -384,12 +354,10 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
                       </div>
                     </div>
 
-                    {/* Content text */}
                     <p className="text-[14px] text-[#14171F] leading-relaxed whitespace-pre-wrap pl-1">
                       {comment.content}
                     </p>
 
-                    {/* Footer Actions */}
                     {currentUserId && (
                       <div className="flex items-center gap-4 text-xs font-mono uppercase tracking-wider pt-1 pl-1">
                         <button
@@ -403,7 +371,6 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
                   </div>
                 </div>
 
-                {/* Sub-reply Input Field */}
                 {replyToId === comment.id && (
                   <div className="ml-12 pl-4 border-l border-[#DDD7C9] space-y-2">
                     <textarea
@@ -431,7 +398,6 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
                   </div>
                 )}
 
-                {/* Nesting Replies */}
                 {replies.length > 0 && (
                   <div className="ml-10 space-y-4 border-l border-[#DDD7C9] pl-6">
                     {replies.map(reply => {
@@ -445,9 +411,7 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
                         <div key={reply.id} className="flex gap-3 pt-2">
                           <CornerDownRight className="w-4 h-4 text-[#8A949E] mt-1 shrink-0" />
                           
-                          {/* Inner Reply Card */}
                           <div className="flex-1 bg-[#EDE8DD]/40 border border-[#DDD7C9]/40 p-4 rounded-[4px] flex gap-3">
-                            {/* Reply Votes */}
                             <div className="flex flex-col items-center justify-center gap-0.5 shrink-0 bg-[#EDE8DD]/70 border border-[#DDD7C9]/50 rounded-[4px] px-1 py-0.5 h-fit text-[11px] font-mono">
                               <button
                                 onClick={() => handleVote(reply.id, replyUserVote, 1)}
@@ -464,7 +428,6 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
                               </button>
                             </div>
 
-                            {/* Reply Content */}
                             <div className="flex-1 space-y-1">
                               <div className="flex items-center justify-between text-[11px] font-mono">
                                 <span className="font-sans font-semibold text-[#14171F]">
