@@ -133,12 +133,12 @@ export default async function ResourceDetailPage({ params }: { params: Promise<{
             )}
             {resource.semester && (
               <>
-                <span>SEM {resource.semester}</span>
+                <span>SEM {resource.semester.toLowerCase().replace(/semester/gi, '').trim()}</span>
                 <span className="text-[#B8975A]">·</span>
               </>
             )}
             {resource.unit && (
-              <span>UNIT {resource.unit}</span>
+              <span>UNIT {resource.unit.toLowerCase().replace(/unit/gi, '').trim()}</span>
             )}
           </div>
 

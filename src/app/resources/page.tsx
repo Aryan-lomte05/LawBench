@@ -125,13 +125,13 @@ export default async function ResourcesPage({
                       {resource.semester && (
                         <>
                           <span className="text-[#B8975A]">·</span>
-                          <span>SEM {resource.semester}</span>
+                          <span>SEM {resource.semester.toLowerCase().replace(/semester/gi, '').trim()}</span>
                         </>
                       )}
                       {resource.unit && (
                         <>
                           <span className="text-[#B8975A]">·</span>
-                          <span>UNIT {resource.unit}</span>
+                          <span>UNIT {resource.unit.toLowerCase().replace(/unit/gi, '').split(':')[0].trim()}</span>
                         </>
                       )}
                     </div>
