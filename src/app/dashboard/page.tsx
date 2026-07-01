@@ -70,25 +70,25 @@ export default async function DashboardPage() {
           <TabsList variant="line" className="flex border-b border-[#DDD7C9] bg-transparent p-0 gap-8 rounded-none w-full justify-start mb-8">
             <TabsTrigger 
               value="bookmarks" 
-              className="rounded-none bg-transparent shadow-none border-b-2 border-transparent data-active:border-[#B8975A] data-active:bg-transparent data-active:text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
+              className="rounded-none bg-transparent shadow-none border-b-2 border-x-0 border-t-0 border-transparent data-active:!border-b-[#B8975A] data-active:!border-x-transparent data-active:!border-t-transparent data-active:!bg-transparent data-active:!text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
             >
               Bookmarks
             </TabsTrigger>
             <TabsTrigger 
               value="progress" 
-              className="rounded-none bg-transparent shadow-none border-b-2 border-transparent data-active:border-[#B8975A] data-active:bg-transparent data-active:text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
+              className="rounded-none bg-transparent shadow-none border-b-2 border-x-0 border-t-0 border-transparent data-active:!border-b-[#B8975A] data-active:!border-x-transparent data-active:!border-t-transparent data-active:!bg-transparent data-active:!text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
             >
               In Progress
             </TabsTrigger>
             <TabsTrigger 
               value="comments" 
-              className="rounded-none bg-transparent shadow-none border-b-2 border-transparent data-active:border-[#B8975A] data-active:bg-transparent data-active:text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
+              className="rounded-none bg-transparent shadow-none border-b-2 border-x-0 border-t-0 border-transparent data-active:!border-b-[#B8975A] data-active:!border-x-transparent data-active:!border-t-transparent data-active:!bg-transparent data-active:!text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
             >
               Comments
             </TabsTrigger>
             <TabsTrigger 
               value="settings" 
-              className="rounded-none bg-transparent shadow-none border-b-2 border-transparent data-active:border-[#B8975A] data-active:bg-transparent data-active:text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
+              className="rounded-none bg-transparent shadow-none border-b-2 border-x-0 border-t-0 border-transparent data-active:!border-b-[#B8975A] data-active:!border-x-transparent data-active:!border-t-transparent data-active:!bg-transparent data-active:!text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
             >
               Settings
             </TabsTrigger>
