@@ -34,23 +34,56 @@ export async function updateSession(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
+ 
+  const pathname = request.nextUrl.pathname
+  const isContentRoute = 
+    pathname.startsWith('/dashboard') || 
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/subjects') ||
+    pathname.startsWith('/resources') ||
+    pathname.startsWith('/latest') ||
+    pathname.startsWith('/blog')
+  const isAuthRoute = pathname.startsWith('/auth')
 
-  const isProtectedRoute = request.nextUrl.pathname.startsWith('/dashboard') || request.nextUrl.pathname.startsWith('/admin')
-  const isAuthRoute = request.nextUrl.pathname.startsWith('/auth')
+  if (isContentRoute) {
+    if (!user) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/auth/login'
+      return NextResponse.redirect(url)
+    }
 
-  if (!user && isProtectedRoute) {
-    // no user, potentially respond by redirecting the user to the login page
-    const url = request.nextUrl.clone()
-    url.pathname = '/auth/login'
-    return NextResponse.redirect(url)
+    // Query approval and role
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role, is_approved')
+      .eq('id', user.id)
+      .single()
+
+    const isApproved = profile?.is_approved === true
+    const isAdmin = profile?.role === 'admin'
+
+    if (!isApproved) {
+      // Unapproved users are restricted to /dashboard only (which will render pending screen)
+      if (pathname !== '/dashboard') {
+        const url = request.nextUrl.clone()
+        url.pathname = '/dashboard'
+        return NextResponse.redirect(url)
+      }
+    } else {
+      // Approved users: restrict /admin route to admin role only
+      if (pathname.startsWith('/admin') && !isAdmin) {
+        const url = request.nextUrl.clone()
+        url.pathname = '/dashboard'
+        return NextResponse.redirect(url)
+      }
+    }
   }
-
+ 
   if (user && isAuthRoute) {
-    // user is already logged in, redirect to dashboard if they try to access auth pages
     const url = request.nextUrl.clone()
     url.pathname = '/dashboard'
     return NextResponse.redirect(url)
   }
-
+ 
   return supabaseResponse
 }

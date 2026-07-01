@@ -3,10 +3,11 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { createResource, uploadFileAction } from '@/app/admin/resources/actions'
+import { createResource, uploadFileAction, updateResource } from '@/app/admin/resources/actions'
 
 interface ResourceUploadFormProps {
   subjects: { id: string; name: string }[]
+  initialResource?: any
 }
 
 const RESOURCE_TYPES = [
@@ -20,18 +21,18 @@ const RESOURCE_TYPES = [
   { value: 'video', label: 'Video' }
 ]
 
-export function ResourceUploadForm({ subjects }: ResourceUploadFormProps) {
+export function ResourceUploadForm({ subjects, initialResource }: ResourceUploadFormProps) {
   const router = useRouter()
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [type, setType] = useState('notes')
-  const [subjectId, setSubjectId] = useState(subjects[0]?.id || '')
-  const [semester, setSemester] = useState('')
-  const [unit, setUnit] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const [title, setTitle] = useState(initialResource?.title || '')
+  const [description, setDescription] = useState(initialResource?.description || '')
+  const [type, setType] = useState(initialResource?.type || 'notes')
+  const [subjectId, setSubjectId] = useState(initialResource?.subject_id || subjects[0]?.id || '')
+  const [semester, setSemester] = useState(initialResource?.semester || '')
+  const [unit, setUnit] = useState(initialResource?.unit || '')
+  const [author, setAuthor] = useState(initialResource?.author_or_uploader || '')
+  const [url, setUrl] = useState(initialResource?.file_url || initialResource?.video_url || '')
   const [file, setFile] = useState<File | null>(null)
-  const [isPublished, setIsPublished] = useState(true)
+  const [isPublished, setIsPublished] = useState(initialResource ? initialResource.is_published : true)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,9 +81,9 @@ export function ResourceUploadForm({ subjects }: ResourceUploadFormProps) {
         throw new Error('Please enter a video URL.')
       }
 
-      // 2. Create resource database entry
-      toast.info('Creating database record...')
-      const res = await createResource({
+      // 2. Create or update resource database entry
+      toast.info(initialResource ? 'Updating database record...' : 'Creating database record...')
+      const payload = {
         title,
         description,
         type,
@@ -92,14 +93,18 @@ export function ResourceUploadForm({ subjects }: ResourceUploadFormProps) {
         author_or_uploader: author,
         url: finalUrl,
         is_published: isPublished
-      })
+      }
+
+      const res = initialResource
+        ? await updateResource(initialResource.id, payload)
+        : await createResource(payload)
 
       if (res.success) {
-        toast.success('Resource created successfully!')
+        toast.success(initialResource ? 'Resource updated successfully!' : 'Resource created successfully!')
         router.push('/admin/resources')
         router.refresh()
       } else {
-        toast.error(res.error || 'Failed to create resource.')
+        toast.error(res.error || 'Failed to save resource.')
       }
     } catch (err: any) {
       toast.error(err.message || 'An error occurred.')

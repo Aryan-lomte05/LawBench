@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
+import { ApprovalsList } from '@/components/admin/ApprovalsList'
 
 export default async function AdminOverviewPage() {
   const supabase = await createClient()
@@ -8,12 +9,14 @@ export default async function AdminOverviewPage() {
     { count: usersCount },
     { count: resourcesCount },
     { count: subjectsCount },
-    { count: blogCount }
+    { count: blogCount },
+    { data: pendingUsers }
   ] = await Promise.all([
     supabase.from('profiles').select('*', { count: 'exact', head: true }),
     supabase.from('resources').select('*', { count: 'exact', head: true }),
     supabase.from('subjects').select('*', { count: 'exact', head: true }),
-    supabase.from('blog_posts').select('*', { count: 'exact', head: true })
+    supabase.from('blog_posts').select('*', { count: 'exact', head: true }),
+    supabase.from('profiles').select('id, email, full_name, created_at').eq('is_approved', false).order('created_at', { ascending: false })
   ])
 
   return (
@@ -64,6 +67,14 @@ export default async function AdminOverviewPage() {
             Blog Posts
           </div>
         </div>
+      </div>
+
+      {/* Pending Approvals */}
+      <div className="space-y-6">
+        <h3 className="font-heading font-semibold text-[22px] text-[#14171F]">
+          Pending User Approvals
+        </h3>
+        <ApprovalsList initialPendingUsers={pendingUsers || []} />
       </div>
 
       {/* Quick Actions */}

@@ -33,15 +33,13 @@ export async function GET() {
       }
     })
 
-    // Update the admin's role to 'admin' in the profiles table
-    // The profile is automatically created via the trigger on user signup
+    // Update the admin's role to 'admin' and set is_approved to true
     if (adminSignUp?.user) {
       await supabase
         .from('profiles')
-        .update({ role: 'admin' })
+        .update({ role: 'admin', is_approved: true })
         .eq('id', adminSignUp.user.id)
     } else {
-      // In case they were already signed up, find the profile by email and make it admin
       const { data: profile } = await supabase
         .from('profiles')
         .select('id')
@@ -51,7 +49,28 @@ export async function GET() {
       if (profile) {
         await supabase
           .from('profiles')
-          .update({ role: 'admin' })
+          .update({ role: 'admin', is_approved: true })
+          .eq('id', profile.id)
+      }
+    }
+
+    // Set student's is_approved to true
+    if (studentSignUp?.user) {
+      await supabase
+        .from('profiles')
+        .update({ is_approved: true })
+        .eq('id', studentSignUp.user.id)
+    } else {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('email', studentEmail)
+        .single()
+      
+      if (profile) {
+        await supabase
+          .from('profiles')
+          .update({ is_approved: true })
           .eq('id', profile.id)
       }
     }

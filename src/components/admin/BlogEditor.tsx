@@ -7,14 +7,18 @@ import { TiptapEditor } from '@/components/admin/TiptapEditor'
 import { toast } from 'sonner'
 import Link from 'next/link'
 
-export function BlogEditor() {
-  const [title, setTitle] = useState('')
-  const [slug, setSlug] = useState('')
-  const [excerpt, setExcerpt] = useState('')
-  const [content, setContent] = useState('')
-  const [coverUrl, setCoverUrl] = useState('')
+interface BlogEditorProps {
+  initialPost?: any
+}
+
+export function BlogEditor({ initialPost }: BlogEditorProps) {
+  const [title, setTitle] = useState(initialPost?.title || '')
+  const [slug, setSlug] = useState(initialPost?.slug || '')
+  const [excerpt, setExcerpt] = useState(initialPost?.excerpt || '')
+  const [content, setContent] = useState(initialPost?.body || '')
+  const [coverUrl, setCoverUrl] = useState(initialPost?.cover_image_url || '')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isPublished, setIsPublished] = useState(true)
+  const [isPublished, setIsPublished] = useState(initialPost ? initialPost.is_published : true)
   
   const router = useRouter()
   const supabase = createClient()
@@ -36,18 +40,31 @@ export function BlogEditor() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) throw new Error('Not authenticated')
 
-      const { data, error } = await supabase.from('blog_posts').insert({
-        title,
-        slug,
-        excerpt,
-        body: content,
-        cover_image_url: coverUrl || null,
-        author_id: user.id,
-        is_published: isPublished,
-        published_at: isPublished ? new Date().toISOString() : null,
-      }).select().single()
+      let res
+      if (initialPost) {
+        res = await supabase.from('blog_posts').update({
+          title,
+          slug,
+          excerpt,
+          body: content,
+          cover_image_url: coverUrl || null,
+          is_published: isPublished,
+          published_at: isPublished ? (initialPost.published_at || new Date().toISOString()) : null,
+        }).eq('id', initialPost.id)
+      } else {
+        res = await supabase.from('blog_posts').insert({
+          title,
+          slug,
+          excerpt,
+          body: content,
+          cover_image_url: coverUrl || null,
+          author_id: user.id,
+          is_published: isPublished,
+          published_at: isPublished ? new Date().toISOString() : null,
+        })
+      }
 
-      if (error) throw error
+      if (res.error) throw res.error
 
       toast.success('Blog post saved successfully!')
       router.push('/admin/blog')
@@ -72,7 +89,9 @@ export function BlogEditor() {
           >
             ← Back
           </Link>
-          <h2 className="text-[22px] font-heading font-semibold text-[#14171F]">New Blog Post</h2>
+          <h2 className="text-[22px] font-heading font-semibold text-[#14171F]">
+            {initialPost ? 'Edit Blog Post' : 'New Blog Post'}
+          </h2>
         </div>
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">

@@ -26,6 +26,29 @@ export default async function DashboardPage() {
     .eq('id', user.id)
     .single()
 
+  if (!profile || !profile.is_approved) {
+    return (
+      <div className="min-h-screen bg-[#F6F3EC] text-[#14171F] py-16 px-4 flex items-center justify-center font-sans">
+        <div className="text-center py-20 max-w-xl mx-auto flex flex-col items-center justify-center">
+          <h1 className="text-[28px] md:text-[34px] font-heading font-semibold text-[#14171F] mb-4 leading-tight">
+            Account Pending Review
+          </h1>
+          <p className="text-[20px] font-heading font-normal italic text-[#5B6470] mb-4">
+            An administrator will verify your access shortly.
+          </p>
+          <p className="text-[#8A949E] text-[15px] mb-8 leading-relaxed max-w-[42ch]">
+            To ensure the integrity of academic materials, all new accounts are verified manually. Thank you for your patience.
+          </p>
+          <form action={logout}>
+            <button type="submit" className="btn-secondary h-10 px-5 text-xs font-semibold uppercase tracking-wider border-[#DDD7C9] text-[#14171F] hover:text-[#B8975A] bg-transparent">
+              Sign Out
+            </button>
+          </form>
+        </div>
+      </div>
+    )
+  }
+
   // Fetch bookmarks
   const { data: bookmarks } = await supabase
     .from('bookmarks')

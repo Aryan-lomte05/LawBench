@@ -122,3 +122,47 @@ export async function uploadFileAction(base64Data: string, fileName: string, con
   return { success: true, url: publicUrl }
 }
 
+export async function updateResource(
+  id: string,
+  formData: {
+    title: string
+    description: string
+    type: string
+    subject_id: string
+    semester: string
+    unit: string
+    author_or_uploader: string
+    url: string
+    is_published: boolean
+  }
+) {
+  const supabase = await createClient()
+
+  // Verify role
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Unauthorized')
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single()
+
+  if (!profile || !['admin', 'editor'].includes(profile.role)) {
+    throw new Error('Unauthorized')
+  }
+
+  const { error } = await supabase
+    .from('resources')
+    .update(formData)
+    .eq('id', id)
+
+  if (error) {
+    return { success: false, error: error.message }
+  }
+
+  revalidatePath('/admin/resources')
+  revalidatePath('/resources')
+  revalidatePath(`/resources/${id}`)
+  return { success: true }
+}

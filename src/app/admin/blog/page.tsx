@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
+import { DeleteBlogPostButton } from '@/components/admin/DeleteBlogPostButton'
 
 export const metadata = {
   title: 'Blog Management | Admin | LawBench',
@@ -60,9 +61,12 @@ export default async function AdminBlogPage() {
                       {new Date(post.created_at).toLocaleDateString()}
                     </td>
                     <td className="p-4 text-right">
-                      <span className="text-[13px] font-sans font-semibold text-[#8A949E] italic cursor-not-allowed">
-                        Locked
-                      </span>
+                      <div className="flex items-center justify-end gap-3">
+                        <Link href={`/admin/blog/edit/${post.id}`} className="text-[13px] font-sans font-semibold text-[#B8975A] hover:underline">
+                          Edit
+                        </Link>
+                        <DeleteBlogPostButton id={post.id} />
+                      </div>
                     </td>
                   </tr>
                 ))
