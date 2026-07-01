@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
-import { Button, buttonVariants } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight, Download, ZoomIn, ZoomOut } from 'lucide-react'
 
 // Set up the worker for PDF.js
@@ -35,65 +34,81 @@ export function PdfViewer({ url, title }: PdfViewerProps) {
   }
 
   return (
-    <div className="flex flex-col items-center bg-card border border-border rounded-lg overflow-hidden shadow-sm">
-      <div className="w-full flex items-center justify-between p-2 border-b border-border bg-muted/30">
-        <div className="flex items-center gap-2">
-          <Button 
-            variant="outline" 
-            size="icon" 
+    <div className="flex flex-col items-center bg-[#EDE8DD] border border-[#DDD7C9] rounded-[4px] overflow-hidden">
+      <div className="w-full flex items-center justify-between p-3 border-b border-[#DDD7C9] bg-[#EDE8DD]">
+        <div className="flex items-center gap-4">
+          <button 
+            type="button"
             onClick={() => changePage(-1)} 
             disabled={pageNumber <= 1}
+            className="text-[#5B6470] hover:text-[#14171F] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
-            <ChevronLeft className="w-4 h-4" />
-          </Button>
-          <span className="text-sm font-medium w-24 text-center">
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <span className="text-xs font-mono uppercase tracking-wider text-[#14171F] w-24 text-center">
             {pageNumber} / {numPages || '--'}
           </span>
-          <Button 
-            variant="outline" 
-            size="icon" 
+          <button 
+            type="button"
             onClick={() => changePage(1)} 
             disabled={pageNumber >= (numPages || 1)}
+            className="text-[#5B6470] hover:text-[#14171F] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
-            <ChevronRight className="w-4 h-4" />
-          </Button>
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
 
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={() => changeScale(-0.25)}>
-            <ZoomOut className="w-4 h-4" />
-          </Button>
-          <span className="text-sm font-medium w-12 text-center">{Math.round(scale * 100)}%</span>
-          <Button variant="ghost" size="icon" onClick={() => changeScale(0.25)}>
-            <ZoomIn className="w-4 h-4" />
-          </Button>
+        <div className="flex items-center gap-3">
+          <button 
+            type="button"
+            onClick={() => changeScale(-0.25)}
+            className="text-[#5B6470] hover:text-[#14171F] transition-colors"
+          >
+            <ZoomOut className="w-5 h-5" />
+          </button>
+          <span className="text-xs font-mono uppercase tracking-wider text-[#14171F] w-12 text-center">
+            {Math.round(scale * 100)}%
+          </span>
+          <button 
+            type="button"
+            onClick={() => changeScale(0.25)}
+            className="text-[#5B6470] hover:text-[#14171F] transition-colors"
+          >
+            <ZoomIn className="w-5 h-5" />
+          </button>
         </div>
 
-        <a href={url} download={`${title}.pdf`} target="_blank" rel="noopener noreferrer" className={buttonVariants({ variant: "default", size: "sm", className: "gap-2" })}>
-          <Download className="w-4 h-4" />
+        <a 
+          href={url} 
+          download={`${title}.pdf`} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="btn-secondary h-9 px-4 text-xs font-mono uppercase tracking-wider flex items-center gap-1.5 border-[#DDD7C9] text-[#14171F]"
+        >
+          <Download className="w-3.5 h-3.5" />
           Download
         </a>
       </div>
 
-      <div className="w-full overflow-auto max-h-[800px] flex justify-center bg-muted/10 p-4">
+      <div className="w-full overflow-auto max-h-[800px] flex justify-center bg-[#F6F3EC] p-6">
         <Document
           file={displayUrl}
           onLoadSuccess={onDocumentLoadSuccess}
           loading={
             <div className="flex items-center justify-center h-64">
-              <div className="animate-pulse text-muted-foreground">Loading PDF...</div>
+              <div className="animate-pulse text-xs font-mono uppercase tracking-widest text-[#8A949E]">Loading PDF...</div>
             </div>
           }
           error={
-            <div className="flex items-center justify-center h-64 text-destructive">
-              Failed to load PDF. Please try downloading it instead.
+            <div className="flex items-center justify-center h-64 text-xs font-mono uppercase tracking-widest text-[#C0392B]">
+              Failed to load PDF. Please download to view.
             </div>
           }
         >
           <Page 
             pageNumber={pageNumber} 
             scale={scale} 
-            className="shadow-md"
+            className="border border-[#DDD7C9]"
             renderTextLayer={true}
             renderAnnotationLayer={true}
           />

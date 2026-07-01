@@ -65,7 +65,7 @@ export function VideoPlayer({ url, resourceId, userId, initialPosition = 0 }: Vi
     }
 
     return (
-      <div className="aspect-video w-full rounded-lg overflow-hidden bg-black shadow-sm">
+      <div className="aspect-video w-full rounded-[4px] overflow-hidden bg-black">
         <iframe
           src={embedUrl}
           className="w-full h-full border-0"
@@ -78,7 +78,7 @@ export function VideoPlayer({ url, resourceId, userId, initialPosition = 0 }: Vi
 
   // Direct video URL (e.g. Bunny CDN direct link)
   return (
-    <div className="aspect-video w-full rounded-lg overflow-hidden bg-black shadow-sm">
+    <div className="aspect-video w-full rounded-[4px] overflow-hidden bg-black">
       <video
         ref={videoRef}
         src={url}

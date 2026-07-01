@@ -63,7 +63,7 @@ export default async function Home() {
         <div className="absolute inset-0 z-1 bg-gradient-to-b from-[#14171F]/15 via-[#14171F]/55 to-[#14171F] pointer-events-none" />
 
         {/* Hero Content Area */}
-        <div className="relative z-10 max-w-[820px] text-center pt-24 pb-16 mx-auto">
+        <div className="relative z-10 max-w-[820px] text-center pt-[180px] pb-[120px] mx-auto">
           {/* Eyebrow */}
           <div className="inline-block text-[11px] font-mono uppercase tracking-[0.12em] text-[#8A949E] mb-6 animate-fade-up" style={{ animationDelay: '300ms' }}>
             INDIA'S PREMIER LEGAL KNOWLEDGE PLATFORM
