@@ -2,12 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import { Button } from '@/components/ui/button'
 import { Search, User } from 'lucide-react'
-import dynamic from 'next/dynamic'
-
-const StaggeredMenu = dynamic(
-  () => import('@/components/ui/StaggeredMenu').then(mod => mod.StaggeredMenu),
-  { ssr: false }
-)
+import { StaggeredMenu } from '@/components/layout/StaggeredMenuWrapper'
 
 export async function Navbar() {
   const supabase = await createClient()
