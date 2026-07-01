@@ -56,6 +56,16 @@ export async function GET() {
       }
     }
 
+    // 1.5. Sign in as admin so subsequent requests have 'admin' claim under RLS
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: adminEmail,
+      password: defaultPassword
+    })
+
+    if (signInError) {
+      console.warn("Could not sign in as admin for seeding:", signInError.message)
+    }
+
     // 2. Seed Subjects
     const subjectsToSeed = [
       {
