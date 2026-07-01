@@ -115,6 +115,11 @@ export async function GET() {
     const crimLaw = seededSubjects.find(s => s.slug === 'criminal-law')
     const contractLaw = seededSubjects.find(s => s.slug === 'contracts')
 
+    // Delete existing resources to allow URL updates
+    if (constLaw || crimLaw || contractLaw) {
+      await supabase.from('resources').delete().neq('id', '00000000-0000-0000-0000-000000000000')
+    }
+
     const resourcesToSeed: any[] = []
 
     if (constLaw) {
@@ -126,7 +131,7 @@ export async function GET() {
           title: 'The Constitution of India (Bare Act)',
           description: 'Full text access to the Preamble, Parts, Articles, and Schedules of the Indian Constitution.',
           type: 'bare_act',
-          file_url: 'https://www.legislative.gov.in/sites/default/files/COI...pdf', // Mock / placeholder URL
+          file_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
           is_published: true,
           author_or_uploader: 'Legislative Department'
         },
@@ -137,7 +142,7 @@ export async function GET() {
           title: 'Kesavananda Bharati v. State of Kerala (Landmark Case Summary)',
           description: 'Detailed analysis of the Basic Structure Doctrine and key judgments of the 13-judge bench.',
           type: 'case_law',
-          file_url: 'https://example.com/kesavananda-summary.pdf',
+          file_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
           is_published: true,
           author_or_uploader: 'Supreme Court Reports'
         },
@@ -164,7 +169,7 @@ export async function GET() {
           title: 'Mens Rea and Actus Reus Lecture Notes',
           description: 'Core concepts of criminal liability, guilty mind, and criminal acts with relevant illustrations.',
           type: 'note',
-          file_url: 'https://example.com/mens-rea-notes.pdf',
+          file_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
           is_published: true,
           author_or_uploader: 'Dr. Verma'
         },
@@ -175,7 +180,7 @@ export async function GET() {
           title: 'K.M. Nanavati v. State of Maharashtra (Case Brief)',
           description: 'The historic case that led to the abolition of jury trials in India. Examines grave and sudden provocation.',
           type: 'case_law',
-          file_url: 'https://example.com/nanavati-case.pdf',
+          file_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
           is_published: true,
           author_or_uploader: 'Lawbench Team'
         }
@@ -191,7 +196,7 @@ export async function GET() {
           title: 'The Indian Contract Act, 1872 (Bare Act)',
           description: 'Bare Act provisions of Sections 1 to 75 governing the general principles of contracts.',
           type: 'bare_act',
-          file_url: 'https://example.com/contract-act.pdf',
+          file_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
           is_published: true,
           author_or_uploader: 'Govt of India'
         }

@@ -1,7 +1,8 @@
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { PdfViewer } from '@/components/resources/PdfViewer'
+import dynamic from 'next/dynamic'
+const PdfViewer = dynamic(() => import('@/components/resources/PdfViewer').then(mod => mod.PdfViewer), { ssr: false })
 import { VideoPlayer } from '@/components/resources/VideoPlayer'
 import { BookmarkButton } from '@/components/resources/BookmarkButton'
 import { Comments } from '@/components/resources/Comments'
