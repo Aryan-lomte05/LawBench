@@ -71,7 +71,8 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
       const { data, error } = await query.order('created_at', { ascending: true })
 
       if (error) {
-        if (error.message.includes('schema cache') || error.message.includes('does not exist')) {
+        const msg = error.message || ''
+        if (msg.includes('relation') || msg.includes('does not exist') || msg.includes('column') || msg.includes('schema cache') || error.code === '42P01' || error.code === '42703') {
           setDbError('DATABASE_UPGRADE_PENDING')
         } else {
           throw error
@@ -89,8 +90,13 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
         setComments(formatted)
       }
     } catch (err: any) {
-      console.error('Error fetching comments:', err)
-      toast.error('Could not load discussion logs.')
+      const errMsg = err?.message || ''
+      if (errMsg.includes('relation') || errMsg.includes('does not exist') || errMsg.includes('column') || errMsg.includes('schema cache')) {
+        setDbError('DATABASE_UPGRADE_PENDING')
+      } else {
+        console.error('Error fetching comments:', err?.message || err)
+        toast.error('Could not load discussion logs.')
+      }
     } finally {
       setLoading(false)
     }
@@ -150,8 +156,13 @@ export function CommentsWithVotes({ targetId, targetType, currentUserId, current
       }
       toast.success('Comment posted successfully.')
     } catch (err: any) {
-      console.error(err)
-      toast.error('Failed to post comment.')
+      const errMsg = err?.message || ''
+      if (errMsg.includes('relation') || errMsg.includes('does not exist') || errMsg.includes('column') || errMsg.includes('schema cache')) {
+        setDbError('DATABASE_UPGRADE_PENDING')
+      } else {
+        console.error('Comment post error:', err?.message || err)
+        toast.error('Failed to post comment.')
+      }
     } finally {
       setSubmitting(false)
     }
