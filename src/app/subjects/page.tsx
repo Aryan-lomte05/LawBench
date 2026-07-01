@@ -19,6 +19,7 @@ export default async function SubjectsPage() {
     .order('order_index', { ascending: true })
 
   if (error) {
+    console.error("Supabase error loading subjects:", error)
     return <div className="container mx-auto py-12 text-center text-destructive">Failed to load subjects.</div>
   }
 
