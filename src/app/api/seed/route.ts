@@ -115,7 +115,7 @@ export async function GET() {
     const crimLaw = seededSubjects.find(s => s.slug === 'criminal-law')
     const contractLaw = seededSubjects.find(s => s.slug === 'contracts')
 
-    const resourcesToSeed = []
+    const resourcesToSeed: any[] = []
 
     if (constLaw) {
       resourcesToSeed.push(
