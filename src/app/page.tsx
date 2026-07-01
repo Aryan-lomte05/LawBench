@@ -8,10 +8,7 @@ import { GradualBlur } from '@/components/ui/GradualBlur'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { Magnetism } from '@/components/ui/Magnetism'
 
-const Lightfall = dynamic(
-  () => import('@/components/ui/Lightfall').then(mod => mod.Lightfall),
-  { ssr: false }
-)
+import { Lightfall } from '@/components/ui/LightfallWrapper'
 
 export const metadata = {
   title: 'LawBench | Premium Legal Education',
