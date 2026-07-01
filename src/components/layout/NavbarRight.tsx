@@ -7,9 +7,10 @@ import { Search, User, Menu, X } from 'lucide-react'
 
 interface NavbarRightProps {
   user: any
+  role?: string
 }
 
-export function NavbarRight({ user }: NavbarRightProps) {
+export function NavbarRight({ user, role }: NavbarRightProps) {
   const [searchExpanded, setSearchExpanded] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -34,6 +35,8 @@ export function NavbarRight({ user }: NavbarRightProps) {
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen)
   }
+
+  const isAdmin = ['admin', 'editor'].includes(role || '')
 
   return (
     <div className="flex items-center gap-4 font-sans">
@@ -72,12 +75,21 @@ export function NavbarRight({ user }: NavbarRightProps) {
 
         {/* Auth Button */}
         {user ? (
-          <Link href="/dashboard">
-            <button className="text-[13px] font-medium text-[#F9F8F5] border border-[#2A2E3A] rounded-[2px] px-5 py-2 hover:border-[#B8975A] hover:text-[#B8975A] bg-transparent transition-colors flex items-center gap-2">
-              <User className="w-4 h-4" />
-              Dashboard
-            </button>
-          </Link>
+          <div className="flex items-center gap-3">
+            {isAdmin && (
+              <Link href="/admin">
+                <button className="text-[13px] font-medium text-[#F9F8F5] border border-[#2A2E3A] rounded-[2px] px-5 py-2 hover:border-[#B8975A] hover:text-[#B8975A] bg-transparent transition-colors">
+                  Admin Panel
+                </button>
+              </Link>
+            )}
+            <Link href="/dashboard">
+              <button className="text-[13px] font-medium text-[#F9F8F5] border border-[#2A2E3A] rounded-[2px] px-5 py-2 hover:border-[#B8975A] hover:text-[#B8975A] bg-transparent transition-colors flex items-center gap-2">
+                <User className="w-4 h-4" />
+                Dashboard
+              </button>
+            </Link>
+          </div>
         ) : (
           <Link href="/auth/login">
             <button className="text-[13px] font-medium text-[#F9F8F5] border border-[#2A2E3A] rounded-[2px] px-5 py-2 hover:border-[#B8975A] hover:text-[#B8975A] bg-transparent transition-colors">
@@ -133,13 +145,24 @@ export function NavbarRight({ user }: NavbarRightProps) {
             <div className="w-full h-px bg-[#2A2E3A] my-2" />
 
             {user ? (
-              <Link 
-                href="/dashboard"
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-xs font-mono uppercase tracking-widest text-[#B8975A] hover:text-[#B8975A]/85"
-              >
-                DASHBOARD
-              </Link>
+              <>
+                {isAdmin && (
+                  <Link 
+                    href="/admin"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-xs font-mono uppercase tracking-widest text-[#B8975A] hover:text-[#B8975A]/85"
+                  >
+                    ADMIN PANEL
+                  </Link>
+                )}
+                <Link 
+                  href="/dashboard"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-xs font-mono uppercase tracking-widest text-[#F9F8F5] hover:text-[#B8975A]"
+                >
+                  DASHBOARD
+                </Link>
+              </>
             ) : (
               <Link 
                 href="/auth/login"

@@ -29,7 +29,7 @@
   --color-white: #F9F8F5;
   --color-black: #14171F;
 
-  --text-display-xl: clamp(52px, 7vw, 96px);
+  --text-display-xl: clamp(38px, 7vw, 84px);
   --text-display-lg: clamp(38px, 5vw, 64px);
   --text-display-md: clamp(28px, 3.5vw, 44px);
   --text-display-sm: clamp(22px, 2.5vw, 32px);

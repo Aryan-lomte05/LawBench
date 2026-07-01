@@ -85,7 +85,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       />
       {/* Cover Image */}
       {post.cover_image_url && (
-        <div className="w-full h-[480px] relative bg-[#EDE8DD]">
+        <div className="w-full h-[280px] md:h-[480px] relative bg-[#EDE8DD]">
           <img 
             src={post.cover_image_url} 
             alt={post.title} 

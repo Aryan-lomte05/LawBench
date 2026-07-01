@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { AdminSidebarLinks } from './AdminSidebarLinks'
+import { LayoutDashboard, FileText, BookOpen, PenTool, Settings } from 'lucide-react'
 
 export const metadata = {
   title: 'Admin Panel | LawBench',
@@ -46,7 +47,7 @@ export default async function AdminLayout({
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 min-h-screen bg-[#F6F3EC] text-[#14171F]">
+      <main className="flex-1 min-h-screen bg-[#F6F3EC] text-[#14171F] pb-24 md:pb-8">
         {/* Mobile Header */}
         <div className="md:hidden h-16 border-b border-[#DDD7C9] bg-[#EDE8DD] flex items-center px-4 justify-between">
           <span className="font-heading font-semibold text-[#14171F]">Admin Panel</span>
@@ -58,6 +59,30 @@ export default async function AdminLayout({
           {children}
         </div>
       </main>
+
+      {/* Mobile Bottom Tab Bar (Section 14 responsive overlay) */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#14171F] border-t border-[#2A2E3A] z-50 flex items-center justify-around px-2">
+        <Link href="/admin" className="flex flex-col items-center justify-center text-[10px] font-mono uppercase tracking-[0.06em] text-[#8A949E] hover:text-[#F9F8F5] transition-colors">
+          <LayoutDashboard className="w-5.5 h-5.5 mb-1" />
+          <span>Home</span>
+        </Link>
+        <Link href="/admin/resources" className="flex flex-col items-center justify-center text-[10px] font-mono uppercase tracking-[0.06em] text-[#8A949E] hover:text-[#F9F8F5] transition-colors">
+          <FileText className="w-5.5 h-5.5 mb-1" />
+          <span>Files</span>
+        </Link>
+        <Link href="/admin/subjects" className="flex flex-col items-center justify-center text-[10px] font-mono uppercase tracking-[0.06em] text-[#8A949E] hover:text-[#F9F8F5] transition-colors">
+          <BookOpen className="w-5.5 h-5.5 mb-1" />
+          <span>Subjects</span>
+        </Link>
+        <Link href="/admin/blog" className="flex flex-col items-center justify-center text-[10px] font-mono uppercase tracking-[0.06em] text-[#8A949E] hover:text-[#F9F8F5] transition-colors">
+          <PenTool className="w-5.5 h-5.5 mb-1" />
+          <span>Blog</span>
+        </Link>
+        <Link href="/admin/settings" className="flex flex-col items-center justify-center text-[10px] font-mono uppercase tracking-[0.06em] text-[#8A949E] hover:text-[#F9F8F5] transition-colors">
+          <Settings className="w-5.5 h-5.5 mb-1" />
+          <span>Config</span>
+        </Link>
+      </div>
     </div>
   )
 }
