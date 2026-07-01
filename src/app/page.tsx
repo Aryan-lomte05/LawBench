@@ -29,23 +29,22 @@ export default async function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Lightfall Hero Section */}
-      <section className="relative overflow-hidden bg-background pt-24 pb-32 md:pt-32 md:pb-48 lg:pt-40 lg:pb-56 flex items-center justify-center border-b border-border">
+      <section className="relative overflow-hidden bg-[#14171F] pt-24 pb-32 md:pt-32 md:pb-48 lg:pt-40 lg:pb-56 flex items-center justify-center border-b border-border/10">
         {/* Glow Effects */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/20 blur-[120px] rounded-full pointer-events-none" />
-        <div className="absolute -top-24 -right-24 w-[500px] h-[500px] bg-secondary/20 blur-[100px] rounded-full pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-tr from-[#B8975A]/20 via-[#1F3A33]/30 to-[#14171F] blur-[150px] rounded-full pointer-events-none" />
         
         {/* Grid pattern overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_75%,transparent_100%)] pointer-events-none" />
         
         <div className="container mx-auto px-4 relative z-10 text-center max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 text-secondary text-sm font-medium mb-8 border border-secondary/20">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B8975A]/10 text-[#B8975A] text-sm font-medium mb-8 border border-[#B8975A]/20">
             <Zap className="w-4 h-4" /> 
             <span>Welcome to the new era of legal education</span>
           </div>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-heading font-extrabold tracking-tight text-foreground mb-8 leading-[1.1]">
-            Master the Law with <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary animate-pulse">LawBench.</span>
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-heading font-extrabold tracking-tight text-[#F6F3EC] mb-8 leading-[1.1]">
+            Master the Law with <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B8975A] via-[#F6F3EC] to-[#B8975A] animate-pulse">LawBench.</span>
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed">
             The premium study platform designed exclusively for law students. Structured notes, landmark cases, and expert video lectures.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -53,7 +52,7 @@ export default async function Home() {
               href="/auth/signup" 
               className={buttonVariants({ 
                 size: "lg", 
-                className: "h-14 px-8 text-lg w-full sm:w-auto shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] transition-all hover:shadow-[0_0_60px_-15px_rgba(255,255,255,0.5)]" 
+                className: "h-14 px-8 text-lg w-full sm:w-auto bg-[#B8975A] hover:bg-[#B8975A]/90 text-[#14171F] font-bold shadow-[0_0_40px_-10px_rgba(184,151,90,0.3)] transition-all" 
               })}
             >
               Start Learning Free <ArrowRight className="ml-2 w-5 h-5 inline" />
@@ -63,7 +62,7 @@ export default async function Home() {
               className={buttonVariants({ 
                 size: "lg", 
                 variant: "outline", 
-                className: "h-14 px-8 text-lg w-full sm:w-auto bg-background/50 backdrop-blur" 
+                className: "h-14 px-8 text-lg w-full sm:w-auto border-zinc-700 text-[#F6F3EC] hover:bg-zinc-800 bg-transparent" 
               })}
             >
               Browse Library
