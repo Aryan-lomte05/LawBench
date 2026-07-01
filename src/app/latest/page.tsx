@@ -57,9 +57,21 @@ export default async function LatestUploadsPage() {
                   {getTypeIcon(resource.type)}
                 </div>
                 <div>
-                  <div className="flex items-center gap-2 mb-1.5 text-xs font-mono text-muted-foreground uppercase tracking-wider">
+                  <div className="flex items-center gap-1.5 mb-1.5 text-xs font-mono text-muted-foreground uppercase tracking-wider">
                     <span>{resource.subjects?.name}</span>
-                    <span>•</span>
+                    {resource.semester && (
+                      <>
+                        <span className="text-[#B8975A]">·</span>
+                        <span>SEM {resource.semester}</span>
+                      </>
+                    )}
+                    {resource.unit && (
+                      <>
+                        <span className="text-[#B8975A]">·</span>
+                        <span>UNIT {resource.unit}</span>
+                      </>
+                    )}
+                    <span className="text-[#B8975A]">·</span>
                     <span>{formatDistanceToNow(new Date(resource.created_at), { addSuffix: true })}</span>
                   </div>
                   <Link href={`/resources/${resource.id}`} className="focus:outline-none">

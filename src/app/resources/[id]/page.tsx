@@ -93,30 +93,52 @@ export default async function ResourceDetailPage({ params }: { params: Promise<{
     .neq('id', resource.id)
     .limit(3)
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LearningResource',
+    name: resource.title,
+    description: resource.description || `Study resource on LawBench`,
+    learningResourceType: resource.type,
+    educationalAlignment: {
+      '@type': 'AlignmentObject',
+      alignmentType: 'educationalLevel',
+      educationalFramework: 'Law School Syllabus',
+      targetName: `Semester ${resource.semester || 'N/A'}, Unit ${resource.unit || 'N/A'}`
+    },
+    author: resource.author_or_uploader ? {
+      '@type': 'Person',
+      name: resource.author_or_uploader
+    } : undefined
+  }
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="mb-6 flex flex-col md:flex-row md:items-start justify-between gap-4">
         <div>
           {/* Breadcrumbs */}
-          <div className="flex items-center gap-2 mb-4 text-xs font-mono text-muted-foreground uppercase tracking-wider">
-            <Link href="/subjects" className="hover:text-foreground transition-colors">Subjects</Link>
-            <span>/</span>
+          <div className="flex items-center gap-1.5 mb-4 text-xs font-mono text-muted-foreground uppercase tracking-wider">
+            <Link href="/subjects" className="hover:text-foreground transition-colors">LAW</Link>
+            <span className="text-[#B8975A]">·</span>
             {resource.subjects && (
               <>
                 <Link href={`/subjects/${resource.subjects.slug}`} className="hover:text-foreground transition-colors">
                   {resource.subjects.name}
                 </Link>
-                <span>/</span>
+                <span className="text-[#B8975A]">·</span>
               </>
             )}
             {resource.semester && (
               <>
-                <span>{resource.semester}</span>
-                <span>/</span>
+                <span>SEM {resource.semester}</span>
+                <span className="text-[#B8975A]">·</span>
               </>
             )}
             {resource.unit && (
-              <span>{resource.unit}</span>
+              <span>UNIT {resource.unit}</span>
             )}
           </div>
 

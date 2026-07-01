@@ -61,8 +61,28 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     .order('published_at', { ascending: false })
     .limit(3)
 
+  const authorProfile = Array.isArray(post.profiles) ? post.profiles[0] : post.profiles
+  const authorName = authorProfile?.full_name || 'Editor'
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt || `Read ${post.title} on LawBench`,
+    image: post.cover_image_url || undefined,
+    datePublished: post.published_at || post.created_at,
+    author: {
+      '@type': 'Person',
+      name: authorName
+    }
+  }
+
   return (
     <article className="min-h-screen pb-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero / Cover */}
       {post.cover_image_url ? (
         <div className="w-full h-[40vh] md:h-[60vh] relative bg-muted">

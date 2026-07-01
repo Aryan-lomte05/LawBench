@@ -120,12 +120,18 @@ export default async function ResourcesPage({
                   </div>
                   
                   <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2 text-xs font-mono text-muted-foreground uppercase tracking-wider">
+                    <div className="flex items-center gap-1.5 mb-2 text-xs font-mono text-muted-foreground uppercase tracking-wider">
                       <span>{resource.subjects?.name}</span>
                       {resource.semester && (
                         <>
-                          <span className="w-1 h-1 rounded-full bg-border"></span>
-                          <span>{resource.semester}</span>
+                          <span className="text-[#B8975A]">·</span>
+                          <span>SEM {resource.semester}</span>
+                        </>
+                      )}
+                      {resource.unit && (
+                        <>
+                          <span className="text-[#B8975A]">·</span>
+                          <span>UNIT {resource.unit}</span>
                         </>
                       )}
                     </div>
