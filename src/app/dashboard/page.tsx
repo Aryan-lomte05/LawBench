@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { FileText, Video, Bookmark, MessageSquare, Settings, PlayCircle } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { formatDistanceToNow } from 'date-fns'
 import { SettingsForm } from '@/components/dashboard/SettingsForm'
 import { logout } from '@/app/auth/actions'
@@ -87,7 +87,7 @@ export default async function DashboardPage() {
                 <div className="text-center py-12">
                   <Bookmark className="w-12 h-12 mx-auto text-muted-foreground opacity-50 mb-4" />
                   <p className="text-muted-foreground">You haven't bookmarked any resources yet.</p>
-                  <Button asChild variant="link" className="mt-2 text-primary"><Link href="/resources">Browse resources</Link></Button>
+                  <Link href="/resources" className={buttonVariants({ variant: "link", className: "mt-2 text-primary" })}>Browse resources</Link>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

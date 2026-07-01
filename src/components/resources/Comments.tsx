@@ -81,7 +81,7 @@ export function Comments({ resourceId, initialComments, userId }: CommentsProps)
         <Textarea
           placeholder="Share your thoughts or ask a question..."
           value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setNewComment(e.target.value)}
           className="min-h-[100px] resize-y"
           disabled={isSubmitting}
         />

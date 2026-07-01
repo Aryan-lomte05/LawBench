@@ -45,7 +45,7 @@ export default async function BlogIndexPage({
     : posts
 
   const featuredPost = !tagParam && filteredPosts && filteredPosts.length > 0 ? filteredPosts[0] : null
-  const gridPosts = featuredPost ? filteredPosts.slice(1) : filteredPosts
+  const gridPosts = featuredPost ? (filteredPosts ?? []).slice(1) : (filteredPosts ?? [])
 
   return (
     <div className="container mx-auto px-4 py-16 max-w-7xl">

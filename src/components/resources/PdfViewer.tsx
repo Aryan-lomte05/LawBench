@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 import 'react-pdf/dist/esm/Page/TextLayer.css'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight, Download, ZoomIn, ZoomOut } from 'lucide-react'
 
 // Set up the worker for PDF.js
@@ -67,12 +67,10 @@ export function PdfViewer({ url, title }: PdfViewerProps) {
           </Button>
         </div>
 
-        <Button variant="default" size="sm" className="gap-2" asChild>
-          <a href={url} download={`${title}.pdf`} target="_blank" rel="noopener noreferrer">
-            <Download className="w-4 h-4" />
-            Download
-          </a>
-        </Button>
+        <a href={url} download={`${title}.pdf`} target="_blank" rel="noopener noreferrer" className={buttonVariants({ variant: "default", size: "sm", className: "gap-2" })}>
+          <Download className="w-4 h-4" />
+          Download
+        </a>
       </div>
 
       <div className="w-full overflow-auto max-h-[800px] flex justify-center bg-muted/10 p-4">
