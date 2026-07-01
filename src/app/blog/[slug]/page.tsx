@@ -5,11 +5,7 @@ import { formatDistanceToNow } from 'date-fns'
 import ReactMarkdown from 'react-markdown'
 import { Button } from '@/components/ui/button'
 import { Share2, ArrowLeft } from 'lucide-react'
-import { Comments } from '@/components/resources/Comments' // We can reuse the comments component!
-// Wait, the Comments component expects a resourceId. We might need a separate one or adapt it.
-// The schema has `comments` tied to `resource_id`. For blog posts, we might need a `blog_comments` table
-// Or I can just skip blog comments for now, as the spec says "toggle-able... On/Off per post".
-// Let's implement basic share buttons and body rendering first.
+import { CommentsWithVotes } from '@/components/resources/CommentsWithVotes'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params
@@ -158,8 +154,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* Comments Section */}
         {post.comments_enabled && (
           <div className="mt-16 pt-8 border-t border-[#DDD7C9]">
-            <h3 className="text-[11px] font-mono uppercase tracking-[0.12em] text-[#5B6470] mb-6">Discussion</h3>
-            <p className="text-[13px] font-mono text-[#8A949E] uppercase">Comments are coming soon for the blog.</p>
+            <CommentsWithVotes 
+              targetId={post.id} 
+              targetType="blog" 
+              currentUserId={user?.id}
+              currentUserRole={user ? (await supabase.from('profiles').select('role').eq('id', user.id).single()).data?.role : undefined}
+            />
           </div>
         )}
 

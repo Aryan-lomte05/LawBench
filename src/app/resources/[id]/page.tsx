@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { PdfViewer } from '@/components/resources/PdfViewerWrapper'
 import { VideoPlayer } from '@/components/resources/VideoPlayer'
 import { BookmarkButton } from '@/components/resources/BookmarkButton'
-import { Comments } from '@/components/resources/Comments'
+import { CommentsWithVotes } from '@/components/resources/CommentsWithVotes'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params
@@ -216,10 +216,11 @@ export default async function ResourceDetailPage({ params }: { params: Promise<{
           
           {/* Discussion Wrapper */}
           <div className="max-w-[700px]">
-            <Comments 
-              resourceId={resource.id} 
-              initialComments={comments || []} 
-              userId={user?.id}
+            <CommentsWithVotes 
+              targetId={resource.id} 
+              targetType="resource" 
+              currentUserId={user?.id}
+              currentUserRole={user ? (await supabase.from('profiles').select('role').eq('id', user.id).single()).data?.role : undefined}
             />
           </div>
         </div>
