@@ -69,11 +69,23 @@ export default async function DashboardPage() {
       </div>
 
       <Tabs defaultValue="bookmarks" className="w-full">
-        <TabsList className="grid grid-cols-4 md:w-auto h-auto mb-8 bg-card border border-border">
-          <TabsTrigger value="bookmarks" className="py-3 data-[state=active]:bg-secondary/10"><Bookmark className="w-4 h-4 mr-2 hidden sm:block" /> Bookmarks</TabsTrigger>
-          <TabsTrigger value="progress" className="py-3 data-[state=active]:bg-secondary/10"><PlayCircle className="w-4 h-4 mr-2 hidden sm:block" /> In Progress</TabsTrigger>
-          <TabsTrigger value="comments" className="py-3 data-[state=active]:bg-secondary/10"><MessageSquare className="w-4 h-4 mr-2 hidden sm:block" /> Comments</TabsTrigger>
-          <TabsTrigger value="settings" className="py-3 data-[state=active]:bg-secondary/10"><Settings className="w-4 h-4 mr-2 hidden sm:block" /> Settings</TabsTrigger>
+        <TabsList className="grid grid-cols-4 md:inline-flex mb-8 bg-muted p-1 rounded-xl">
+          <TabsTrigger value="bookmarks" className="py-2.5 flex items-center justify-center gap-2">
+            <Bookmark className="w-4 h-4" />
+            <span className="hidden sm:inline">Bookmarks</span>
+          </TabsTrigger>
+          <TabsTrigger value="progress" className="py-2.5 flex items-center justify-center gap-2">
+            <PlayCircle className="w-4 h-4" />
+            <span className="hidden sm:inline">In Progress</span>
+          </TabsTrigger>
+          <TabsTrigger value="comments" className="py-2.5 flex items-center justify-center gap-2">
+            <MessageSquare className="w-4 h-4" />
+            <span className="hidden sm:inline">Comments</span>
+          </TabsTrigger>
+          <TabsTrigger value="settings" className="py-2.5 flex items-center justify-center gap-2">
+            <Settings className="w-4 h-4" />
+            <span className="hidden sm:inline">Settings</span>
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="bookmarks" className="space-y-4">
@@ -87,7 +99,7 @@ export default async function DashboardPage() {
                 <div className="text-center py-12">
                   <Bookmark className="w-12 h-12 mx-auto text-muted-foreground opacity-50 mb-4" />
                   <p className="text-muted-foreground">You haven't bookmarked any resources yet.</p>
-                  <Link href="/resources" className={buttonVariants({ variant: "link", className: "mt-2 text-primary" })}>Browse resources</Link>
+                  <Link href="/resources" className={buttonVariants({ variant: "outline", className: "mt-4" })}>Browse Resources</Link>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
