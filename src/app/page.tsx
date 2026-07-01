@@ -37,8 +37,9 @@ export default async function Home() {
       {/* Lightfall Hero Section */}
       <section className="relative overflow-hidden bg-[#14171F] pt-24 pb-32 md:pt-32 md:pb-48 lg:pt-40 lg:pb-56 flex items-center justify-center border-b border-border/10">
         {/* Lightfall Canvas */}
-        <div className="absolute inset-0 z-0 pointer-events-none opacity-50">
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-80">
           <Lightfall
+            dpr={2}
             colors={['#B8975A', '#F6F3EC', '#1F3A33']}
             backgroundColor="#14171F"
             speed={0.35}
