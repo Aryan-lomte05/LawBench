@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { FileText, Video, Bookmark, Presentation, Scale, BookOpen, Filter, Search } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 
 export const metadata = {
   title: 'Search | LawBench',
@@ -137,9 +137,12 @@ export default async function SearchPage({
               <FileText className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
               <h3 className="text-lg font-medium text-foreground">No resources found</h3>
               <p className="text-muted-foreground mt-2 mb-6">We couldn't find any exact matches for that query.</p>
-              <Button asChild variant="outline">
-                <Link href="/subjects">Browse all subjects instead</Link>
-              </Button>
+              <Link 
+                href="/subjects" 
+                className={buttonVariants({ variant: "outline" })}
+              >
+                Browse all subjects instead
+              </Link>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">

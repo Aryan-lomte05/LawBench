@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
 import { TiptapEditor } from '@/components/admin/TiptapEditor'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
@@ -67,9 +67,12 @@ export function BlogEditor() {
     <form onSubmit={handleSave} className="space-y-8 max-w-4xl">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="/admin/blog"><ArrowLeft className="w-4 h-4" /></Link>
-          </Button>
+          <Link 
+            href="/admin/blog" 
+            className={buttonVariants({ variant: "ghost", size: "icon" })}
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </Link>
           <h2 className="text-2xl font-heading font-bold text-foreground">New Blog Post</h2>
         </div>
         <div className="flex items-center gap-4">

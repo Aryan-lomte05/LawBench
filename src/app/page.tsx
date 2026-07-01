@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { ArrowRight, BookOpen, Video, ShieldCheck, Zap } from 'lucide-react'
 import { createClient } from '@/utils/supabase/server'
 import { formatDistanceToNow } from 'date-fns'
@@ -49,14 +49,25 @@ export default async function Home() {
             The premium study platform designed exclusively for law students. Structured notes, landmark cases, and expert video lectures.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" className="h-14 px-8 text-lg w-full sm:w-auto shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] transition-all hover:shadow-[0_0_60px_-15px_rgba(255,255,255,0.5)]" asChild>
-              <Link href="/auth/signup">
-                Start Learning Free <ArrowRight className="ml-2 w-5 h-5" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" className="h-14 px-8 text-lg w-full sm:w-auto bg-background/50 backdrop-blur" asChild>
-              <Link href="/subjects">Browse Library</Link>
-            </Button>
+            <Link 
+              href="/auth/signup" 
+              className={buttonVariants({ 
+                size: "lg", 
+                className: "h-14 px-8 text-lg w-full sm:w-auto shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] transition-all hover:shadow-[0_0_60px_-15px_rgba(255,255,255,0.5)]" 
+              })}
+            >
+              Start Learning Free <ArrowRight className="ml-2 w-5 h-5 inline" />
+            </Link>
+            <Link 
+              href="/subjects" 
+              className={buttonVariants({ 
+                size: "lg", 
+                variant: "outline", 
+                className: "h-14 px-8 text-lg w-full sm:w-auto bg-background/50 backdrop-blur" 
+              })}
+            >
+              Browse Library
+            </Link>
           </div>
         </div>
       </section>
@@ -110,9 +121,12 @@ export default async function Home() {
               <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground">Explore Subjects</h2>
               <p className="text-muted-foreground mt-4 text-lg">Dive into our comprehensive subject library.</p>
             </div>
-            <Button variant="outline" asChild>
-              <Link href="/subjects">View All Subjects <ArrowRight className="w-4 h-4 ml-2" /></Link>
-            </Button>
+            <Link 
+              href="/subjects" 
+              className={buttonVariants({ variant: "outline" })}
+            >
+              View All Subjects <ArrowRight className="w-4 h-4 ml-2 inline" />
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -139,9 +153,12 @@ export default async function Home() {
               <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground">Latest Insights</h2>
               <p className="text-muted-foreground mt-4 text-lg">Study tips, legal news, and platform updates.</p>
             </div>
-            <Button variant="ghost" className="text-primary hover:text-primary/80" asChild>
-              <Link href="/blog">Read the Blog <ArrowRight className="w-4 h-4 ml-2" /></Link>
-            </Button>
+            <Link 
+              href="/blog" 
+              className={buttonVariants({ variant: "ghost", className: "text-primary hover:text-primary/80" })}
+            >
+              Read the Blog <ArrowRight className="w-4 h-4 ml-2 inline" />
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -174,9 +191,12 @@ export default async function Home() {
           <p className="text-xl text-primary-foreground/80 mb-10">
             Join thousands of law students using LawBench to master their syllabus.
           </p>
-          <Button size="lg" variant="secondary" className="h-14 px-10 text-lg shadow-xl" asChild>
-            <Link href="/auth/signup">Create Your Free Account</Link>
-          </Button>
+          <Link 
+            href="/auth/signup" 
+            className={buttonVariants({ size: "lg", variant: "secondary", className: "h-14 px-10 text-lg shadow-xl" })}
+          >
+            Create Your Free Account
+          </Link>
         </div>
       </section>
     </div>

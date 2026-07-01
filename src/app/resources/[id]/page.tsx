@@ -53,7 +53,7 @@ export default async function ResourceDetailPage({ params }: { params: Promise<{
   }
 
   // Fetch comments
-  const { data: comments } = await supabase
+  const { data: rawComments } = await supabase
     .from('comments')
     .select(`
       id, content, created_at,
@@ -61,6 +61,13 @@ export default async function ResourceDetailPage({ params }: { params: Promise<{
     `)
     .eq('resource_id', resource.id)
     .order('created_at', { ascending: false })
+
+  const comments = (rawComments || []).map((c: any) => ({
+    id: c.id,
+    content: c.content,
+    created_at: c.created_at,
+    profiles: Array.isArray(c.profiles) ? c.profiles[0] : c.profiles
+  }))
 
   // Fetch initial progress if it's a video
   let initialPosition = 0

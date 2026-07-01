@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Plus, PenTool, Trash2 } from 'lucide-react'
 
 export const metadata = {
@@ -22,12 +22,10 @@ export default async function AdminBlogPage() {
           <h1 className="text-3xl font-heading font-bold text-foreground">Blog Management</h1>
           <p className="text-muted-foreground mt-2">Manage your blog posts here.</p>
         </div>
-        <Button asChild>
-          <Link href="/admin/blog/new">
-            <Plus className="w-4 h-4 mr-2" />
-            New Post
-          </Link>
-        </Button>
+        <Link href="/admin/blog/new" className={buttonVariants({ variant: "default" })}>
+          <Plus className="w-4 h-4 mr-2 inline" />
+          New Post
+        </Link>
       </div>
 
       <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
