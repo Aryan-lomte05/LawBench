@@ -3,6 +3,15 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { ArrowRight, BookOpen, Video, ShieldCheck, Zap } from 'lucide-react'
 import { createClient } from '@/utils/supabase/server'
 import { formatDistanceToNow } from 'date-fns'
+import dynamic from 'next/dynamic'
+import { GradualBlur } from '@/components/ui/GradualBlur'
+import { ScrollReveal } from '@/components/ui/ScrollReveal'
+import { Magnetism } from '@/components/ui/Magnetism'
+
+const Lightfall = dynamic(
+  () => import('@/components/ui/Lightfall').then(mod => mod.Lightfall),
+  { ssr: false }
+)
 
 export const metadata = {
   title: 'LawBench | Premium Legal Education',
@@ -30,11 +39,29 @@ export default async function Home() {
     <div className="flex flex-col min-h-screen">
       {/* Lightfall Hero Section */}
       <section className="relative overflow-hidden bg-[#14171F] pt-24 pb-32 md:pt-32 md:pb-48 lg:pt-40 lg:pb-56 flex items-center justify-center border-b border-border/10">
+        {/* Lightfall Canvas */}
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-50">
+          <Lightfall
+            colors={['#B8975A', '#1F3A33', '#14171F']}
+            backgroundColor="#14171F"
+            density={0.8}
+            streakCount={6}
+            streakWidth={1.5}
+            streakLength={1.2}
+            speed={0.6}
+            glow={1.2}
+            backgroundGlow={0.6}
+            mouseInteraction={true}
+            mouseStrength={1.5}
+            mouseRadius={0.7}
+          />
+        </div>
+
         {/* Glow Effects */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-tr from-[#B8975A]/20 via-[#1F3A33]/30 to-[#14171F] blur-[150px] rounded-full pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-tr from-[#B8975A]/10 via-[#1F3A33]/20 to-[#14171F] blur-[150px] rounded-full pointer-events-none z-0" />
         
         {/* Grid pattern overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_75%,transparent_100%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_75%,transparent_100%)] pointer-events-none z-0" />
         
         <div className="container mx-auto px-4 relative z-10 text-center max-w-4xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B8975A]/10 text-[#B8975A] text-sm font-medium mb-8 border border-[#B8975A]/20">
@@ -42,21 +69,23 @@ export default async function Home() {
             <span>Welcome to the new era of legal education</span>
           </div>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-heading font-extrabold tracking-tight text-[#F6F3EC] mb-8 leading-[1.1]">
-            Master the Law with <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B8975A] via-[#F6F3EC] to-[#B8975A] animate-pulse">LawBench.</span>
+            Master the Law with <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B8975A] via-[#F6F3EC] to-[#B8975A]">LawBench.</span>
           </h1>
           <p className="text-xl md:text-2xl text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed">
             The premium study platform designed exclusively for law students. Structured notes, landmark cases, and expert video lectures.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link 
-              href="/auth/signup" 
-              className={buttonVariants({ 
-                size: "lg", 
-                className: "h-14 px-8 text-lg w-full sm:w-auto bg-[#B8975A] hover:bg-[#B8975A]/90 text-[#14171F] font-bold shadow-[0_0_40px_-10px_rgba(184,151,90,0.3)] transition-all" 
-              })}
-            >
-              Start Learning Free <ArrowRight className="ml-2 w-5 h-5 inline" />
-            </Link>
+            <Magnetism strength={0.12}>
+              <Link 
+                href="/auth/signup" 
+                className={buttonVariants({ 
+                  size: "lg", 
+                  className: "h-14 px-8 text-lg w-full sm:w-auto bg-[#B8975A] hover:bg-[#B8975A]/90 text-[#14171F] font-bold shadow-[0_0_40px_-10px_rgba(184,151,90,0.3)] transition-all" 
+                })}
+              >
+                Start Learning Free <ArrowRight className="ml-2 w-5 h-5 inline" />
+              </Link>
+            </Magnetism>
             <Link 
               href="/subjects" 
               className={buttonVariants({ 
@@ -69,13 +98,63 @@ export default async function Home() {
             </Link>
           </div>
         </div>
+
+        {/* Gradual Blur Hero -> Content transition overlay */}
+        <GradualBlur
+          position="bottom"
+          height="8rem"
+          strength={3}
+          divCount={6}
+          exponential={true}
+        />
+      </section>
+
+      {/* Stats Strip */}
+      <section className="py-12 bg-background border-b border-border/50 relative overflow-hidden z-10">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div className="flex flex-col items-center">
+              <ScrollReveal baseOpacity={0} blurStrength={4} textClassName="text-4xl md:text-5xl font-extrabold text-[#B8975A] font-heading">
+                10K+
+              </ScrollReveal>
+              <p className="text-sm text-zinc-400 font-medium uppercase mt-2 tracking-wider">Bookmarked Notes</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <ScrollReveal baseOpacity={0} blurStrength={4} textClassName="text-4xl md:text-5xl font-extrabold text-[#B8975A] font-heading">
+                500+
+              </ScrollReveal>
+              <p className="text-sm text-zinc-400 font-medium uppercase mt-2 tracking-wider">Lecture Videos</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <ScrollReveal baseOpacity={0} blurStrength={4} textClassName="text-4xl md:text-5xl font-extrabold text-[#B8975A] font-heading">
+                150+
+              </ScrollReveal>
+              <p className="text-sm text-zinc-400 font-medium uppercase mt-2 tracking-wider">Landmark Cases</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <ScrollReveal baseOpacity={0} blurStrength={4} textClassName="text-4xl md:text-5xl font-extrabold text-[#B8975A] font-heading">
+                98%
+              </ScrollReveal>
+              <p className="text-sm text-zinc-400 font-medium uppercase mt-2 tracking-wider">Pass Rate</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Value Props */}
       <section className="py-24 bg-card border-b border-border">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground">Why choose LawBench?</h2>
+            <ScrollReveal
+              baseOpacity={0.1}
+              enableBlur={true}
+              baseRotation={3}
+              blurStrength={6}
+              containerClassName="text-center"
+              textClassName="text-3xl md:text-4xl font-heading font-bold text-foreground"
+            >
+              Why choose LawBench?
+            </ScrollReveal>
             <p className="text-muted-foreground mt-4 text-lg">Built from the ground up to solve the chaos of legal study.</p>
           </div>
           
@@ -117,7 +196,15 @@ export default async function Home() {
         <div className="container mx-auto px-4 max-w-7xl relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
-              <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground">Explore Subjects</h2>
+              <ScrollReveal
+                baseOpacity={0.1}
+                enableBlur={true}
+                baseRotation={3}
+                blurStrength={6}
+                textClassName="text-3xl md:text-4xl font-heading font-bold text-foreground"
+              >
+                Explore Subjects
+              </ScrollReveal>
               <p className="text-muted-foreground mt-4 text-lg">Dive into our comprehensive subject library.</p>
             </div>
             <Link 
@@ -149,7 +236,15 @@ export default async function Home() {
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
-              <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground">Latest Insights</h2>
+              <ScrollReveal
+                baseOpacity={0.1}
+                enableBlur={true}
+                baseRotation={3}
+                blurStrength={6}
+                textClassName="text-3xl md:text-4xl font-heading font-bold text-foreground"
+              >
+                Latest Insights
+              </ScrollReveal>
               <p className="text-muted-foreground mt-4 text-lg">Study tips, legal news, and platform updates.</p>
             </div>
             <Link 
@@ -190,12 +285,14 @@ export default async function Home() {
           <p className="text-xl text-primary-foreground/80 mb-10">
             Join thousands of law students using LawBench to master their syllabus.
           </p>
-          <Link 
-            href="/auth/signup" 
-            className={buttonVariants({ size: "lg", variant: "secondary", className: "h-14 px-10 text-lg shadow-xl" })}
-          >
-            Create Your Free Account
-          </Link>
+          <Magnetism strength={0.12}>
+            <Link 
+              href="/auth/signup" 
+              className={buttonVariants({ size: "lg", variant: "secondary", className: "h-14 px-10 text-lg shadow-xl bg-[#F6F3EC] hover:bg-[#F6F3EC]/90 text-[#14171F] font-bold" })}
+            >
+              Create Your Free Account
+            </Link>
+          </Magnetism>
         </div>
       </section>
     </div>

@@ -1,7 +1,13 @@
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import { Button } from '@/components/ui/button'
-import { Search, Menu, User } from 'lucide-react'
+import { Search, User } from 'lucide-react'
+import dynamic from 'next/dynamic'
+
+const StaggeredMenu = dynamic(
+  () => import('@/components/ui/StaggeredMenu').then(mod => mod.StaggeredMenu),
+  { ssr: false }
+)
 
 export async function Navbar() {
   const supabase = await createClient()
@@ -24,7 +30,7 @@ export async function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
-          <Link href="/search" className="text-muted-foreground hover:text-foreground transition-colors p-2">
+          <Link href="/search" className="text-muted-foreground hover:text-foreground transition-colors p-2 mr-12 md:mr-0">
             <Search className="w-5 h-5" />
             <span className="sr-only">Search</span>
           </Link>
@@ -46,12 +52,26 @@ export async function Navbar() {
             )}
           </div>
 
-          <Button variant="ghost" size="icon" className="md:hidden">
-            <Menu className="w-5 h-5" />
-            <span className="sr-only">Menu</span>
-          </Button>
+          <div className="md:hidden flex items-center">
+            <StaggeredMenu
+              isFixed={true}
+              position="right"
+              items={[
+                { label: 'Subjects', ariaLabel: 'Subjects list', link: '/subjects' },
+                { label: 'Resources', ariaLabel: 'Resource library', link: '/resources' },
+                { label: 'Latest', ariaLabel: 'Latest uploads', link: '/latest' },
+                { label: 'Blog', ariaLabel: 'Articles and study tips', link: '/blog' },
+                { label: 'Dashboard', ariaLabel: 'Student dashboard', link: '/dashboard' }
+              ]}
+              colors={['#1F3A33', '#B8975A']}
+              accentColor="#B8975A"
+              menuButtonColor="#f6f3ec"
+              openMenuButtonColor="#14171f"
+            />
+          </div>
         </div>
       </div>
     </nav>
   )
 }
+
