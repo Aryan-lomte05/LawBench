@@ -112,66 +112,82 @@ export default async function ResourceDetailPage({ params }: { params: Promise<{
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <div className="min-h-screen bg-[#F6F3EC] text-[#14171F] py-12 px-4 font-sans">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="mb-6 flex flex-col md:flex-row md:items-start justify-between gap-4">
-        <div>
-          {/* Breadcrumbs */}
-          <div className="flex items-center gap-1.5 mb-4 text-xs font-mono text-muted-foreground uppercase tracking-wider">
-            <Link href="/subjects" className="hover:text-foreground transition-colors">LAW</Link>
-            <span className="text-[#B8975A]">·</span>
-            {resource.subjects && (
-              <>
-                <Link href={`/subjects/${resource.subjects.slug}`} className="hover:text-foreground transition-colors">
-                  {resource.subjects.name}
-                </Link>
-                <span className="text-[#B8975A]">·</span>
-              </>
-            )}
-            {resource.semester && (
-              <>
-                <span>SEM {resource.semester.toLowerCase().replace(/semester/gi, '').trim()}</span>
-                <span className="text-[#B8975A]">·</span>
-              </>
-            )}
-            {resource.unit && (
-              <span>UNIT {resource.unit.toLowerCase().replace(/unit/gi, '').trim()}</span>
-            )}
-          </div>
-
-          <h1 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-4">
-            {resource.title}
-          </h1>
-
-          <div className="flex flex-wrap items-center gap-4 text-sm">
-            <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 font-medium text-primary">
-              {resource.type.replace('_', ' ')}
-            </span>
-            {resource.author_or_uploader && (
-              <span className="text-muted-foreground">
-                By {resource.author_or_uploader}
-              </span>
-            )}
-          </div>
+      
+      {/* Header section */}
+      <div className="max-w-[860px] mx-auto mb-10 text-left">
+        {/* Breadcrumb */}
+        <div className="flex flex-wrap items-center gap-1.5 mb-4 text-[11px] font-mono text-[#5B6470] uppercase tracking-[0.06em]">
+          <Link href="/subjects" className="hover:text-[#B8975A] transition-colors">LAW</Link>
+          <span className="text-[#B8975A]">·</span>
+          {resource.subjects && (
+            <>
+              <Link href={`/subjects/${resource.subjects.slug}`} className="hover:text-[#B8975A] transition-colors">
+                {resource.subjects.name}
+              </Link>
+              <span className="text-[#B8975A]">·</span>
+            </>
+          )}
+          {resource.semester && (
+            <>
+              <span>SEM {resource.semester.toLowerCase().replace(/semester/gi, '').trim()}</span>
+              <span className="text-[#B8975A]">·</span>
+            </>
+          )}
+          {resource.unit && (
+            <span>UNIT {resource.unit.toLowerCase().replace(/unit/gi, '').trim()}</span>
+          )}
         </div>
 
-        <div className="flex-shrink-0 flex items-center gap-2">
-          <BookmarkButton 
-            resourceId={resource.id} 
-            initialIsBookmarked={isBookmarked} 
-            userId={user?.id}
-          />
+        {/* Title */}
+        <h1 className="text-[28px] md:text-[36px] lg:text-[44px] font-heading font-semibold text-[#14171F] leading-tight mb-4 max-w-[22ch]">
+          {resource.title}
+        </h1>
+
+        {/* Meta row & Tags */}
+        <div className="flex flex-wrap items-center gap-4 text-[13px] text-[#5B6470] mb-6">
+          <span>Added {new Date(resource.created_at).toLocaleDateString()}</span>
+          <span>·</span>
+          <span className="capitalize">{resource.type.replace('_', ' ')}</span>
+          {resource.author_or_uploader && (
+            <>
+              <span>·</span>
+              <span>Uploaded by {resource.author_or_uploader}</span>
+            </>
+          )}
+        </div>
+
+        {/* Action tags */}
+        <div className="flex flex-wrap items-center gap-3">
+          {resource.resource_tags?.map((rt: any, i: number) => (
+            rt.tags?.name && (
+              <span key={i} className="inline-block text-[11px] font-mono uppercase tracking-[0.06em] text-[#F9F8F5] bg-[#1F3A33] px-2.5 py-0.5 rounded-[2px]">
+                #{rt.tags.name}
+              </span>
+            )
+          ))}
+          <div className="ml-auto flex items-center gap-2">
+            <BookmarkButton 
+              resourceId={resource.id} 
+              initialIsBookmarked={isBookmarked} 
+              userId={user?.id}
+            />
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <hr className="border-[#DDD7C9] max-w-[860px] mx-auto my-8" />
+
+      {/* Two Column Layout */}
+      <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10">
         {/* Main Content Area */}
         <div className="lg:col-span-2 space-y-8">
           {/* Viewer */}
-          <div className="bg-card rounded-xl border border-border overflow-hidden">
+          <div className="bg-[#EDE8DD] rounded-[4px] border border-[#DDD7C9] overflow-hidden">
             {resource.type === 'video' && resource.video_url ? (
               <VideoPlayer 
                 url={resource.video_url} 
@@ -182,63 +198,53 @@ export default async function ResourceDetailPage({ params }: { params: Promise<{
             ) : resource.file_url ? (
               <PdfViewer url={resource.file_url} title={resource.title} />
             ) : (
-              <div className="p-12 text-center text-muted-foreground">
+              <div className="p-12 text-center text-[#8A949E] font-mono uppercase text-xs tracking-wider">
                 No content available to display.
               </div>
             )}
           </div>
 
+          {/* Description */}
           {resource.description && (
-            <div className="prose prose-sm md:prose-base dark:prose-invert max-w-none">
-              <h3 className="font-heading font-semibold mb-2">Description</h3>
-              <p className="text-muted-foreground whitespace-pre-wrap">{resource.description}</p>
+            <div className="max-w-[68ch] prose prose-stone prose-headings:font-heading prose-headings:text-[#14171F] text-zinc-800">
+              <h3 className="font-heading font-semibold text-[20px] mb-2 text-[#14171F]">Description</h3>
+              <p className="text-[15px] leading-relaxed whitespace-pre-wrap">{resource.description}</p>
             </div>
           )}
 
-          {/* Tags */}
-          {resource.resource_tags && resource.resource_tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 pt-4 border-t border-border">
-              {resource.resource_tags.map((rt: any, i: number) => (
-                rt.tags?.name && (
-                  <span key={i} className="inline-flex items-center rounded-md bg-secondary/10 px-2 py-1 text-xs font-medium text-secondary">
-                    #{rt.tags.name}
-                  </span>
-                )
-              ))}
-            </div>
-          )}
-
-          <hr className="border-border" />
+          <hr className="border-[#DDD7C9]" />
           
-          {/* Discussion */}
-          <Comments 
-            resourceId={resource.id} 
-            initialComments={comments || []} 
-            userId={user?.id}
-          />
+          {/* Discussion Wrapper */}
+          <div className="max-w-[700px]">
+            <Comments 
+              resourceId={resource.id} 
+              initialComments={comments || []} 
+              userId={user?.id}
+            />
+          </div>
         </div>
 
-        {/* Right Rail */}
+        {/* Sidebar */}
         <div className="space-y-6">
-          <div className="bg-card rounded-xl border border-border p-5 sticky top-24">
-            <h3 className="font-heading font-semibold text-foreground mb-4">Related Resources</h3>
+          <div className="bg-[#EDE8DD] rounded-[4px] border border-[#DDD7C9] p-6 sticky top-24">
+            <h3 className="text-[11px] font-mono uppercase tracking-[0.12em] text-[#5B6470] mb-4">
+              Related Resources
+            </h3>
             {!related || related.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No related resources found.</p>
+              <p className="text-[13px] text-[#8A949E] font-mono uppercase tracking-wider">No related resources found.</p>
             ) : (
-              <ul className="space-y-4">
-                {related.map((item: any) => (
-                  <li key={item.id}>
-                    <Link href={`/resources/${item.id}`} className="group block">
-                      <p className="text-sm font-medium text-foreground group-hover:text-primary line-clamp-2 transition-colors">
-                        {item.title}
-                      </p>
-                      <span className="text-xs text-muted-foreground mt-1 capitalize inline-block">
-                        {item.type.replace('_', ' ')}
-                      </span>
-                    </Link>
-                  </li>
+              <div className="space-y-4">
+                {related.slice(0, 3).map((item: any) => (
+                  <Link key={item.id} href={`/resources/${item.id}`} className="group block p-4 rounded-[4px] border border-[#DDD7C9]/60 bg-[#F6F3EC] hover:border-[#B8975A] transition-colors duration-150">
+                    <p className="text-[14px] font-medium text-[#14171F] group-hover:text-[#14171F] line-clamp-2 leading-snug">
+                      {item.title}
+                    </p>
+                    <span className="inline-block text-[10px] font-mono uppercase tracking-[0.06em] text-[#F9F8F5] bg-[#1F3A33] px-2 py-0.5 rounded-[2px] mt-2">
+                      {item.type.replace('_', ' ')}
+                    </span>
+                  </Link>
                 ))}
-              </ul>
+              </div>
             )}
           </div>
         </div>

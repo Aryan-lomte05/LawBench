@@ -51,13 +51,13 @@ export default async function LatestUploadsPage() {
       ) : (
         <div className="space-y-6">
           {resources.map((resource: any) => (
-            <div key={resource.id} className="group relative flex flex-col sm:flex-row sm:items-center justify-between p-6 rounded-xl border border-border bg-card hover:border-primary/50 transition-all gap-4">
+            <div key={resource.id} className="group relative flex flex-col sm:flex-row sm:items-center justify-between p-6 rounded-[4px] border border-[#DDD7C9] bg-[#EDE8DD] hover:border-[#B8975A] transition-colors duration-150 gap-4">
               <div className="flex items-start gap-4">
-                <div className="mt-1 p-3 bg-secondary/10 rounded-lg group-hover:bg-primary/10 text-secondary group-hover:text-primary transition-colors flex-shrink-0">
-                  {getTypeIcon(resource.type)}
-                </div>
                 <div>
-                  <div className="flex items-center gap-1.5 mb-1.5 text-xs font-mono text-muted-foreground uppercase tracking-wider">
+                  <div className="flex flex-wrap items-center gap-1.5 mb-1.5 text-[11px] font-mono text-[#5B6470] uppercase tracking-[0.06em]">
+                    <span className="inline-block text-[11px] font-mono uppercase tracking-[0.06em] text-[#F9F8F5] bg-[#1F3A33] px-2.5 py-0.5 rounded-[2px] mr-2">
+                      {resource.type.replace('_', ' ')}
+                    </span>
                     <span>{resource.subjects?.name}</span>
                     {resource.semester && (
                       <>
@@ -72,27 +72,24 @@ export default async function LatestUploadsPage() {
                       </>
                     )}
                     <span className="text-[#B8975A]">·</span>
-                    <span>{formatDistanceToNow(new Date(resource.created_at), { addSuffix: true })}</span>
+                    <span className="text-[#8A949E]">{formatDistanceToNow(new Date(resource.created_at), { addSuffix: true })}</span>
                   </div>
                   <Link href={`/resources/${resource.id}`} className="focus:outline-none">
-                    <h3 className="text-lg font-semibold text-foreground line-clamp-1 group-hover:text-primary transition-colors">
+                    <h3 className="text-[19px] font-heading font-medium text-[#14171F] transition-colors">
                       {resource.title}
                     </h3>
                   </Link>
-                  <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                  <p className="text-[14px] text-[#8A949E] mt-1 line-clamp-2 leading-relaxed">
                     {resource.description || 'No description provided.'}
                   </p>
                 </div>
               </div>
               
-              <div className="flex-shrink-0 flex items-center justify-between sm:justify-end gap-4 mt-4 sm:mt-0 pt-4 sm:pt-0 border-t sm:border-t-0 border-border/50">
-                <span className="inline-flex items-center rounded-full bg-secondary/5 px-3 py-1 text-xs font-medium text-secondary capitalize">
-                  {resource.type.replace('_', ' ')}
-                </span>
+              <div className="flex-shrink-0 flex items-center justify-between sm:justify-end gap-4 mt-4 sm:mt-0 pt-4 sm:pt-0 border-t sm:border-t-0 border-[#DDD7C9]/40">
                 <Link href={`/resources/${resource.id}`}>
-                  <Button variant="outline" size="sm">
+                  <button className="btn-secondary h-9 py-1 px-4 text-xs font-semibold border-[#DDD7C9] text-[#14171F] hover:text-[#B8975A] bg-transparent">
                     View Resource
-                  </Button>
+                  </button>
                 </Link>
               </div>
             </div>

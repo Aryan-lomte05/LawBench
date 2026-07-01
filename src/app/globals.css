@@ -14,10 +14,23 @@
   
   /* LawBench Custom Tokens */
   --color-ink: #14171F;
+  --color-ink-soft: #1C2029;
+  --color-ink-border: #2A2E3A;
   --color-parchment: #F6F3EC;
+  --color-parchment-warm: #EDE8DD;
+  --color-parchment-border: #DDD7C9;
   --color-brass: #B8975A;
+  --color-brass-muted: #9A7D47;
   --color-forest: #1F3A33;
+  --color-forest-light: #2D5246;
   --color-slate: #5B6470;
+  --color-slate-light: #8A949E;
+  --color-chalk: #F9F8F5;
+
+  --text-display-xl: clamp(52px, 7vw, 96px);
+  --text-display-lg: clamp(38px, 5vw, 64px);
+  --text-display-md: clamp(28px, 3.5vw, 44px);
+  --text-display-sm: clamp(22px, 2.5vw, 32px);
 
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -56,9 +69,9 @@
   /* Light Mode - Parchment background */
   --background: #F6F3EC;
   --foreground: #14171F;
-  --card: #ffffff;
+  --card: #EDE8DD;
   --card-foreground: #14171F;
-  --popover: #ffffff;
+  --popover: #F6F3EC;
   --popover-foreground: #14171F;
   
   /* Primary CTA - Brass */
@@ -70,27 +83,27 @@
   --secondary-foreground: #F6F3EC;
   
   /* Muted - Slate */
-  --muted: #E2DFD8;
+  --muted: #EDE8DD;
   --muted-foreground: #5B6470;
   
   /* Accent */
-  --accent: #E2DFD8;
+  --accent: #EDE8DD;
   --accent-foreground: #14171F;
   
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #E2DFD8;
-  --input: #E2DFD8;
+  --border: #DDD7C9;
+  --input: #DDD7C9;
   --ring: #B8975A;
   
-  --radius: 0.5rem;
+  --radius: 4px;
   
   --sidebar: #F6F3EC;
   --sidebar-foreground: #14171F;
   --sidebar-primary: #1F3A33;
   --sidebar-primary-foreground: #F6F3EC;
-  --sidebar-accent: #E2DFD8;
+  --sidebar-accent: #EDE8DD;
   --sidebar-accent-foreground: #14171F;
-  --sidebar-border: #E2DFD8;
+  --sidebar-border: #DDD7C9;
   --sidebar-ring: #B8975A;
 }
 
@@ -98,9 +111,9 @@
   /* Dark Mode - Ink background */
   --background: #14171F;
   --foreground: #F6F3EC;
-  --card: #1A1E29;
+  --card: #1C2029;
   --card-foreground: #F6F3EC;
-  --popover: #1A1E29;
+  --popover: #1C2029;
   --popover-foreground: #F6F3EC;
   
   /* Primary CTA - Brass */
@@ -112,25 +125,25 @@
   --secondary-foreground: #F6F3EC;
   
   /* Muted - Slate */
-  --muted: #2A2F3D;
-  --muted-foreground: #A1A8B4;
+  --muted: #2A2E3A;
+  --muted-foreground: #8A949E;
   
   /* Accent */
-  --accent: #2A2F3D;
+  --accent: #2A2E3A;
   --accent-foreground: #F6F3EC;
   
   --destructive: oklch(0.704 0.191 22.216);
-  --border: #2A2F3D;
-  --input: #2A2F3D;
+  --border: #2A2E3A;
+  --input: #2A2E3A;
   --ring: #B8975A;
   
   --sidebar: #14171F;
   --sidebar-foreground: #F6F3EC;
   --sidebar-primary: #B8975A;
   --sidebar-primary-foreground: #14171F;
-  --sidebar-accent: #2A2F3D;
+  --sidebar-accent: #2A2E3A;
   --sidebar-accent-foreground: #F6F3EC;
-  --sidebar-border: #2A2F3D;
+  --sidebar-border: #2A2E3A;
   --sidebar-ring: #B8975A;
 }
 
@@ -139,9 +152,82 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
   }
   html {
     @apply font-sans;
   }
+}
+
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+@utility btn-primary {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+  background: var(--color-brass);
+  border: none;
+  border-radius: 2px;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: background 150ms ease, transform 80ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: var(--color-brass-muted);
+  }
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+@utility btn-secondary {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--color-chalk);
+  background: transparent;
+  border: 1px solid var(--color-ink-border);
+  border-radius: 2px;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: border-color 150ms ease, color 150ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    border-color: var(--color-brass);
+    color: var(--color-brass);
+  }
+}
+
+@utility skeleton {
+  background: linear-gradient(90deg, var(--color-parchment-warm) 25%, var(--color-parchment-border) 50%, var(--color-parchment-warm) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 2px;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-fade-up {
+  animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
 }

@@ -104,30 +104,27 @@ export default async function SubjectDetailPage({ params }: { params: Promise<{ 
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-4">
                       {unitResources.map((resource: any) => (
-                        <div key={resource.id} className="group relative flex items-start gap-4 p-4 rounded-lg border border-border bg-card hover:border-primary/50 transition-colors">
-                          <div className="mt-1 flex-shrink-0 p-2 bg-secondary/10 rounded-md group-hover:bg-primary/10 transition-colors">
-                            {getTypeIcon(resource.type)}
-                          </div>
+                        <div key={resource.id} className="group relative flex items-start gap-4 p-4 rounded-[4px] border border-[#DDD7C9] bg-[#EDE8DD] hover:border-[#B8975A] transition-colors duration-150">
                           <div className="flex-1 min-w-0">
                             <Link href={`/resources/${resource.id}`} className="focus:outline-none">
                               <span className="absolute inset-0" aria-hidden="true" />
-                              <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
+                              <p className="text-[15px] font-heading font-medium text-[#14171F] truncate leading-snug">
                                 {resource.title}
                               </p>
                             </Link>
-                            <div className="flex items-center gap-2 mt-1">
-                              <span className="inline-flex items-center rounded-full bg-secondary/10 px-2 py-0.5 text-xs font-medium text-secondary">
+                            <div className="flex items-center gap-2 mt-2">
+                              <span className="inline-block text-[10px] font-mono uppercase tracking-[0.06em] text-[#F9F8F5] bg-[#1F3A33] px-2 py-0.5 rounded-[2px]">
                                 {resource.type.replace('_', ' ')}
                               </span>
                               {resource.author_or_uploader && (
-                                <span className="text-xs text-muted-foreground truncate">
+                                <span className="text-xs font-sans text-[#8A949E] truncate">
                                   by {resource.author_or_uploader}
                                 </span>
                               )}
                             </div>
                           </div>
-                          <Button variant="ghost" size="icon" className="relative z-10 -mt-1 -mr-1 opacity-0 group-hover:opacity-100 transition-opacity" title="Bookmark">
-                            <Bookmark className="w-4 h-4 text-muted-foreground hover:text-primary" />
+                          <Button variant="ghost" size="icon" className="relative z-10 -mt-1 -mr-1 text-[#8A949E] hover:text-[#B8975A] bg-transparent" title="Bookmark">
+                            <Bookmark className="w-4 h-4" />
                           </Button>
                         </div>
                       ))}
