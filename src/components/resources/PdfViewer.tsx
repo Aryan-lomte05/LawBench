@@ -20,6 +20,8 @@ export function PdfViewer({ url, title }: PdfViewerProps) {
   const [pageNumber, setPageNumber] = useState<number>(1)
   const [scale, setScale] = useState<number>(1.0)
 
+  const displayUrl = url.startsWith('http') ? `/api/pdf?url=${encodeURIComponent(url)}` : url
+
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages)
   }
@@ -75,7 +77,7 @@ export function PdfViewer({ url, title }: PdfViewerProps) {
 
       <div className="w-full overflow-auto max-h-[800px] flex justify-center bg-muted/10 p-4">
         <Document
-          file={url}
+          file={displayUrl}
           onLoadSuccess={onDocumentLoadSuccess}
           loading={
             <div className="flex items-center justify-center h-64">
