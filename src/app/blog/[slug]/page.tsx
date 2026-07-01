@@ -44,7 +44,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   
   const { data: post } = await supabase
     .from('blog_posts')
-    .select('*, profiles(full_name, avatar_url), blog_post_tags(blog_tags(name))')
+    .select('*, profiles(full_name, avatar_url)')
     .eq('slug', resolvedParams.slug)
     .single()
 
