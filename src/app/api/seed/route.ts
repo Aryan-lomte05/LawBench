@@ -139,9 +139,9 @@ export async function GET() {
           semester: 'Semester 1',
           unit: 'Unit I: Introduction',
           title: 'The Constitution of India (Bare Act)',
-          description: 'Full text access to the Preamble, Parts, Articles, and Schedules of the Indian Constitution.',
+          description: 'Full text access to the Preamble, Parts, Articles, and Schedules of the Indian Constitution, as published by the Parliament of India.',
           type: 'bare_act',
-          file_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+          file_url: 'https://sansad.in/uploads/documents/constitutionofindia.pdf',
           is_published: true,
           author_or_uploader: 'Legislative Department'
         },
@@ -150,9 +150,9 @@ export async function GET() {
           semester: 'Semester 1',
           unit: 'Unit II: Fundamental Rights',
           title: 'Kesavananda Bharati v. State of Kerala (Landmark Case Summary)',
-          description: 'Detailed analysis of the Basic Structure Doctrine and key judgments of the 13-judge bench.',
+          description: 'Detailed analysis of the Basic Structure Doctrine and key judgments of the 13-judge bench, linking directly to the official Supreme Court Reports (5668.pdf).',
           type: 'case_law',
-          file_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+          file_url: 'https://main.sci.gov.in/jonew/judis/5668.pdf',
           is_published: true,
           author_or_uploader: 'Supreme Court Reports'
         },
@@ -163,7 +163,7 @@ export async function GET() {
           title: 'Understanding DPSP vs Fundamental Rights',
           description: 'A comprehensive video lecture explaining the relationship and conflicts between Part III and Part IV of the Constitution.',
           type: 'video',
-          video_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', // Placeholder
+          video_url: 'https://www.youtube.com/watch?v=9t0gV8R6B0s',
           is_published: true,
           author_or_uploader: 'Prof. Sharma'
         }
@@ -177,9 +177,9 @@ export async function GET() {
           semester: 'Semester 2',
           unit: 'Unit I: General Principles',
           title: 'Mens Rea and Actus Reus Lecture Notes',
-          description: 'Core concepts of criminal liability, guilty mind, and criminal acts with relevant illustrations.',
+          description: 'Core concepts of criminal liability, guilty mind, and criminal acts with relevant illustrations and exceptions.',
           type: 'note',
-          file_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+          file_url: 'http://www.jiwaji.edu/pdf/ecourse/law/MENS%20REA.pdf',
           is_published: true,
           author_or_uploader: 'Dr. Verma'
         },
@@ -190,7 +190,7 @@ export async function GET() {
           title: 'K.M. Nanavati v. State of Maharashtra (Case Brief)',
           description: 'The historic case that led to the abolition of jury trials in India. Examines grave and sudden provocation.',
           type: 'case_law',
-          file_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+          file_url: 'https://main.sci.gov.in/jonew/judis/1676.pdf',
           is_published: true,
           author_or_uploader: 'Lawbench Team'
         }
@@ -204,9 +204,9 @@ export async function GET() {
           semester: 'Semester 1',
           unit: 'Unit I: Offer and Acceptance',
           title: 'The Indian Contract Act, 1872 (Bare Act)',
-          description: 'Bare Act provisions of Sections 1 to 75 governing the general principles of contracts.',
+          description: 'Bare Act provisions of Sections 1 to 75 governing the general principles of contract law in India.',
           type: 'bare_act',
-          file_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+          file_url: 'https://www.indiacode.nic.in/bitstream/123456789/2187/1/A1872-9.pdf',
           is_published: true,
           author_or_uploader: 'Govt of India'
         }
