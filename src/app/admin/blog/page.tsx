@@ -1,7 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { Plus, PenTool, Trash2 } from 'lucide-react'
 
 export const metadata = {
   title: 'Blog Management | Admin | LawBench',
@@ -19,56 +17,52 @@ export default async function AdminBlogPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-heading font-bold text-foreground">Blog Management</h1>
-          <p className="text-muted-foreground mt-2">Manage your blog posts here.</p>
+          <h1 className="text-[28px] md:text-[36px] font-heading font-semibold text-[#14171F]">Blog Management</h1>
+          <p className="text-[#5B6470] text-sm mt-2">Manage your blog posts here.</p>
         </div>
-        <Link href="/admin/blog/new" className={buttonVariants({ variant: "default" })}>
-          <Plus className="w-4 h-4 mr-2 inline" />
+        <Link href="/admin/blog/new" className="btn-primary h-11 px-6 text-xs uppercase tracking-wider font-semibold flex items-center justify-center">
           New Post
         </Link>
       </div>
 
-      <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
+      <div className="bg-[#EDE8DD] border border-[#DDD7C9] rounded-[4px] overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left">
-            <thead className="text-xs text-muted-foreground uppercase bg-muted/50 border-b border-border">
-              <tr>
-                <th className="px-6 py-4 font-medium">Title</th>
-                <th className="px-6 py-4 font-medium">Author</th>
-                <th className="px-6 py-4 font-medium">Status</th>
-                <th className="px-6 py-4 font-medium">Date</th>
-                <th className="px-6 py-4 font-medium text-right">Actions</th>
+          <table className="w-full text-sm text-left border-collapse">
+            <thead>
+              <tr className="border-b border-[#DDD7C9] bg-[#EDE8DD] text-[11px] font-mono uppercase tracking-[0.06em] text-[#5B6470]">
+                <th className="p-4 font-semibold">Title</th>
+                <th className="p-4 font-semibold">Author</th>
+                <th className="p-4 font-semibold">Status</th>
+                <th className="p-4 font-semibold">Date</th>
+                <th className="p-4 font-semibold text-right">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-[#DDD7C9] text-[14px] text-[#14171F] font-sans">
               {!posts || posts.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-muted-foreground">
+                  <td colSpan={5} className="p-8 text-center text-[#8A949E]">
                     No blog posts found.
                   </td>
                 </tr>
               ) : (
                 posts.map((post: any) => (
-                  <tr key={post.id} className="border-b border-border hover:bg-muted/20 transition-colors">
-                    <td className="px-6 py-4 font-medium text-foreground">{post.title}</td>
-                    <td className="px-6 py-4 text-muted-foreground">{post.profiles?.full_name || 'Unknown'}</td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${post.is_published ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'}`}>
+                  <tr key={post.id} className="hover:bg-[#F6F3EC] transition-colors">
+                    <td className="p-4 font-semibold text-[#14171F]">{post.title}</td>
+                    <td className="p-4 text-[#5B6470]">{post.profiles?.full_name || 'Unknown'}</td>
+                    <td className="p-4">
+                      <span className={`text-[11px] font-mono uppercase tracking-[0.06em] ${
+                        post.is_published ? 'text-[#1F3A33] font-semibold' : 'text-[#8A949E]'
+                      }`}>
                         {post.is_published ? 'Published' : 'Draft'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-muted-foreground font-mono">
+                    <td className="p-4 text-xs font-mono text-[#5B6470]">
                       {new Date(post.created_at).toLocaleDateString()}
                     </td>
-                    <td className="px-6 py-4 text-right space-x-2">
-                      {/* For now, linking to edit but the edit page isn't explicitly built beyond standard new. 
-                          It would be /admin/blog/[id]/edit which is similar to /new */}
-                      <Button variant="ghost" size="icon" title="Edit" disabled>
-                        <PenTool className="w-4 h-4 text-muted-foreground" />
-                      </Button>
-                      <Button variant="ghost" size="icon" title="Delete" disabled>
-                        <Trash2 className="w-4 h-4 text-destructive" />
-                      </Button>
+                    <td className="p-4 text-right">
+                      <span className="text-[13px] font-sans font-semibold text-[#8A949E] italic cursor-not-allowed">
+                        Locked
+                      </span>
                     </td>
                   </tr>
                 ))

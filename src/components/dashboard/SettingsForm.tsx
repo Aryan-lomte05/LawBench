@@ -2,9 +2,6 @@
 
 import { useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 
@@ -40,34 +37,39 @@ export function SettingsForm({ profile, userEmail }: SettingsFormProps) {
     }
   }
 
+  const labelClass = "text-[13px] font-medium text-[#14171F] font-sans block mb-1.5"
+  const inputClass = "w-full bg-white border border-[#DDD7C9] rounded-[2px] px-4 py-3 text-[15px] text-[#14171F] font-sans focus:outline-none focus:border-[#B8975A] transition-colors"
+  const disabledClass = "w-full bg-[#EDE8DD] border border-[#DDD7C9] rounded-[2px] px-4 py-3 text-[15px] text-[#8A949E] font-sans cursor-not-allowed"
+
   return (
     <form onSubmit={handleSave} className="space-y-6 max-w-md">
-      <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <Input 
+      <div className="flex flex-col">
+        <label htmlFor="email" className={labelClass}>Email Address</label>
+        <input 
           id="email" 
           type="email" 
           value={userEmail || ''} 
           disabled 
-          className="bg-muted/50 text-muted-foreground"
+          className={disabledClass}
         />
-        <p className="text-xs text-muted-foreground">Your email cannot be changed here.</p>
+        <p className="text-[11px] text-[#8A949E] mt-1.5 font-mono">Your email cannot be changed here.</p>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="fullName">Full Name</Label>
-        <Input 
+      <div className="flex flex-col">
+        <label htmlFor="fullName" className={labelClass}>Full Name</label>
+        <input 
           id="fullName" 
           type="text" 
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
           disabled={isSubmitting}
+          className={inputClass}
         />
       </div>
 
-      <Button type="submit" disabled={isSubmitting}>
+      <button type="submit" disabled={isSubmitting} className="btn-primary h-11 px-6 text-xs uppercase tracking-wider font-semibold">
         {isSubmitting ? 'Saving...' : 'Save Changes'}
-      </Button>
+      </button>
     </form>
   )
 }

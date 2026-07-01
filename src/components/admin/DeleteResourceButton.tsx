@@ -1,8 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { deleteResource } from '@/app/admin/resources/actions'
 
@@ -28,15 +26,12 @@ export function DeleteResourceButton({ id }: { id: string }) {
   }
 
   return (
-    <Button 
-      variant="ghost" 
-      size="icon" 
+    <button 
       onClick={handleDelete} 
       disabled={isDeleting}
-      className="text-red-500 hover:text-red-700 hover:bg-red-50"
+      className="text-[13px] font-sans font-semibold text-[#B8975A] hover:underline bg-transparent border-none focus:outline-none disabled:opacity-50 cursor-pointer"
     >
-      <Trash2 className="w-4 h-4" />
-      <span className="sr-only">Delete</span>
-    </Button>
+      {isDeleting ? 'Deleting...' : 'Delete'}
+    </button>
   )
 }

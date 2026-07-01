@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { FileText, BookOpen, PenTool, LayoutDashboard, Settings } from 'lucide-react'
+import { AdminSidebarLinks } from './AdminSidebarLinks'
 
 export const metadata = {
   title: 'Admin Panel | LawBench',
@@ -27,44 +27,34 @@ export default async function AdminLayout({
     .single()
 
   if (!profile || !['admin', 'editor'].includes(profile.role)) {
-    redirect('/dashboard') // unauthorized users go to standard dashboard
+    redirect('/dashboard')
   }
 
   return (
-    <div className="flex min-h-screen bg-muted/20">
+    <div className="flex min-h-screen bg-[#F6F3EC]">
       {/* Admin Sidebar */}
-      <aside className="w-64 bg-card border-r border-border hidden md:flex flex-col">
-        <div className="h-16 flex items-center px-6 border-b border-border">
-          <span className="font-heading font-bold text-lg">Admin Panel</span>
-        </div>
-        <nav className="flex-1 px-4 py-6 space-y-2">
-          <Link href="/admin" className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary/10 transition-colors">
-            <LayoutDashboard className="w-4 h-4" /> Overview
-          </Link>
-          <Link href="/admin/resources" className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary/10 transition-colors">
-            <FileText className="w-4 h-4" /> Resources
-          </Link>
-          <Link href="/admin/subjects" className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary/10 transition-colors">
-            <BookOpen className="w-4 h-4" /> Subjects
-          </Link>
-          <Link href="/admin/blog" className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary/10 transition-colors">
-            <PenTool className="w-4 h-4" /> Blog Engine
-          </Link>
-        </nav>
-        <div className="p-4 border-t border-border">
-          <Link href="/admin/settings" className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            <Settings className="w-4 h-4" /> Settings
+      <aside className="w-64 bg-[#14171F] border-r border-[#2A2E3A] hidden md:flex flex-col">
+        <div className="h-16 flex items-center px-6 border-b border-[#2A2E3A]">
+          <Link href="/" className="font-heading text-sm font-extrabold tracking-[0.2em] text-[#F9F8F5] uppercase flex items-center gap-1">
+            <span>LAWBENCH</span>
+            <span className="text-[#B8975A] font-light">·</span>
           </Link>
         </div>
+        
+        {/* Navigation list */}
+        <AdminSidebarLinks />
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1">
-        {/* Mobile Header (simplified) */}
-        <div className="md:hidden h-16 border-b border-border bg-card flex items-center px-4">
-          <span className="font-heading font-bold">Admin Panel</span>
+      <main className="flex-1 min-h-screen bg-[#F6F3EC] text-[#14171F]">
+        {/* Mobile Header */}
+        <div className="md:hidden h-16 border-b border-[#DDD7C9] bg-[#EDE8DD] flex items-center px-4 justify-between">
+          <span className="font-heading font-semibold text-[#14171F]">Admin Panel</span>
+          <Link href="/" className="text-xs font-mono tracking-wider text-[#B8975A]">
+            EXIT
+          </Link>
         </div>
-        <div className="p-6 md:p-8">
+        <div className="p-8 max-w-7xl mx-auto">
           {children}
         </div>
       </main>

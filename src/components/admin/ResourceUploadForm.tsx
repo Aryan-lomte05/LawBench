@@ -2,11 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Switch } from '@/components/ui/switch'
 import { toast } from 'sonner'
 import { createResource, uploadFileAction } from '@/app/admin/resources/actions'
 
@@ -113,41 +108,45 @@ export function ResourceUploadForm({ subjects }: ResourceUploadFormProps) {
     }
   }
 
+  const inputClass = "w-full bg-white border border-[#DDD7C9] rounded-[2px] px-4 py-3 text-[15px] text-[#14171F] font-sans focus:outline-none focus:border-[#B8975A] transition-colors"
+  const labelClass = "text-[13px] font-medium text-[#14171F] font-sans block mb-1.5"
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl bg-card border border-border p-6 rounded-xl shadow-sm">
-      <div className="space-y-2">
-        <Label htmlFor="title">Resource Title</Label>
-        <Input 
+    <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl bg-[#EDE8DD] border border-[#DDD7C9] p-8 rounded-[4px]">
+      <div className="flex flex-col">
+        <label htmlFor="title" className={labelClass}>Resource Title</label>
+        <input 
           id="title" 
           placeholder="e.g. Indian Contract Act Notes Sem 1" 
           value={title} 
           onChange={(e) => setTitle(e.target.value)} 
           required 
           disabled={isSubmitting}
+          className={inputClass}
         />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="description">Description</Label>
-        <Textarea 
+      <div className="flex flex-col">
+        <label htmlFor="description" className={labelClass}>Description</label>
+        <textarea 
           id="description" 
           placeholder="Provide a brief summary of the resource content..." 
           value={description} 
           onChange={(e) => setDescription(e.target.value)} 
           disabled={isSubmitting}
-          className="min-h-[100px]"
+          className={`${inputClass} min-h-[100px]`}
         />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="type">Resource Type</Label>
+        <div className="flex flex-col">
+          <label htmlFor="type" className={labelClass}>Resource Type</label>
           <select
             id="type"
             value={type}
             onChange={(e) => setType(e.target.value)}
             disabled={isSubmitting}
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className={inputClass}
           >
             {RESOURCE_TYPES.map((t) => (
               <option key={t.value} value={t.value}>{t.label}</option>
@@ -155,14 +154,14 @@ export function ResourceUploadForm({ subjects }: ResourceUploadFormProps) {
           </select>
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="subject">Subject</Label>
+        <div className="flex flex-col">
+          <label htmlFor="subject" className={labelClass}>Subject</label>
           <select
             id="subject"
             value={subjectId}
             onChange={(e) => setSubjectId(e.target.value)}
             disabled={isSubmitting}
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className={inputClass}
           >
             {subjects.map((s) => (
               <option key={s.id} value={s.id}>{s.name}</option>
@@ -172,106 +171,115 @@ export function ResourceUploadForm({ subjects }: ResourceUploadFormProps) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="semester">Semester (Optional)</Label>
-          <Input 
+        <div className="flex flex-col">
+          <label htmlFor="semester" className={labelClass}>Semester (Optional)</label>
+          <input 
             id="semester" 
             placeholder="e.g. 1" 
             value={semester} 
             onChange={(e) => setSemester(e.target.value)} 
             disabled={isSubmitting}
+            className={inputClass}
           />
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="unit">Unit (Optional)</Label>
-          <Input 
+        <div className="flex flex-col">
+          <label htmlFor="unit" className={labelClass}>Unit (Optional)</label>
+          <input 
             id="unit" 
             placeholder="e.g. 3" 
             value={unit} 
             onChange={(e) => setUnit(e.target.value)} 
             disabled={isSubmitting}
+            className={inputClass}
           />
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="author">Author / Uploader (Optional)</Label>
-          <Input 
+        <div className="flex flex-col">
+          <label htmlFor="author" className={labelClass}>Author / Uploader (Optional)</label>
+          <input 
             id="author" 
             placeholder="e.g. Prof. Mehta" 
             value={author} 
             onChange={(e) => setAuthor(e.target.value)} 
             disabled={isSubmitting}
+            className={inputClass}
           />
         </div>
       </div>
 
       {type === 'video' ? (
-        <div className="space-y-2">
-          <Label htmlFor="url">Video Link (YouTube URL / Iframe src)</Label>
-          <Input 
+        <div className="flex flex-col">
+          <label htmlFor="url" className={labelClass}>Video Link (YouTube URL / Iframe src)</label>
+          <input 
             id="url" 
             placeholder="e.g. https://www.youtube.com/embed/dQw4w9WgXcQ" 
             value={url} 
             onChange={(e) => setUrl(e.target.value)} 
             required 
             disabled={isSubmitting}
+            className={inputClass}
           />
         </div>
       ) : (
         <div className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="file">PDF Document Upload</Label>
-            <Input 
+          <div className="flex flex-col">
+            <label htmlFor="file" className={labelClass}>PDF Document Upload</label>
+            <input 
               id="file" 
               type="file" 
               accept="application/pdf" 
               onChange={handleFileChange} 
               disabled={isSubmitting}
+              className={`${inputClass} bg-white file:bg-[#B8975A] file:border-none file:px-3 file:py-1 file:rounded-[2px] file:text-[#14171F] file:font-semibold file:mr-4`}
             />
-            <p className="text-xs text-muted-foreground">Max file size: 10MB. Uploads directly to Supabase storage.</p>
+            <p className="text-xs text-[#5B6470] mt-1.5 font-mono">Max file size: 10MB. Uploads directly to Supabase storage.</p>
           </div>
           
-          <div className="space-y-2">
-            <Label htmlFor="url">Or enter document URL directly</Label>
-            <Input 
+          <div className="flex flex-col">
+            <label htmlFor="url" className={labelClass}>Or enter document URL directly</label>
+            <input 
               id="url" 
               placeholder="e.g. https://example.com/notes.pdf" 
               value={url} 
               onChange={(e) => setUrl(e.target.value)} 
               disabled={isSubmitting}
+              className={inputClass}
             />
           </div>
         </div>
       )}
 
-      <div className="flex items-center space-x-2 border-t border-border pt-4">
-        <Switch 
+      <div className="flex items-center space-x-3 border-t border-[#DDD7C9] pt-6">
+        <input 
           id="is-published" 
+          type="checkbox"
           checked={isPublished} 
-          onCheckedChange={setIsPublished} 
+          onChange={(e) => setIsPublished(e.target.checked)} 
           disabled={isSubmitting}
+          className="h-4 w-4 rounded-[2px] border-[#DDD7C9] text-[#B8975A] focus:ring-[#B8975A] accent-[#B8975A]"
         />
-        <Label htmlFor="is-published">Publish immediately (visible to students)</Label>
+        <label htmlFor="is-published" className="text-[13px] font-medium text-[#14171F] font-sans">
+          Publish immediately (visible to students)
+        </label>
       </div>
 
-      <div className="flex items-center gap-4 border-t border-border pt-4">
-        <Button 
+      <div className="flex items-center gap-4 border-t border-[#DDD7C9] pt-6">
+        <button 
           type="submit" 
-          className="bg-[#B8975A] hover:bg-[#B8975A]/90 text-[#14171F] font-bold"
           disabled={isSubmitting}
+          className="btn-primary h-11 px-6 text-xs uppercase tracking-wider font-semibold"
         >
           {isSubmitting ? 'Uploading & Creating...' : 'Create Resource'}
-        </Button>
-        <Button 
+        </button>
+        <button 
           type="button" 
-          variant="outline" 
           onClick={() => router.push('/admin/resources')}
           disabled={isSubmitting}
-          className="bg-transparent text-foreground border-zinc-700 hover:bg-zinc-800"
+          className="btn-secondary h-11 px-6 text-xs uppercase tracking-wider font-semibold border-[#DDD7C9] text-[#14171F] hover:text-[#B8975A]"
         >
           Cancel
-        </Button>
+        </button>
       </div>
     </form>
   )

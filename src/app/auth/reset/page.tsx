@@ -2,54 +2,60 @@
 
 import { useActionState } from 'react'
 import { resetPassword } from '../actions'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import Link from 'next/link'
+import LinkNext from 'next/link'
 
 export default function ResetPasswordPage() {
   const [state, formAction, isPending] = useActionState(resetPassword, null)
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h2 className="text-2xl font-semibold tracking-tight text-foreground">Reset Password</h2>
-        <p className="text-sm text-muted-foreground mt-2">
+        <h1 className="text-[28px] font-heading font-semibold text-[#14171F] leading-tight">
+          Reset Password
+        </h1>
+        <p className="text-[14px] text-[#5B6470] font-sans mt-2">
           Enter your email and we will send you a reset link.
         </p>
       </div>
 
-      <form action={formAction} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input 
+      <form action={formAction} className="space-y-5">
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="email" className="text-[13px] font-medium text-[#14171F] font-sans">
+            Email Address
+          </label>
+          <input 
             id="email" 
             name="email" 
             type="email" 
-            placeholder="m@example.com" 
+            placeholder="name@example.com" 
             required 
             disabled={isPending}
+            className="w-full bg-white border border-[#DDD7C9] rounded-[2px] px-4 py-3 text-[15px] text-[#14171F] font-sans focus:outline-none focus:border-[#B8975A] transition-colors"
           />
         </div>
         
         {state?.error && (
-          <p className="text-sm font-medium text-destructive">{state.error}</p>
+          <p className="text-xs font-mono uppercase tracking-wider text-[#C0392B]">{state.error}</p>
         )}
         
         {state?.success && (
-          <p className="text-sm font-medium text-green-600 dark:text-green-400">{state.success}</p>
+          <p className="text-xs font-mono uppercase tracking-wider text-[#1F3A33]">{state.success}</p>
         )}
 
-        <Button type="submit" className="w-full font-semibold transition-all hover:ring-1 hover:ring-primary/20" disabled={isPending}>
+        <button 
+          type="submit" 
+          disabled={isPending}
+          className="btn-primary w-full h-12 text-[14px] font-semibold tracking-wide uppercase"
+        >
           {isPending ? 'Sending...' : 'Send Reset Link'}
-        </Button>
+        </button>
       </form>
 
-      <div className="text-center text-sm">
+      <div className="text-center text-[13px] text-[#5B6470] font-sans">
         Remember your password?{' '}
-        <Link href="/auth/login" className="font-medium text-primary hover:underline">
+        <LinkNext href="/auth/login" className="font-semibold text-[#B8975A] hover:text-[#B8975A]/85 transition-colors">
           Sign in
-        </Link>
+        </LinkNext>
       </div>
     </div>
   )

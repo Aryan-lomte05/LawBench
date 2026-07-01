@@ -2,22 +2,13 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { FileText, Video, Bookmark, MessageSquare, Settings, PlayCircle } from 'lucide-react'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Bookmark, MessageSquare, Settings, PlayCircle } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { SettingsForm } from '@/components/dashboard/SettingsForm'
 import { logout } from '@/app/auth/actions'
 
 export const metadata = {
   title: 'Dashboard | LawBench',
-}
-
-const getTypeIcon = (type: string) => {
-  switch (type) {
-    case 'video': return <Video className="w-4 h-4" />
-    default: return <FileText className="w-4 h-4" />
-  }
 }
 
 export default async function DashboardPage() {
@@ -57,148 +48,151 @@ export default async function DashboardPage() {
     .order('created_at', { ascending: false })
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-5xl">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-        <div>
-          <h1 className="text-3xl font-heading font-bold text-foreground">Welcome back, {profile?.full_name?.split(' ')[0] || 'Student'}</h1>
-          <p className="text-muted-foreground mt-2">Manage your study library, track progress, and update your account.</p>
+    <div className="min-h-screen bg-[#F6F3EC] text-[#14171F] py-16 px-4 font-sans">
+      <div className="max-w-5xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 pb-6 border-b border-[#DDD7C9]">
+          <div>
+            <h1 className="text-[32px] font-heading font-semibold text-[#14171F]">
+              Your Library
+            </h1>
+            <p className="text-[15px] text-[#5B6470] mt-2 leading-relaxed">
+              Manage your study library, track progress, and update your account.
+            </p>
+          </div>
+          <form action={logout}>
+            <button type="submit" className="btn-secondary h-10 px-5 text-xs font-semibold uppercase tracking-wider border-[#DDD7C9] text-[#14171F] hover:text-[#B8975A] bg-transparent">
+              Sign Out
+            </button>
+          </form>
         </div>
-        <form action={logout}>
-          <Button variant="outline" type="submit">Sign Out</Button>
-        </form>
-      </div>
 
-      <Tabs defaultValue="bookmarks" className="w-full">
-        <TabsList className="grid grid-cols-4 md:inline-flex mb-8 bg-muted p-1 rounded-xl">
-          <TabsTrigger value="bookmarks" className="py-2.5 flex items-center justify-center gap-2">
-            <Bookmark className="w-4 h-4" />
-            <span className="hidden sm:inline">Bookmarks</span>
-          </TabsTrigger>
-          <TabsTrigger value="progress" className="py-2.5 flex items-center justify-center gap-2">
-            <PlayCircle className="w-4 h-4" />
-            <span className="hidden sm:inline">In Progress</span>
-          </TabsTrigger>
-          <TabsTrigger value="comments" className="py-2.5 flex items-center justify-center gap-2">
-            <MessageSquare className="w-4 h-4" />
-            <span className="hidden sm:inline">Comments</span>
-          </TabsTrigger>
-          <TabsTrigger value="settings" className="py-2.5 flex items-center justify-center gap-2">
-            <Settings className="w-4 h-4" />
-            <span className="hidden sm:inline">Settings</span>
-          </TabsTrigger>
-        </TabsList>
+        <Tabs defaultValue="bookmarks" className="w-full">
+          <TabsList className="flex border-b border-[#DDD7C9] bg-transparent p-0 gap-8 rounded-none w-full justify-start mb-8">
+            <TabsTrigger 
+              value="bookmarks" 
+              className="rounded-none bg-transparent shadow-none border-b-2 border-transparent data-[state=active]:border-[#B8975A] data-[state=active]:bg-transparent data-[state=active]:text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
+            >
+              <Bookmark className="w-4 h-4" /> Bookmarks
+            </TabsTrigger>
+            <TabsTrigger 
+              value="progress" 
+              className="rounded-none bg-transparent shadow-none border-b-2 border-transparent data-[state=active]:border-[#B8975A] data-[state=active]:bg-transparent data-[state=active]:text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
+            >
+              <PlayCircle className="w-4 h-4" /> In Progress
+            </TabsTrigger>
+            <TabsTrigger 
+              value="comments" 
+              className="rounded-none bg-transparent shadow-none border-b-2 border-transparent data-[state=active]:border-[#B8975A] data-[state=active]:bg-transparent data-[state=active]:text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
+            >
+              <MessageSquare className="w-4 h-4" /> Comments
+            </TabsTrigger>
+            <TabsTrigger 
+              value="settings" 
+              className="rounded-none bg-transparent shadow-none border-b-2 border-transparent data-[state=active]:border-[#B8975A] data-[state=active]:bg-transparent data-[state=active]:text-[#14171F] text-[#8A949E] px-0 pb-3 text-xs font-mono uppercase tracking-[0.12em] font-semibold transition-all flex items-center gap-2 cursor-pointer"
+            >
+              <Settings className="w-4 h-4" /> Settings
+            </TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="bookmarks" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>My Bookmarks</CardTitle>
-              <CardDescription>Resources you've saved for later study.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {!bookmarks || bookmarks.length === 0 ? (
-                <div className="text-center py-12">
-                  <Bookmark className="w-12 h-12 mx-auto text-muted-foreground opacity-50 mb-4" />
-                  <p className="text-muted-foreground">You haven't bookmarked any resources yet.</p>
-                  <Link href="/resources" className={buttonVariants({ variant: "outline", className: "mt-4" })}>Browse Resources</Link>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {bookmarks.map((bookmark: any) => (
-                    <Link key={bookmark.id} href={`/resources/${bookmark.resources.id}`} className="flex items-center gap-4 p-4 rounded-lg border border-border hover:border-primary/50 transition-colors group">
-                      <div className="p-2 bg-secondary/10 rounded text-secondary group-hover:text-primary transition-colors">
-                        {getTypeIcon(bookmark.resources.type)}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-foreground truncate group-hover:text-primary transition-colors">{bookmark.resources.title}</p>
-                        <p className="text-xs text-muted-foreground uppercase tracking-wider mt-1">{bookmark.resources.type.replace('_', ' ')}</p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="progress" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>In Progress</CardTitle>
-              <CardDescription>Resume videos and lectures where you left off.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {!progressItems || progressItems.length === 0 ? (
-                <div className="text-center py-12">
-                  <PlayCircle className="w-12 h-12 mx-auto text-muted-foreground opacity-50 mb-4" />
-                  <p className="text-muted-foreground">No videos in progress.</p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {progressItems.map((item: any) => (
-                    <Link key={item.id} href={`/resources/${item.resources.id}`} className="flex items-center justify-between p-4 rounded-lg border border-border hover:border-primary/50 transition-colors group">
-                      <div className="flex items-center gap-4">
-                        <div className="p-2 bg-primary/10 rounded text-primary">
-                          <Video className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <p className="font-medium text-foreground group-hover:text-primary transition-colors">{item.resources.title}</p>
-                          <p className="text-xs text-muted-foreground mt-1">Stopped at {Math.floor(item.position_seconds / 60)}:{String(item.position_seconds % 60).padStart(2, '0')}</p>
-                        </div>
-                      </div>
-                      <span className="text-sm font-medium text-primary">Resume →</span>
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="comments" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>My Comments</CardTitle>
-              <CardDescription>Your recent contributions to discussions.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {!comments || comments.length === 0 ? (
-                <div className="text-center py-12">
-                  <MessageSquare className="w-12 h-12 mx-auto text-muted-foreground opacity-50 mb-4" />
-                  <p className="text-muted-foreground">You haven't posted any comments yet.</p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {comments.map((comment: any) => (
-                    <div key={comment.id} className="p-4 rounded-lg border border-border">
-                      <div className="flex items-center justify-between mb-2">
-                        <Link href={`/resources/${comment.resource_id}`} className="text-sm font-medium text-primary hover:underline">
-                          On: {comment.resources?.title || 'Resource'}
-                        </Link>
-                        <span className="text-xs text-muted-foreground">
-                          {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}
-                        </span>
-                      </div>
-                      <p className="text-sm text-foreground whitespace-pre-wrap">{comment.content}</p>
+          <TabsContent value="bookmarks" className="space-y-6 focus:outline-none">
+            {!bookmarks || bookmarks.length === 0 ? (
+              <div className="text-center py-20 bg-[#EDE8DD] rounded-[4px] border border-[#DDD7C9] p-8 max-w-xl mx-auto">
+                <Bookmark className="w-12 h-12 mx-auto text-[#8A949E] mb-4 opacity-50" />
+                <h3 className="text-[22px] font-heading font-normal italic text-[#5B6470]">You haven't bookmarked any resources yet</h3>
+                <p className="text-[#8A949E] mt-2 text-[15px] mb-6">Explore the catalog to save notes, judgments, or lectures.</p>
+                <Link href="/resources" className="btn-secondary h-10 px-5 text-xs font-semibold uppercase tracking-wider border-[#DDD7C9] text-[#14171F] hover:text-[#B8975A] bg-transparent">
+                  Browse Resources
+                </Link>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {bookmarks.map((bookmark: any) => (
+                  <div key={bookmark.id} className="group relative flex flex-col p-5 rounded-[4px] border border-[#DDD7C9] bg-[#EDE8DD] hover:border-[#B8975A] transition-colors duration-150 h-full">
+                    <div className="flex items-start justify-between mb-4">
+                      <span className="inline-block text-[11px] font-mono uppercase tracking-[0.06em] text-[#F9F8F5] bg-[#1F3A33] px-2.5 py-0.5 rounded-[2px]">
+                        {bookmark.resources.type.replace('_', ' ')}
+                      </span>
                     </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
+                    <div className="flex-1">
+                      <Link href={`/resources/${bookmark.resources.id}`} className="focus:outline-none">
+                        <span className="absolute inset-0" aria-hidden="true" />
+                        <h3 className="text-[18px] font-heading font-medium text-[#14171F] line-clamp-2 leading-snug">
+                          {bookmark.resources.title}
+                        </h3>
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </TabsContent>
 
-        <TabsContent value="settings" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Account Settings</CardTitle>
-              <CardDescription>Update your personal information.</CardDescription>
-            </CardHeader>
-            <CardContent>
+          <TabsContent value="progress" className="space-y-6 focus:outline-none">
+            {!progressItems || progressItems.length === 0 ? (
+              <div className="text-center py-20 bg-[#EDE8DD] rounded-[4px] border border-[#DDD7C9] p-8 max-w-xl mx-auto">
+                <PlayCircle className="w-12 h-12 mx-auto text-[#8A949E] mb-4 opacity-50" />
+                <h3 className="text-[22px] font-heading font-normal italic text-[#5B6470]">No lectures in progress</h3>
+                <p className="text-[#8A949E] mt-2 text-[15px]">Resume video lectures here once you start studying.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {progressItems.map((item: any) => (
+                  <div key={item.id} className="group relative flex flex-col p-5 rounded-[4px] border border-[#DDD7C9] bg-[#EDE8DD] hover:border-[#B8975A] transition-colors duration-150 h-full">
+                    <div className="flex items-start justify-between mb-4">
+                      <span className="inline-block text-[11px] font-mono uppercase tracking-[0.06em] text-[#F9F8F5] bg-[#1F3A33] px-2.5 py-0.5 rounded-[2px]">
+                        {item.resources.type.replace('_', ' ')}
+                      </span>
+                    </div>
+                    <div className="flex-1">
+                      <Link href={`/resources/${item.resources.id}`} className="focus:outline-none">
+                        <span className="absolute inset-0" aria-hidden="true" />
+                        <h3 className="text-[18px] font-heading font-medium text-[#14171F] line-clamp-2 leading-snug">
+                          {item.resources.title}
+                        </h3>
+                      </Link>
+                      <p className="text-xs text-[#8A949E] mt-3 font-mono">
+                        STOPPED AT {Math.floor(item.position_seconds / 60)}:{String(item.position_seconds % 60).padStart(2, '0')}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="comments" className="space-y-6 focus:outline-none">
+            {!comments || comments.length === 0 ? (
+              <div className="text-center py-20 bg-[#EDE8DD] rounded-[4px] border border-[#DDD7C9] p-8 max-w-xl mx-auto">
+                <MessageSquare className="w-12 h-12 mx-auto text-[#8A949E] mb-4 opacity-50" />
+                <h3 className="text-[22px] font-heading font-normal italic text-[#5B6470]">No comment contributions</h3>
+                <p className="text-[#8A949E] mt-2 text-[15px]">Comments you publish on study resources will appear here.</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {comments.map((comment: any) => (
+                  <div key={comment.id} className="p-6 rounded-[4px] border border-[#DDD7C9] bg-[#EDE8DD]">
+                    <div className="flex items-center justify-between mb-3">
+                      <Link href={`/resources/${comment.resource_id}`} className="text-[14px] font-heading font-semibold text-[#B8975A] hover:underline">
+                        On: {comment.resources?.title || 'Resource'}
+                      </Link>
+                      <span className="text-xs font-mono text-[#8A949E]">
+                        {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}
+                      </span>
+                    </div>
+                    <p className="text-[14px] font-sans text-[#14171F] whitespace-pre-wrap leading-relaxed">{comment.content}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="settings" className="focus:outline-none">
+            <div className="bg-[#EDE8DD] border border-[#DDD7C9] rounded-[4px] p-8 max-w-2xl">
               <SettingsForm profile={profile} userEmail={user.email} />
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   )
 }

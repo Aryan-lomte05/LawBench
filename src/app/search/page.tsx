@@ -53,22 +53,22 @@ export default async function SearchPage({
   const { data: resources } = await query.limit(50)
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-7xl">
-      <div className="mb-8 max-w-2xl mx-auto text-center">
-        <h1 className="text-3xl font-heading font-bold text-foreground mb-6">Search Resources</h1>
+    <div className="min-h-screen bg-[#F6F3EC] text-[#14171F] py-12 px-4 font-sans">
+      <div className="mb-12 max-w-2xl mx-auto text-center">
+        <h1 className="text-[28px] md:text-[36px] font-heading font-semibold text-[#14171F] mb-6">Search Library</h1>
         <form action="/search" method="GET" className="relative flex items-center">
-          <Search className="absolute left-4 w-5 h-5 text-muted-foreground" />
+          <Search className="absolute left-4 w-5 h-5 text-[#8A949E]" />
           <input
             type="text"
             name="q"
             defaultValue={queryParam}
             placeholder="Search for subjects, acts, case names..."
-            className="w-full pl-12 pr-4 py-4 rounded-full border border-border bg-card shadow-sm text-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
+            className="w-full pl-12 pr-32 py-3.5 rounded-[2px] border border-[#DDD7C9] bg-[#EDE8DD] text-[15px] text-[#14171F] focus:outline-none focus:border-[#B8975A] transition-colors"
           />
           {typeParam && <input type="hidden" name="type" value={typeParam} />}
-          <Button type="submit" className="absolute right-2 rounded-full px-6">
+          <button type="submit" className="btn-primary absolute right-1 h-[44px] rounded-[2px] px-6 text-xs uppercase tracking-wider font-semibold">
             Search
-          </Button>
+          </button>
         </form>
       </div>
 
@@ -84,39 +84,39 @@ export default async function SearchPage({
         {/* Filters Sidebar */}
         <aside className="w-full lg:w-64 flex-shrink-0 space-y-8">
           <div>
-            <h3 className="font-mono text-sm font-semibold tracking-wider uppercase text-foreground mb-4 flex items-center gap-2">
-              <Filter className="w-4 h-4" /> Filter by Type
+            <h3 className="font-mono text-[11px] font-semibold tracking-[0.12em] uppercase text-[#14171F] mb-4 flex items-center gap-2">
+              <Filter className="w-4 h-4 text-[#8A949E]" /> Filter by Type
             </h3>
             
             <div className="space-y-6">
-              <div className="space-y-2 text-sm text-muted-foreground flex flex-col">
+              <div className="space-y-3 text-[14px] text-[#5B6470] flex flex-col font-sans">
                 <Link 
                   href={`/search${queryParam ? `?q=${encodeURIComponent(queryParam)}` : ''}`} 
-                  className={!typeParam ? 'font-medium text-primary' : 'hover:text-foreground'}
+                  className={!typeParam ? 'font-semibold text-[#B8975A]' : 'hover:text-[#14171F] transition-colors'}
                 >
                   All Types
                 </Link>
                 <Link 
                   href={`/search?type=note${queryParam ? `&q=${encodeURIComponent(queryParam)}` : ''}`} 
-                  className={typeParam === 'note' ? 'font-medium text-primary' : 'hover:text-foreground'}
+                  className={typeParam === 'note' ? 'font-semibold text-[#B8975A]' : 'hover:text-[#14171F] transition-colors'}
                 >
                   Notes
                 </Link>
                 <Link 
                   href={`/search?type=bare_act${queryParam ? `&q=${encodeURIComponent(queryParam)}` : ''}`} 
-                  className={typeParam === 'bare_act' ? 'font-medium text-primary' : 'hover:text-foreground'}
+                  className={typeParam === 'bare_act' ? 'font-semibold text-[#B8975A]' : 'hover:text-[#14171F] transition-colors'}
                 >
                   Bare Acts
                 </Link>
                 <Link 
                   href={`/search?type=case_law${queryParam ? `&q=${encodeURIComponent(queryParam)}` : ''}`} 
-                  className={typeParam === 'case_law' ? 'font-medium text-primary' : 'hover:text-foreground'}
+                  className={typeParam === 'case_law' ? 'font-semibold text-[#B8975A]' : 'hover:text-[#14171F] transition-colors'}
                 >
                   Case Laws
                 </Link>
                 <Link 
                   href={`/search?type=video${queryParam ? `&q=${encodeURIComponent(queryParam)}` : ''}`} 
-                  className={typeParam === 'video' ? 'font-medium text-primary' : 'hover:text-foreground'}
+                  className={typeParam === 'video' ? 'font-semibold text-[#B8975A]' : 'hover:text-[#14171F] transition-colors'}
                 >
                   Videos
                 </Link>
@@ -128,19 +128,19 @@ export default async function SearchPage({
         {/* Resources Grid */}
         <div className="flex-1">
           {!queryParam ? (
-             <div className="text-center py-24 bg-card rounded-xl border border-border">
-              <Search className="w-12 h-12 mx-auto text-muted-foreground mb-4 opacity-50" />
-              <h3 className="text-lg font-medium text-foreground">Start typing to search</h3>
-              <p className="text-muted-foreground mt-2">Find what you need across all subjects and resources.</p>
+             <div className="text-center py-24 bg-[#EDE8DD] rounded-[4px] border border-[#DDD7C9] p-8">
+              <Search className="w-12 h-12 mx-auto text-[#8A949E] mb-4 opacity-50" />
+              <h3 className="text-[22px] font-heading font-normal italic text-[#5B6470]">Start typing to search</h3>
+              <p className="text-[#8A949E] mt-2 text-[15px]">Find what you need across all subjects and resources.</p>
             </div>
           ) : !resources || resources.length === 0 ? (
-            <div className="text-center py-24 bg-card rounded-xl border border-border">
-              <FileText className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-lg font-medium text-foreground">No resources found</h3>
-              <p className="text-muted-foreground mt-2 mb-6">We couldn't find any exact matches for that query.</p>
+            <div className="text-center py-24 bg-[#EDE8DD] rounded-[4px] border border-[#DDD7C9] p-8">
+              <FileText className="w-12 h-12 mx-auto text-[#8A949E] mb-4 opacity-50" />
+              <h3 className="text-[22px] font-heading font-normal italic text-[#5B6470]">No resources found</h3>
+              <p className="text-[#8A949E] mt-2 text-[15px] mb-6">We couldn't find any exact matches for that query.</p>
               <Link 
                 href="/subjects" 
-                className={buttonVariants({ variant: "outline" })}
+                className="btn-secondary text-[14px]"
               >
                 Browse all subjects instead
               </Link>

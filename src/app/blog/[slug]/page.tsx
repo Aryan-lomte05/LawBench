@@ -78,98 +78,102 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   }
 
   return (
-    <article className="min-h-screen pb-16">
+    <article className="min-h-screen bg-[#F6F3EC] text-[#14171F] font-sans pb-24">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {/* Hero / Cover */}
-      {post.cover_image_url ? (
-        <div className="w-full h-[40vh] md:h-[60vh] relative bg-muted">
+      {/* Cover Image */}
+      {post.cover_image_url && (
+        <div className="w-full h-[480px] relative bg-[#EDE8DD]">
           <img 
             src={post.cover_image_url} 
             alt={post.title} 
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
         </div>
-      ) : (
-        <div className="w-full h-32 md:h-48 bg-muted" />
       )}
 
-      {/* Content */}
-      <div className="container mx-auto px-4 -mt-24 relative z-10 max-w-[80ch]">
-        <div className="bg-[#F6F3EC] text-[#14171F] p-8 md:p-12 rounded-2xl border border-zinc-200/80 shadow-2xl">
-          <div className="mb-8">
-            <Link href="/blog" className="inline-flex items-center text-xs font-mono text-zinc-500 hover:text-[#B8975A] mb-6 transition-colors tracking-widest">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              BACK TO BLOG
-            </Link>
-            
-            <div className="flex flex-wrap items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#B8975A] mb-4">
-              {post.blog_post_tags?.map((pt: any) => (
-                <span key={pt.blog_tags.name} className="bg-[#1F3A33] text-[#F6F3EC] px-2.5 py-1 rounded text-[10px] tracking-wider font-semibold">
-                  {pt.blog_tags.name}
-                </span>
-              ))}
-              <span className="text-zinc-400">·</span>
-              <span className="text-zinc-600">{new Date(post.published_at || post.created_at).toLocaleDateString()}</span>
-              <span className="text-zinc-400">·</span>
-              <span className="text-zinc-600">{calculateReadingTime(post.body || '')} MIN READ</span>
-            </div>
-
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-[#14171F] leading-tight mb-8">
-              {post.title}
-            </h1>
-
-            <div className="flex items-center justify-between border-y border-zinc-200 py-4 mb-12">
-              <div className="flex items-center gap-3">
-                {post.profiles?.avatar_url ? (
-                  <img src={post.profiles.avatar_url} alt="" className="w-10 h-10 rounded-full border border-zinc-300" />
-                ) : (
-                  <div className="w-10 h-10 rounded-full bg-[#1F3A33]/15 flex items-center justify-center text-xs font-mono text-[#1F3A33] font-bold">
-                    LB
-                  </div>
-                )}
-                <div>
-                  <p className="text-sm font-bold text-[#14171F]">{post.profiles?.full_name || 'LawBench Author'}</p>
-                  <p className="text-xs text-zinc-500 font-mono uppercase tracking-wider">Editor</p>
-                </div>
-              </div>
-              
-              <Button variant="outline" size="sm" className="gap-2 border-zinc-300 text-zinc-700 hover:bg-zinc-100 bg-transparent">
-                <Share2 className="w-4 h-4" />
-                Share
-              </Button>
-            </div>
-          </div>
-
-          <div className="prose prose-stone max-w-none text-zinc-800 prose-headings:text-[#14171F] prose-headings:font-heading prose-a:text-[#B8975A] prose-strong:text-[#14171F] prose-blockquote:border-l-4 prose-blockquote:border-[#B8975A] prose-blockquote:text-zinc-600 prose-blockquote:italic">
-            <ReactMarkdown>
-              {post.body || '*No content.*'}
-            </ReactMarkdown>
-          </div>
-        </div>
+      {/* Content wrapper */}
+      <div className="max-w-[740px] mx-auto px-6 py-14">
+        {/* Back Link */}
+        <Link href="/blog" className="inline-block text-[11px] font-mono text-[#5B6470] hover:text-[#B8975A] mb-8 transition-colors uppercase tracking-[0.06em]">
+          ← Back to Blog
+        </Link>
         
-        {/* Comments Section (renders on dark backdrop) */}
+        {/* Eyebrow */}
+        <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono uppercase tracking-[0.08em] text-[#5B6470] mb-4">
+          <span>
+            {post.blog_post_tags?.[0]?.blog_tags?.name || 'EDITORIAL'}
+          </span>
+          <span className="text-[#B8975A]">·</span>
+          <span>{calculateReadingTime(post.body || '')} MIN READ</span>
+          <span className="text-[#B8975A]">·</span>
+          <span>{new Date(post.published_at || post.created_at).toLocaleDateString()}</span>
+        </div>
+
+        {/* Title */}
+        <h1 className="text-[32px] md:text-[44px] lg:text-[52px] font-heading font-bold text-[#14171F] leading-[1.1] tracking-[-0.02em] mb-6">
+          {post.title}
+        </h1>
+
+        {/* Byline & Share */}
+        <div className="flex items-center justify-between py-5 border-y border-[#DDD7C9] mb-10 text-[14px]">
+          <span className="text-[#5B6470]">
+            By {authorName}
+          </span>
+          <button className="text-[13px] font-mono uppercase tracking-wider text-[#B8975A] hover:underline bg-transparent border-none">
+            Share Post
+          </button>
+        </div>
+
+        {/* Content Prose */}
+        <div className="max-w-[68ch] text-[17px] text-[#14171F] leading-[1.75] font-sans">
+          <ReactMarkdown
+            components={{
+              h2: ({node, ...props}) => <h2 className="text-[26px] font-heading font-semibold text-[#14171F] mt-12 mb-4" {...props} />,
+              h3: ({node, ...props}) => <h3 className="text-[21px] font-heading font-medium text-[#14171F] mt-9 mb-3" {...props} />,
+              p: ({node, children, ...props}) => {
+                // If it's the very first paragraph, it's the lead paragraph (20px)
+                return (
+                  <p className="mb-6 leading-relaxed last:mb-0" {...props}>
+                    {children}
+                  </p>
+                )
+              },
+              blockquote: ({node, ...props}) => <blockquote className="border-l-3 border-[#B8975A] pl-6 font-heading font-normal italic text-[20px] text-[#5B6470] my-10" {...props} />,
+              code: ({node, inline, className, children, ...props} : any) => {
+                return (
+                  <code className="font-mono text-[12px] text-[#1F3A33] bg-[#EDE8DD] px-1.5 py-0.5 rounded-[2px] font-semibold" {...props}>
+                    {children}
+                  </code>
+                )
+              }
+            }}
+          >
+            {post.body || '*No content.*'}
+          </ReactMarkdown>
+        </div>
+
+        {/* Comments Section */}
         {post.comments_enabled && (
-          <div className="mt-16 pt-8 border-t border-border/20 text-[#F6F3EC]">
-            <h3 className="text-2xl font-heading font-bold mb-4">Discussion</h3>
-            <p className="text-muted-foreground text-sm font-mono">COMMENTS ARE COMING SOON FOR THE BLOG.</p>
+          <div className="mt-16 pt-8 border-t border-[#DDD7C9]">
+            <h3 className="text-[11px] font-mono uppercase tracking-[0.12em] text-[#5B6470] mb-6">Discussion</h3>
+            <p className="text-[13px] font-mono text-[#8A949E] uppercase">Comments are coming soon for the blog.</p>
           </div>
         )}
 
         {/* More from the blog */}
         {morePosts && morePosts.length > 0 && (
-          <div className="mt-24 pt-12 border-t border-border">
-            <h3 className="text-2xl font-heading font-bold text-foreground mb-8">More from the blog</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="mt-24 pt-12 border-t border-[#DDD7C9]">
+            <h3 className="text-[22px] font-heading font-semibold text-[#14171F] mb-8">More from the blog</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {morePosts.map(mp => (
                 <Link key={mp.slug} href={`/blog/${mp.slug}`} className="group block">
-                  <h4 className="font-heading font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2">
+                  <h4 className="font-heading font-semibold text-[#14171F] group-hover:text-[#B8975A] transition-colors line-clamp-2 mb-2 leading-snug">
                     {mp.title}
                   </h4>
-                  <p className="text-sm text-muted-foreground font-mono">
+                  <p className="text-xs font-mono text-[#8A949E] uppercase tracking-wider">
                     {formatDistanceToNow(new Date(mp.created_at), { addSuffix: true })}
                   </p>
                 </Link>

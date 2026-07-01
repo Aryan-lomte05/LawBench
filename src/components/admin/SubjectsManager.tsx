@@ -1,11 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Plus, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { createSubject, deleteSubject } from '@/app/admin/subjects/actions'
 
@@ -27,7 +22,7 @@ export function SubjectsManager({ initialSubjects }: SubjectsManagerProps) {
   const [name, setName] = useState('')
   const [slug, setSlug] = useState('')
   const [description, setDescription] = useState('')
-  const [iconName, setIconName] = useState('Scale')
+  const [iconName, setIconName] = useState('BookOpen')
   const [orderIndex, setOrderIndex] = useState('0')
   const [isPending, setIsPending] = useState(false)
 
@@ -59,7 +54,6 @@ export function SubjectsManager({ initialSubjects }: SubjectsManagerProps) {
 
       if (res.success) {
         toast.success('Subject created successfully!')
-        // Simply reload page to fetch fresh data, or add to local state
         window.location.reload()
       } else {
         toast.error(res.error || 'Failed to create subject.')
@@ -93,126 +87,137 @@ export function SubjectsManager({ initialSubjects }: SubjectsManagerProps) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       {/* Create form */}
-      <div className="lg:col-span-1 bg-card border border-border p-6 rounded-xl shadow-sm h-fit">
-        <h2 className="text-xl font-heading font-bold mb-4">Add Subject</h2>
+      <div className="lg:col-span-1 bg-[#EDE8DD] border border-[#DDD7C9] p-6 rounded-[4px]">
+        <h2 className="text-[20px] font-heading font-semibold text-[#14171F] mb-6">Add Subject</h2>
         <form onSubmit={handleAddSubject} className="space-y-4">
-          <div className="space-y-1.5">
-            <Label htmlFor="sub-name">Subject Name</Label>
-            <Input 
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="sub-name" className="text-[13px] font-medium text-[#14171F] font-sans">
+              Subject Name
+            </label>
+            <input 
               id="sub-name" 
               placeholder="e.g. Constitutional Law" 
               value={name} 
               onChange={handleNameChange}
               required 
               disabled={isPending}
+              className="w-full bg-white border border-[#DDD7C9] rounded-[2px] px-4 py-3 text-[15px] text-[#14171F] font-sans focus:outline-none focus:border-[#B8975A] transition-colors"
             />
           </div>
           
-          <div className="space-y-1.5">
-            <Label htmlFor="sub-slug">Slug (Auto-generated)</Label>
-            <Input 
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="sub-slug" className="text-[13px] font-medium text-[#14171F] font-sans">
+              Slug (Auto-generated)
+            </label>
+            <input 
               id="sub-slug" 
               placeholder="e.g. constitutional-law" 
               value={slug} 
               onChange={(e) => setSlug(e.target.value)}
               required 
               disabled={isPending}
+              className="w-full bg-white border border-[#DDD7C9] rounded-[2px] px-4 py-3 text-[15px] text-[#14171F] font-sans focus:outline-none focus:border-[#B8975A] transition-colors"
             />
           </div>
 
-          <div className="space-y-1.5">
-            <Label htmlFor="sub-desc">Description</Label>
-            <Textarea 
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="sub-desc" className="text-[13px] font-medium text-[#14171F] font-sans">
+              Description
+            </label>
+            <textarea 
               id="sub-desc" 
               placeholder="Course outline and curriculum scope..." 
               value={description} 
               onChange={(e) => setDescription(e.target.value)}
               disabled={isPending}
-              className="min-h-[80px]"
+              className="w-full min-h-[80px] bg-white border border-[#DDD7C9] rounded-[2px] px-4 py-3 text-[15px] text-[#14171F] font-sans focus:outline-none focus:border-[#B8975A] transition-colors"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <Label htmlFor="sub-icon">Icon Name</Label>
-              <Input 
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="sub-icon" className="text-[13px] font-medium text-[#14171F] font-sans">
+                Icon Name
+              </label>
+              <input 
                 id="sub-icon" 
                 placeholder="Scale, Shield, etc." 
                 value={iconName} 
                 onChange={(e) => setIconName(e.target.value)}
                 disabled={isPending}
+                className="w-full bg-white border border-[#DDD7C9] rounded-[2px] px-4 py-3 text-[15px] text-[#14171F] font-sans focus:outline-none focus:border-[#B8975A] transition-colors"
               />
             </div>
             
-            <div className="space-y-1.5">
-              <Label htmlFor="sub-order">Order Index</Label>
-              <Input 
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="sub-order" className="text-[13px] font-medium text-[#14171F] font-sans">
+                Order Index
+              </label>
+              <input 
                 id="sub-order" 
                 type="number"
                 placeholder="0" 
                 value={orderIndex} 
                 onChange={(e) => setOrderIndex(e.target.value)}
                 disabled={isPending}
+                className="w-full bg-white border border-[#DDD7C9] rounded-[2px] px-4 py-3 text-[15px] text-[#14171F] font-sans focus:outline-none focus:border-[#B8975A] transition-colors"
               />
             </div>
           </div>
 
-          <Button 
+          <button 
             type="submit" 
-            className="w-full bg-[#B8975A] hover:bg-[#B8975A]/90 text-[#14171F] font-bold"
             disabled={isPending}
+            className="btn-primary w-full h-11 text-xs uppercase tracking-wider font-semibold"
           >
-            <Plus className="w-4 h-4 mr-2" /> Add Subject
-          </Button>
+            Add Subject
+          </button>
         </form>
       </div>
 
       {/* List subjects */}
-      <div className="lg:col-span-2 bg-card border border-border rounded-xl shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-border">
-          <h2 className="text-xl font-heading font-bold">Academic Subjects</h2>
+      <div className="lg:col-span-2 bg-[#EDE8DD] border border-[#DDD7C9] rounded-[4px] overflow-hidden">
+        <div className="p-6 border-b border-[#DDD7C9] bg-[#EDE8DD]">
+          <h2 className="text-[20px] font-heading font-semibold text-[#14171F]">Academic Subjects</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-border bg-muted/40 text-xs font-mono uppercase tracking-wider text-muted-foreground">
-                <th className="p-4 font-medium">Name</th>
-                <th className="p-4 font-medium">Slug</th>
-                <th className="p-4 font-medium">Icon / Order</th>
-                <th className="p-4 font-medium text-right">Actions</th>
+              <tr className="border-b border-[#DDD7C9] bg-[#EDE8DD] text-[11px] font-mono uppercase tracking-[0.06em] text-[#5B6470]">
+                <th className="p-4 font-semibold">Name</th>
+                <th className="p-4 font-semibold">Slug</th>
+                <th className="p-4 font-semibold">Icon / Order</th>
+                <th className="p-4 font-semibold text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border text-sm">
+            <tbody className="divide-y divide-[#DDD7C9] text-[14px] text-[#14171F] font-sans">
               {subjects && subjects.length > 0 ? (
                 subjects.map((sub) => (
-                  <tr key={sub.id} className="hover:bg-muted/10">
+                  <tr key={sub.id} className="hover:bg-[#F6F3EC] transition-colors">
                     <td className="p-4">
-                      <div className="font-medium text-foreground">{sub.name}</div>
-                      <div className="text-xs text-muted-foreground max-w-sm truncate mt-1">{sub.description || 'No description provided.'}</div>
+                      <div className="font-semibold text-[#14171F]">{sub.name}</div>
+                      <div className="text-xs text-[#5B6470] max-w-sm truncate mt-1">{sub.description || 'No description provided.'}</div>
                     </td>
-                    <td className="p-4 font-mono text-xs text-muted-foreground">{sub.slug}</td>
+                    <td className="p-4 font-mono text-xs text-[#5B6470]">{sub.slug}</td>
                     <td className="p-4 text-xs font-mono">
-                      <span>ICON: {sub.icon_name || 'Scale'}</span>
+                      <span>ICON: {sub.icon_name || 'BookOpen'}</span>
                       <span className="mx-2 text-[#B8975A]">·</span>
                       <span>ORDER: {sub.order_index ?? 0}</span>
                     </td>
                     <td className="p-4 text-right">
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
+                      <button 
                         onClick={() => handleDeleteSubject(sub.id)}
                         disabled={isPending}
-                        className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                        className="text-[13px] font-sans font-semibold text-[#B8975A] hover:underline bg-transparent border-none focus:outline-none disabled:opacity-50 cursor-pointer"
                       >
-                        <Trash2 className="w-4 h-4" />
-                        <span className="sr-only">Delete</span>
-                      </Button>
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className="p-8 text-center text-muted-foreground">
+                  <td colSpan={4} className="p-8 text-center text-[#8A949E]">
                     No subjects loaded yet.
                   </td>
                 </tr>

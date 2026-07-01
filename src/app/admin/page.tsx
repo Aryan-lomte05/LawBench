@@ -1,6 +1,4 @@
 import { createClient } from '@/utils/supabase/server'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Users, FileText, BookOpen, PenTool } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function AdminOverviewPage() {
@@ -19,65 +17,69 @@ export default async function AdminOverviewPage() {
   ])
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       <div>
-        <h1 className="text-3xl font-heading font-bold text-foreground">Overview</h1>
-        <p className="text-muted-foreground mt-2">Manage your platform content and users.</p>
+        <h1 className="text-[28px] md:text-[36px] font-heading font-semibold text-[#14171F]">Overview</h1>
+        <p className="text-[#5B6470] text-sm mt-2">Manage your platform content and user library roles.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Users</CardTitle>
-            <Users className="w-4 h-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{usersCount || 0}</div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Resources</CardTitle>
-            <FileText className="w-4 h-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{resourcesCount || 0}</div>
-          </CardContent>
-        </Card>
+      {/* Stats row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Stat 1 */}
+        <div className="p-6 rounded-[4px] border border-[#DDD7C9] bg-[#EDE8DD]">
+          <div className="text-[32px] font-heading font-semibold text-[#14171F]">
+            {usersCount || 0}
+          </div>
+          <div className="text-[10px] font-mono uppercase tracking-[0.12em] text-[#5B6470] mt-1">
+            Total Users
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Subjects</CardTitle>
-            <BookOpen className="w-4 h-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{subjectsCount || 0}</div>
-          </CardContent>
-        </Card>
+        {/* Stat 2 */}
+        <div className="p-6 rounded-[4px] border border-[#DDD7C9] bg-[#EDE8DD]">
+          <div className="text-[32px] font-heading font-semibold text-[#14171F]">
+            {resourcesCount || 0}
+          </div>
+          <div className="text-[10px] font-mono uppercase tracking-[0.12em] text-[#5B6470] mt-1">
+            Resources
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Blog Posts</CardTitle>
-            <PenTool className="w-4 h-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{blogCount || 0}</div>
-          </CardContent>
-        </Card>
+        {/* Stat 3 */}
+        <div className="p-6 rounded-[4px] border border-[#DDD7C9] bg-[#EDE8DD]">
+          <div className="text-[32px] font-heading font-semibold text-[#14171F]">
+            {subjectsCount || 0}
+          </div>
+          <div className="text-[10px] font-mono uppercase tracking-[0.12em] text-[#5B6470] mt-1">
+            Subjects
+          </div>
+        </div>
+
+        {/* Stat 4 */}
+        <div className="p-6 rounded-[4px] border border-[#DDD7C9] bg-[#EDE8DD]">
+          <div className="text-[32px] font-heading font-semibold text-[#14171F]">
+            {blogCount || 0}
+          </div>
+          <div className="text-[10px] font-mono uppercase tracking-[0.12em] text-[#5B6470] mt-1">
+            Blog Posts
+          </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-          <h3 className="font-heading font-semibold text-lg mb-4">Quick Actions</h3>
-          <div className="space-y-3">
-            <Link href="/admin/resources/new" className="block p-3 rounded-lg border border-border hover:border-primary/50 transition-colors">
-              <div className="font-medium">Upload Resource</div>
-              <div className="text-sm text-muted-foreground">Add new notes, cases, or videos.</div>
+      {/* Quick Actions */}
+      <div className="max-w-xl">
+        <div className="bg-[#EDE8DD] border border-[#DDD7C9] rounded-[4px] p-8">
+          <h3 className="font-heading font-semibold text-[20px] text-[#14171F] mb-6">
+            Quick Actions
+          </h3>
+          <div className="space-y-4">
+            <Link href="/admin/resources/new" className="block p-4 rounded-[4px] border border-[#DDD7C9] bg-[#F6F3EC] hover:border-[#B8975A] transition-colors">
+              <div className="font-heading font-semibold text-[16px] text-[#14171F]">Upload Resource</div>
+              <div className="text-[13px] text-[#5B6470] font-sans mt-1">Add new notes, cases, or videos.</div>
             </Link>
-            <Link href="/admin/blog/new" className="block p-3 rounded-lg border border-border hover:border-primary/50 transition-colors">
-              <div className="font-medium">Write Blog Post</div>
-              <div className="text-sm text-muted-foreground">Publish a new article to the blog.</div>
+            <Link href="/admin/blog/new" className="block p-4 rounded-[4px] border border-[#DDD7C9] bg-[#F6F3EC] hover:border-[#B8975A] transition-colors">
+              <div className="font-heading font-semibold text-[16px] text-[#14171F]">Write Blog Post</div>
+              <div className="text-[13px] text-[#5B6470] font-sans mt-1">Publish a new article to the blog.</div>
             </Link>
           </div>
         </div>
