@@ -18,6 +18,12 @@ export function StatsStrip({ subjects, resources, learners }: StatsStripProps) {
   const [hasAnimated, setHasAnimated] = useState(false)
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setCounts({ subjects, resources, learners })
+      setHasAnimated(true)
+      return
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries
@@ -34,7 +40,7 @@ export function StatsStrip({ subjects, resources, learners }: StatsStripProps) {
     }
 
     return () => observer.disconnect()
-  }, [hasAnimated])
+  }, [hasAnimated, subjects, resources, learners])
 
   const animateCounts = () => {
     const duration = 1200 // 1.2s duration
