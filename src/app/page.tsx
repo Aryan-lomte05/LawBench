@@ -39,18 +39,22 @@ export default async function Home() {
         {/* Lightfall Canvas */}
         <div className="absolute inset-0 z-0 pointer-events-none opacity-50">
           <Lightfall
-            colors={['#B8975A', '#1F3A33', '#14171F']}
+            colors={['#B8975A', '#F6F3EC', '#1F3A33']}
             backgroundColor="#14171F"
-            density={0.8}
-            streakCount={6}
-            streakWidth={1.5}
-            streakLength={1.2}
-            speed={0.6}
-            glow={1.2}
-            backgroundGlow={0.6}
+            speed={0.35}
+            streakCount={4}
+            streakWidth={0.8}
+            streakLength={1.4}
+            glow={0.7}
+            density={0.4}
+            twinkle={0.4}
+            zoom={2.5}
+            backgroundGlow={0.5}
+            opacity={0.85}
             mouseInteraction={true}
-            mouseStrength={1.5}
-            mouseRadius={0.7}
+            mouseStrength={0.3}
+            mouseRadius={0.5}
+            mouseDampening={0.25}
           />
         </div>
 
